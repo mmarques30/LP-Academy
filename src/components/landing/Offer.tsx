@@ -3,7 +3,7 @@ import { Reveal } from "@/components/Reveal";
 import { CountdownTimer } from "./CountdownTimer";
 
 const CHECKOUT_URL = "#";
-const LAUNCH_END_DATE = new Date(Date.now() + 7 * 86400000);
+const LAUNCH_END_DATE = new Date("2026-04-27T23:59:59-03:00");
 
 const includes = [
   "Acesso completo às 18 trilhas",
