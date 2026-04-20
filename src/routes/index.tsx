@@ -6,16 +6,19 @@ import { Problem } from "@/components/landing/Problem";
 import { Solution } from "@/components/landing/Solution";
 import { ForWho } from "@/components/landing/ForWho";
 import { Authority } from "@/components/landing/Authority";
+import { Transformation } from "@/components/landing/Transformation";
 import { Includes } from "@/components/landing/Includes";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Curriculum } from "@/components/landing/Curriculum";
 import { Bonuses } from "@/components/landing/Bonuses";
+import { ValueStack } from "@/components/landing/ValueStack";
 import { Offer } from "@/components/landing/Offer";
 import { Guarantee } from "@/components/landing/Guarantee";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
 import { CookieBanner } from "@/components/landing/CookieBanner";
+import { StickyMobileCta } from "@/components/landing/StickyMobileCta";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -46,18 +49,21 @@ function Index() {
       <LogosBar />
       <Problem />
       <Solution />
+      <Transformation />
       <ForWho />
       <Authority />
       <Includes />
       <Testimonials />
       <Curriculum />
       <Bonuses />
+      <ValueStack />
       <Offer />
       <Guarantee />
       <FAQ />
       <FinalCTA />
       <Footer />
       <CookieBanner />
+      <StickyMobileCta />
     </main>
   );
 }

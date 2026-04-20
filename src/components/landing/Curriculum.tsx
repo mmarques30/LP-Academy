@@ -13,6 +13,14 @@ const trilhas = [
   { n: "08", title: "Agentes de IA e workflows avançados", desc: "Nível próximo, quando você já aplicou o básico.", lessons: ["O que são agentes", "Construindo seu agente", "Workflows multi-step", "Integrações"] },
   { n: "09", title: "Voz e vídeo com IA", desc: "ElevenLabs, Heygen, aplicações reais.", lessons: ["Clonagem de voz", "Avatares com Heygen", "Vídeos automáticos", "Casos reais"] },
   { n: "10", title: "IA para finanças e operação", desc: "Análise, relatórios, previsão.", lessons: ["Análise de dados", "Relatórios automáticos", "Previsão e modelos", "Dashboards com IA"] },
+  { n: "11", title: "IA para RH e gestão de pessoas", desc: "Recrutamento, onboarding, clima e desenvolvimento.", lessons: ["Triagem de currículos", "Onboarding personalizado", "Pesquisas de clima", "PDI com IA"] },
+  { n: "12", title: "IA para produto e UX", desc: "Pesquisa, discovery, prototipagem e testes.", lessons: ["Discovery assistido", "Personas reais em IA", "Protótipos em minutos", "Testes de usabilidade"] },
+  { n: "13", title: "IA para conteúdo e redes sociais", desc: "Roteiros, legendas, reels e repurpose em escala.", lessons: ["Roteiros em cadência", "Legendas que convertem", "Repurpose de 1 pra 10", "Planejamento editorial"] },
+  { n: "14", title: "IA para atendimento e sucesso do cliente", desc: "Respostas, base de conhecimento e QBRs.", lessons: ["FAQ automatizado", "Atendimento humanizado com IA", "QBRs com insights", "Deflexão de tickets"] },
+  { n: "15", title: "Dados e análise com IA", desc: "Do Excel ao Claude Code, sem virar engenheiro.", lessons: ["Excel turbinado", "SQL com IA", "Gráficos em 1 prompt", "Claude Code pra leigos"] },
+  { n: "16", title: "Criação de apps sem código com IA", desc: "Do Lovable ao Replit: tire ideia do papel em 1 tarde.", lessons: ["Escolhendo a ferramenta", "Do brief ao MVP", "Deploy e validação", "Iterando com feedback"] },
+  { n: "17", title: "IA para educação e treinamento de time", desc: "Passando o bastão pra sua equipe, sem depender de você.", lessons: ["Construindo currículo interno", "Tutorial com IA", "Medindo adoção", "Governança"] },
+  { n: "18", title: "Estratégia: IA como diferencial de carreira", desc: "Como usar IA pra se posicionar, cobrar mais e crescer.", lessons: ["Narrativa de autoridade", "Portfólio de casos", "Negociação e reposicionamento", "Roadmap de 12 meses"] },
 ];
 
 export function Curriculum() {
