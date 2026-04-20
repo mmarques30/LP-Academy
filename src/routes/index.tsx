@@ -1,26 +1,63 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/landing/Header";
+import { Hero } from "@/components/landing/Hero";
+import { LogosBar } from "@/components/landing/LogosBar";
+import { Problem } from "@/components/landing/Problem";
+import { Solution } from "@/components/landing/Solution";
+import { ForWho } from "@/components/landing/ForWho";
+import { Authority } from "@/components/landing/Authority";
+import { Includes } from "@/components/landing/Includes";
+import { Testimonials } from "@/components/landing/Testimonials";
+import { Curriculum } from "@/components/landing/Curriculum";
+import { Bonuses } from "@/components/landing/Bonuses";
+import { Offer } from "@/components/landing/Offer";
+import { Guarantee } from "@/components/landing/Guarantee";
+import { FAQ } from "@/components/landing/FAQ";
+import { FinalCTA } from "@/components/landing/FinalCTA";
+import { Footer } from "@/components/landing/Footer";
+import { CookieBanner } from "@/components/landing/CookieBanner";
 
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: "IAplicada Academy · Aprenda IA aplicada ao trabalho real · R$ 147/mês" },
+      {
+        name: "description",
+        content:
+          "Assinatura IAplicada Academy: aplique IA no seu trabalho de verdade. Aulas ao vivo toda segunda, mentoria, +100 prompts e comunidade. R$ 147/mês.",
+      },
+      { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
+      {
+        property: "og:description",
+        content:
+          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que implementa. R$ 147/mês, sem fidelidade.",
+      },
+      { property: "og:type", content: "website" },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. For sites with multiple pages (About, Services, Contact, etc.),
-// create separate route files (about.tsx, services.tsx, contact.tsx) — don't put all pages in this file.
-function PlaceholderIndex() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
-
 function Index() {
-  return <PlaceholderIndex />;
+  return (
+    <main className="bg-background text-foreground">
+      <Header />
+      <Hero />
+      <LogosBar />
+      <Problem />
+      <Solution />
+      <ForWho />
+      <Authority />
+      <Includes />
+      <Testimonials />
+      <Curriculum />
+      <Bonuses />
+      <Offer />
+      <Guarantee />
+      <FAQ />
+      <FinalCTA />
+      <Footer />
+      <CookieBanner />
+    </main>
+  );
 }
