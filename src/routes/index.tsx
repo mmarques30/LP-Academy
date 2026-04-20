@@ -1,16 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
-import { LogosBar } from "@/components/landing/LogosBar";
 import { Problem } from "@/components/landing/Problem";
 import { Solution } from "@/components/landing/Solution";
 import { ForWho } from "@/components/landing/ForWho";
 import { Authority } from "@/components/landing/Authority";
-import { Transformation } from "@/components/landing/Transformation";
 import { Includes } from "@/components/landing/Includes";
-import { Testimonials } from "@/components/landing/Testimonials";
 import { Curriculum } from "@/components/landing/Curriculum";
-import { Bonuses } from "@/components/landing/Bonuses";
+import { Transformation } from "@/components/landing/Transformation";
+import { Testimonials } from "@/components/landing/Testimonials";
 import { ValueStack } from "@/components/landing/ValueStack";
 import { Offer } from "@/components/landing/Offer";
 import { Guarantee } from "@/components/landing/Guarantee";
@@ -24,11 +22,11 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "IAplicada Academy · Aprenda IA aplicada ao trabalho real · R$ 147/mês" },
+      { title: "IAplicada Academy · Aplique IA no seu trabalho de verdade · R$ 147/mês" },
       {
         name: "description",
         content:
-          "Assinatura IAplicada Academy: aplique IA no seu trabalho de verdade. Aulas ao vivo toda segunda, mentoria, +100 prompts e comunidade. R$ 147/mês.",
+          "Assinatura IAplicada Academy: trilhas práticas, aulas ao vivo toda segunda, mentoria e comunidade que implementa. R$ 147/mês, sem fidelidade.",
       },
       { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
       {
@@ -46,16 +44,14 @@ function Index() {
     <main className="bg-background text-foreground">
       <Header />
       <Hero />
-      <LogosBar />
       <Problem />
       <Solution />
-      <Transformation />
       <ForWho />
       <Authority />
       <Includes />
-      <Testimonials />
       <Curriculum />
-      <Bonuses />
+      <Transformation />
+      <Testimonials />
       <ValueStack />
       <Offer />
       <Guarantee />

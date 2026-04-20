@@ -1,81 +1,80 @@
-import { Reveal } from "@/components/Reveal";
+import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 const stack = [
-  { title: "Acesso a 18 trilhas completas", value: "R$ 1.997" },
-  { title: "Aulas ao vivo toda segunda-feira (1 ano)", value: "R$ 2.497" },
-  { title: "Q&As quinzenais com a Mari", value: "R$ 1.497" },
+  { title: "18 trilhas completas, novas a cada quinzena", value: "R$ 1.997" },
+  { title: "Aulas ao vivo toda segunda-feira (ano todo)", value: "R$ 2.497" },
+  { title: "Q&A semanal ao vivo às quartas com a Mari", value: "R$ 1.497" },
+  { title: "MarIAna 24/7 — agente IA com expertise da Mari", value: "R$ 1.164" },
   { title: "Biblioteca de +100 prompts testados", value: "R$ 497" },
-  { title: "Catálogo de +50 ferramentas", value: "R$ 297" },
-  { title: "Comunidade Aplicados", value: "R$ 397/ano" },
-  { title: "Bônus 1 · Workshop \"Mapeie sua segunda-feira\"", value: "R$ 297" },
-  { title: "Bônus 2 · 100+ prompts prontos liberados no dia 1", value: "R$ 197" },
-  { title: "Bônus 3 · MarIAna, assistente IA dos Aplicados", value: "R$ 97/mês" },
-  { title: "Bônus 4 · Trilha Express \"Primeiros 30 dias\"", value: "R$ 147" },
+  { title: "Catálogo de +50 ferramentas avaliadas", value: "R$ 297" },
+  { title: "Comunidade Aplicados (+2.000 membros)", value: "R$ 397" },
+  { title: "Bônus · Workshop \"Mapeie sua segunda-feira\"", value: "R$ 297" },
+  { title: "Bônus · Trilha Express \"Primeiros 30 dias\"", value: "R$ 147" },
+  { title: "Bônus · Gravação de todas as aulas ao vivo", value: "incalculável" },
 ];
 
 export function ValueStack() {
   return (
-    <section className="section-pad bg-[var(--surface-alt)]">
-      <div className="container-narrow">
-        <Reveal>
-          <div className="mx-auto max-w-3xl text-center">
-            <h2 className="text-3xl font-extrabold leading-tight text-[var(--offwhite)] md:text-5xl">
-              Se você fosse comprar tudo isso separado,
-              <br />
-              pagaria <span className="text-[var(--brand-bright)]">mais de R$ 7.900.</span>
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-[var(--sage)]">
-              Dentro do Academy, você tem tudo por um valor que cabe no cafezinho do dia.
-            </p>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.1}>
-          <div className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--card)]">
-            <ul className="divide-y divide-[var(--border)]">
-              {stack.map((item) => (
-                <li
-                  key={item.title}
-                  className="flex items-center justify-between gap-4 px-5 py-4 md:px-7"
-                >
-                  <div className="flex items-start gap-3">
-                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand)]" />
-                    <span className="text-[var(--offwhite)]">{item.title}</span>
-                  </div>
-                  <span className="shrink-0 font-display text-sm font-bold text-[var(--sage)] md:text-base">
-                    {item.value}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="grid gap-3 border-t border-[var(--border)] bg-[#1A1F10] px-5 py-5 md:grid-cols-2 md:items-center md:gap-6 md:px-7">
-              <div className="flex items-center justify-between gap-3 md:justify-start">
-                <span className="text-sm uppercase tracking-widest text-[var(--muted-foreground)]">
-                  Valor total
-                </span>
-                <span className="font-display text-2xl font-extrabold text-[var(--muted-foreground)] line-through md:text-3xl">
-                  R$ 7.920
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-3 md:justify-end">
-                <span className="text-sm uppercase tracking-widest text-[var(--brand-bright)]">
-                  Seu investimento hoje
-                </span>
-                <span className="font-display text-3xl font-extrabold text-[var(--brand-bright)] md:text-4xl">
-                  R$ 147<span className="text-base font-normal text-[var(--sage)]">/mês</span>
-                </span>
-              </div>
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={0.2}>
-          <p className="mx-auto mt-8 max-w-xl text-center text-sm text-[var(--muted-foreground)]">
-            Menos de R$ 5 por dia. Sem fidelidade. Você só continua se fizer sentido.
+    <section className="section-pad bg-[var(--cream)]">
+      <div className="container-narrow px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow">Quanto custa continuar travado em planilha?</span>
+          <h2 className="mt-5 h-section">
+            Se comprasse tudo separado, você pagaria
+            <br />
+            <span className="text-gradient-brand">mais de R$ 8.790.</span>
+          </h2>
+          <p className="mt-5 lede">
+            Antes de falar de preço, entenda o valor real do que está incluso no Academy.
           </p>
-        </Reveal>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 1, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto mt-12 max-w-3xl overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] shadow-[0_40px_80px_-50px_rgba(44,20,2,0.35)]"
+        >
+          <ul className="divide-y divide-[var(--border)]">
+            {stack.map((item) => (
+              <li
+                key={item.title}
+                className="flex items-center justify-between gap-4 px-5 py-4 md:px-7"
+              >
+                <div className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--brand)]/25">
+                    <Check className="h-3.5 w-3.5 text-[var(--brand-dark)]" strokeWidth={3} />
+                  </span>
+                  <span className="text-[var(--cocoa)]">{item.title}</span>
+                </div>
+                <span
+                  className={`shrink-0 font-display font-bold md:text-base ${
+                    item.value === "incalculável"
+                      ? "text-[var(--brand-dark)]"
+                      : "text-[var(--cocoa-soft)] line-through decoration-[var(--cocoa-soft)]/40"
+                  } text-sm`}
+                >
+                  {item.value}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-[var(--border)] bg-[var(--cream-dark)] px-5 py-5 md:px-7">
+            <span className="text-sm font-bold uppercase tracking-[0.18em] text-[var(--cocoa-soft)]">
+              Valor total aplicado
+            </span>
+            <span className="font-display text-2xl font-black text-[var(--cocoa)] md:text-3xl">
+              R$ 8.790+
+            </span>
+          </div>
+        </motion.div>
+
+        <p className="mt-8 text-center text-sm text-[var(--cocoa-soft)]">
+          E você não paga nada disso separado. Tudo isso entra na sua assinatura — por menos de R$ 5/dia.
+        </p>
       </div>
     </section>
   );

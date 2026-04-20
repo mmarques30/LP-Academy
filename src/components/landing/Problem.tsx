@@ -1,49 +1,60 @@
-import { Compass, AlertTriangle, FileX2 } from "lucide-react";
-import { Reveal } from "@/components/Reveal";
+import { motion } from "framer-motion";
 
-const items = [
-  {
-    icon: Compass,
-    title: "Estou perdido(a) em tutoriais.",
-    body: "Você assiste vídeo, salva prompt, testa ferramenta. Mas no trabalho de verdade, na segunda-feira, nada muda.",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Tenho medo de ficar pra trás.",
-    body: "A galera da sua área já fala de automação, agente, workflow. Você entende o básico, mas não consegue aplicar.",
-  },
-  {
-    icon: FileX2,
-    title: "Cursos genéricos não resolvem.",
-    body: "Você não precisa de \"Introdução à IA\". Precisa de um caminho pra aplicar no seu cargo, no seu setor, na sua rotina.",
-  },
+const signs = [
+  "Você abre o ChatGPT e trava em \"me resume isso\"",
+  "Quer automatizar uma planilha, mas não sabe por onde começar",
+  "Assiste vídeo de IA e termina com mais dúvida do que chegou",
+  "Tem 7 ferramentas abertas e nenhuma entrega resultado",
+  "Fecha relatório na mão sabendo que poderia ser em minutos",
+  "Evita falar de IA com liderança porque sente que não domina",
 ];
 
 export function Problem() {
   return (
-    <section className="section-pad bg-background">
-      <div className="container-narrow">
-        <Reveal>
-          <h2 className="mx-auto max-w-3xl text-center text-3xl font-extrabold leading-tight text-[var(--offwhite)] md:text-5xl">
-            Você já sabe que precisa aprender IA.
+    <section className="section-pad bg-section-soft">
+      <div className="container-tight px-6">
+        <div className="text-center">
+          <span className="eyebrow">O diagnóstico</span>
+          <h2 className="mt-5 h-section">
+            O problema não é IA.
             <br />
-            O problema é: <span className="text-[var(--brand-bright)]">por onde começar?</span>
+            É <span className="text-highlight">o que ninguém te mostra</span> fazer com ela.
           </h2>
-        </Reveal>
+          <p className="mt-6 lede">
+            Pesquisamos os Aplicados que trabalham em grandes empresas do Brasil. As duas dores que aparecem
+            em 8 de cada 10 respostas:
+          </p>
+          <p className="mt-4 font-display text-xl font-extrabold text-[var(--cocoa)] md:text-2xl">
+            "Não sei por onde começar."
+            <span className="mx-3 text-[var(--brand-dark)]">·</span>
+            "Não consigo aplicar no meu trabalho."
+          </p>
+        </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
-          {items.map((it, i) => (
-            <Reveal key={it.title} delay={i * 0.08}>
-              <article className="card-surface h-full p-7">
-                <div className="mb-5 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--brand)]/15">
-                  <it.icon className="h-5 w-5 text-[var(--brand)]" />
-                </div>
-                <h3 className="text-lg font-bold text-[var(--offwhite)]">{it.title}</h3>
-                <p className="mt-3 text-[var(--sage)] leading-relaxed">{it.body}</p>
-              </article>
-            </Reveal>
+        <div className="mt-14 grid gap-3 sm:grid-cols-2">
+          {signs.map((sign, i) => (
+            <motion.div
+              key={sign}
+              initial={{ opacity: 1, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+              className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--offwhite)] p-4"
+            >
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] font-bold">
+                ✕
+              </span>
+              <p className="text-sm text-[var(--cocoa-soft)]">{sign}</p>
+            </motion.div>
           ))}
         </div>
+
+        <p className="mt-10 text-center text-base text-[var(--cocoa-soft)]">
+          Se dois desses sinais te descrevem, o problema não é você.
+          <br className="hidden md:block" />
+          Ninguém te deu <strong className="text-[var(--cocoa)]">um sistema</strong> pra transformar IA em produtividade
+          de verdade.
+        </p>
       </div>
     </section>
   );
