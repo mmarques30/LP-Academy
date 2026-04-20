@@ -1,36 +1,42 @@
-import { Star } from "lucide-react";
-import { Reveal } from "@/components/Reveal";
+import { motion } from "framer-motion";
+import { Star, Quote } from "lucide-react";
 
 const testimonials = [
   {
     name: "Ana Paula Ferreira",
     role: "Analista de Marketing · Ambev",
-    text: "Em 2 meses de Academy eu automatizei 70% do meu trabalho de reporting. Meu gestor me chamou pra liderar a iniciativa de IA do time. O curso se pagou no primeiro mês só com o tempo que ganhei de volta.",
+    text: "Em 2 meses de Academy eu automatizei 70% do meu trabalho de reporting. Meu gestor me chamou pra liderar a iniciativa de IA do time. O Academy se pagou no primeiro mês só com o tempo que ganhei de volta.",
+    highlight: "automatizou 70% do reporting em 2 meses",
   },
   {
     name: "Rodrigo Santos",
-    role: "Head de Vendas · Startup SaaS",
+    role: "Head de Vendas · SaaS",
     text: "Eu achei que já sabia IA porque usava ChatGPT todo dia. O Academy me mostrou o tanto que eu estava deixando na mesa. Hoje tenho 3 workflows rodando sozinhos e voltei a ter tempo pra estratégia.",
+    highlight: "3 workflows rodando sozinhos",
   },
   {
     name: "Júlia Costa",
     role: "Empreendedora · Agência Digital",
-    text: "Eu fazia tudo à mão na minha agência e não crescia. Comecei no Academy em janeiro e em 4 meses dobrei minha capacidade sem contratar ninguém. A Mari ensina com uma clareza que não existe em outros lugares.",
+    text: "Eu fazia tudo à mão na minha agência. Comecei no Academy em janeiro e em 4 meses dobrei minha capacidade sem contratar ninguém. A Mari ensina com clareza que não existe em outros lugares.",
+    highlight: "dobrou a capacidade em 4 meses",
   },
   {
     name: "Pedro Almeida",
     role: "Coordenador Financeiro · Indústria",
     text: "Fiz vários cursos de IA antes do Academy. Todos eram teóricos. O diferencial aqui é que toda semana tem aplicação real. Saí de iniciante pra virar referência no meu setor da empresa em 5 meses.",
+    highlight: "virou referência de IA no setor",
   },
   {
     name: "Camila Rocha",
     role: "Consultora · RH",
-    text: "A Mari entrega o que promete. Os Q&As quinzenais são o melhor da assinatura. É onde eu realmente destravo. Cada encontro volto com 2-3 coisas pra implementar na semana.",
+    text: "A Mari entrega o que promete. Os Q&As semanais são o melhor da assinatura. É onde eu realmente destravo. Cada encontro volto com 2-3 coisas pra implementar na semana.",
+    highlight: "destrava nos Q&As semanais",
   },
   {
     name: "Lucas Mendes",
     role: "Desenvolvedor · Fintech",
-    text: "Assinei 'pra testar' em março. Cinco meses depois, não saio mais. A comunidade é viva, as aulas são densas e a Mari responde mesmo. Valor incomparável pelo preço.",
+    text: "Assinei \"pra testar\" em março. Cinco meses depois, não saio mais. A comunidade é viva, as aulas são densas e a Mari responde mesmo. Valor incomparável pelo preço.",
+    highlight: "testou em março, não saiu mais",
   },
 ];
 
@@ -43,47 +49,72 @@ const initials = (name: string) =>
 
 export function Testimonials() {
   return (
-    <section id="depoimentos" className="section-pad bg-background">
-      <div className="container-narrow">
-        <Reveal>
-          <h2 className="text-center text-3xl font-extrabold text-[var(--offwhite)] md:text-5xl">
-            O que os <span className="text-[var(--brand-bright)]">Aplicados</span> estão dizendo
+    <section id="depoimentos" className="section-pad bg-[var(--cream)]">
+      <div className="container-narrow px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow">Depoimentos</span>
+          <h2 className="mt-5 h-section">
+            O que os <span className="text-gradient-brand">Aplicados</span> estão dizendo
           </h2>
-        </Reveal>
-
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={(i % 3) * 0.08}>
-              <article className="card-surface h-full border-l-[3px] border-l-[var(--brand)] p-6">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/20 font-bold text-[var(--brand-bright)]">
-                    {initials(t.name)}
-                  </span>
-                  <div>
-                    <p className="font-semibold text-[var(--offwhite)]">{t.name}</p>
-                    <p className="text-xs text-[var(--muted-foreground)]">{t.role}</p>
-                  </div>
-                </div>
-                <p className="text-[var(--sage)] leading-relaxed">"{t.text}"</p>
-              </article>
-            </Reveal>
-          ))}
         </div>
 
-        <Reveal delay={0.2}>
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-center">
-            <p className="flex items-center gap-2 font-display text-xl font-extrabold text-[var(--offwhite)]">
-              <Star className="h-5 w-5 fill-[var(--brand-bright)] text-[var(--brand-bright)]" />
-              4,9 de satisfação
+        {/* Faixa de métricas */}
+        <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-4 rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] p-6 text-center sm:grid-cols-3">
+          <div>
+            <p className="flex items-center justify-center gap-1.5 font-display text-2xl font-black text-[var(--cocoa)]">
+              <Star className="h-5 w-5 fill-[var(--brand-dark)] text-[var(--brand-dark)]" />
+              4,9
             </p>
-            <p className="font-display text-xl font-extrabold text-[var(--offwhite)]">
-              93% <span className="text-[var(--sage)] text-base font-normal">permanecem após 3 meses</span>
-            </p>
-            <p className="font-display text-xl font-extrabold text-[var(--offwhite)]">
-              +2.000 <span className="text-[var(--sage)] text-base font-normal">Aplicados ativos</span>
+            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
+              de satisfação
             </p>
           </div>
-        </Reveal>
+          <div className="sm:border-x sm:border-[var(--border)]">
+            <p className="font-display text-2xl font-black text-[var(--cocoa)]">93%</p>
+            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
+              seguem ativos após 3 meses
+            </p>
+          </div>
+          <div>
+            <p className="font-display text-2xl font-black text-[var(--cocoa)]">+2.000</p>
+            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
+              Aplicados ativos
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t, i) => (
+            <motion.article
+              key={t.name}
+              initial={{ opacity: 1, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
+              className="relative h-full rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] p-6"
+            >
+              <Quote className="absolute right-5 top-5 h-6 w-6 text-[var(--brand)]/40" />
+              <div className="flex items-start gap-1 text-[var(--brand-dark)]">
+                {[0, 1, 2, 3, 4].map((i) => (
+                  <Star key={i} className="h-4 w-4 fill-[var(--brand-dark)]" />
+                ))}
+              </div>
+              <p className="mt-4 font-display text-base font-bold text-[var(--cocoa)] leading-snug">
+                "{t.highlight}"
+              </p>
+              <p className="mt-3 text-sm text-[var(--cocoa-soft)] leading-relaxed">{t.text}</p>
+              <div className="mt-5 flex items-center gap-3 border-t border-[var(--border)] pt-4">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--brand)]/20 font-bold text-[var(--brand-dark)]">
+                  {initials(t.name)}
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-[var(--cocoa)]">{t.name}</p>
+                  <p className="text-xs text-[var(--cocoa-soft)]">{t.role}</p>
+                </div>
+              </div>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );

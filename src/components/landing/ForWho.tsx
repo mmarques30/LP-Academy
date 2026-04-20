@@ -1,55 +1,85 @@
+import { motion } from "framer-motion";
 import { Check, X } from "lucide-react";
-import { Reveal } from "@/components/Reveal";
 
 const yes = [
   "Você é CLT e quer virar referência em IA no seu setor",
-  "Você é empreendedor(a) e quer tempo de volta (automatizar rotina)",
-  "Você é líder e quer levar IA pro seu time sem depender da TI",
-  "Você já tentou aprender sozinho(a) e se perdeu em tutoriais soltos",
-  "Você quer aplicar IA no trabalho, não só consumir conteúdo sobre IA",
+  "Você é empreendedor(a) e quer comprar horas de volta automatizando",
+  "Você é líder e quer levar IA pro time sem depender da TI",
+  "Você já tentou aprender sozinho e se perdeu em tutoriais soltos",
+  "Você quer aplicar IA no trabalho — não só consumir conteúdo sobre IA",
 ];
+
 const no = [
-  "Você quer aprender IA teórica, acadêmica, de papers",
-  "Você procura \"se tornar prompt engineer em 7 dias\"",
-  "Você quer conteúdo gravado sem compromisso de aplicar",
-  "Você não consegue investir 2h por semana na sua evolução",
+  "Você procura IA teórica, acadêmica, de papers",
+  "Você quer virar \"prompt engineer em 7 dias\"",
+  "Você quer consumir conteúdo gravado sem aplicar nada",
+  "Você não consegue dedicar 2h por semana pra sua evolução",
 ];
 
 export function ForWho() {
   return (
-    <section className="section-pad bg-background">
-      <div className="container-narrow grid gap-6 md:grid-cols-2">
-        <Reveal>
-          <div className="card-surface h-full p-8" style={{ borderColor: "color-mix(in oklab, var(--brand) 40%, transparent)" }}>
-            <p className="text-sm font-bold uppercase tracking-widest text-[var(--brand-bright)]">
-              Pra você se...
-            </p>
-            <ul className="mt-6 space-y-4">
-              {yes.map((t) => (
-                <li key={t} className="flex gap-3 text-[var(--offwhite)]">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand)]" />
-                  <span>{t}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+    <section className="section-pad bg-[var(--offwhite)]">
+      <div className="container-narrow px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="eyebrow">Pra quem</span>
+          <h2 className="mt-5 h-section">O Academy serve pra você?</h2>
+          <p className="mt-5 lede">
+            Seja honesto na leitura abaixo. Se a coluna da esquerda te descreve em 3 ou mais pontos,
+            esse é o teu lugar. Se a da direita soa familiar, melhor parar aqui.
+          </p>
+        </div>
 
-        <Reveal delay={0.1}>
-          <div className="card-surface h-full p-8">
-            <p className="text-sm font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
-              Não é pra você se...
-            </p>
-            <ul className="mt-6 space-y-4">
-              {no.map((t) => (
-                <li key={t} className="flex gap-3 text-[var(--muted-foreground)]">
-                  <X className="mt-0.5 h-5 w-5 shrink-0 text-[var(--alert)]" />
-                  <span>{t}</span>
+        <div className="mt-14 grid gap-6 md:grid-cols-2">
+          <motion.div
+            initial={{ opacity: 1, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="rounded-3xl border-2 border-[var(--brand-dark)]/30 bg-[var(--brand)]/8 p-7 md:p-9"
+          >
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)]">
+                <Check className="h-5 w-5" strokeWidth={3} />
+              </span>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--brand-dark)]">
+                É pra você
+              </p>
+            </div>
+            <ul className="mt-7 space-y-4">
+              {yes.map((t) => (
+                <li key={t} className="flex gap-3 text-[var(--cocoa)]">
+                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-dark)]" strokeWidth={2.5} />
+                  <span className="leading-relaxed">{t}</span>
                 </li>
               ))}
             </ul>
-          </div>
-        </Reveal>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 1, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.08 }}
+            className="rounded-3xl border border-[var(--border)] bg-[var(--cream-dark)] p-7 md:p-9"
+          >
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--cocoa)]/10 text-[var(--cocoa-soft)]">
+                <X className="h-5 w-5" strokeWidth={3} />
+              </span>
+              <p className="text-sm font-bold uppercase tracking-[0.2em] text-[var(--cocoa-soft)]">
+                Não é pra você
+              </p>
+            </div>
+            <ul className="mt-7 space-y-4">
+              {no.map((t) => (
+                <li key={t} className="flex gap-3 text-[var(--cocoa-soft)]">
+                  <X className="mt-0.5 h-5 w-5 shrink-0 text-[var(--alert)]/70" strokeWidth={2.5} />
+                  <span className="leading-relaxed">{t}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
