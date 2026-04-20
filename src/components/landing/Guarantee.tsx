@@ -3,21 +3,22 @@ import { Reveal } from "@/components/Reveal";
 
 export function Guarantee() {
   return (
-    <section className="section-pad bg-[var(--surface-alt)]">
+    <section className="section-pad bg-[var(--surface)]">
       <div className="container-narrow">
         <Reveal>
-          <div className="mx-auto max-w-2xl rounded-2xl border-2 border-[var(--brand)] bg-[var(--card)] p-8 md:p-10 text-center">
-            <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--brand)]/15">
-              <ShieldCheck className="h-8 w-8 text-[var(--brand-bright)]" />
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center md:flex-row md:text-left">
+            <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl border border-[var(--accent)]/35 bg-[var(--accent-soft)]">
+              <ShieldCheck className="h-9 w-9 text-[var(--accent)]" />
             </div>
-            <h3 className="font-display text-2xl font-extrabold text-[var(--offwhite)] md:text-3xl">
-              Garantia incondicional de 7 dias
-            </h3>
-            <p className="mt-4 text-[var(--sage)] leading-relaxed">
-              Entre no Academy, explore as trilhas, participe da primeira aula ao vivo. Se nos primeiros
-              7 dias você sentir que não é pra você, a gente devolve 100% do seu investimento. Sem
-              burocracia, sem pergunta difícil. O risco é todo nosso.
-            </p>
+            <div>
+              <h3 className="font-display text-2xl font-bold text-white md:text-3xl">
+                7 dias de garantia incondicional.
+              </h3>
+              <p className="mt-3 text-white/65 leading-relaxed">
+                Entre, explore as trilhas, participe da primeira aula. Se não for pra
+                você, a gente devolve 100% — sem pergunta difícil. O risco é nosso.
+              </p>
+            </div>
           </div>
         </Reveal>
       </div>

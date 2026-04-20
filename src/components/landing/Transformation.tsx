@@ -1,55 +1,45 @@
 import { Reveal } from "@/components/Reveal";
-import { ArrowRight, X, Check } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 
 const before = [
-  "Começa a semana sem saber por onde atacar IA",
-  "Assiste tutorial atrás de tutorial, e nada aplica",
-  "Perde 2h/dia em tarefa que já poderia ser automatizada",
-  "Depende de TI pra qualquer coisa \"técnica\"",
-  "Vê outras pessoas liderarem IA na empresa",
-  "Cansaço de \"preciso estudar IA\" há 2 anos",
+  "Assiste tutorial e não aplica",
+  "Depende de TI pra qualquer coisa",
+  "Perde 2h/dia em tarefa repetitiva",
+  "Tem medo de ficar pra trás",
 ];
 
 const after = [
-  "Começa a segunda já sabendo o que vai automatizar",
-  "Aplica direto no trabalho, com prompt testado e aula ao vivo",
-  "Recupera 10-20h por semana com fluxos automáticos",
-  "Roda tudo sozinho(a), sem depender de ninguém",
-  "Vira referência de IA no seu time e setor",
-  "Tem clareza, ritmo e comunidade pra implementar",
+  "Aplica no trabalho na mesma semana",
+  "Roda tudo sozinho(a), sem TI",
+  "Recupera 10-20h por semana",
+  "Vira referência de IA no seu time",
 ];
 
 export function Transformation() {
   return (
-    <section className="section-pad bg-background">
+    <section className="section-pad">
       <div className="container-narrow">
         <Reveal>
           <div className="mx-auto max-w-3xl text-center">
-            <span className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[#1A1F10] px-3 py-1.5 text-xs font-medium text-[var(--brand-bright)]">
-              Antes e depois do Academy
-            </span>
-            <h2 className="mt-5 text-3xl font-extrabold leading-tight text-[var(--offwhite)] md:text-5xl">
+            <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl">
               A diferença não é saber mais IA.
               <br />
-              É <span className="text-[var(--brand-bright)]">aplicar de verdade.</span>
+              <span className="text-[var(--accent)]">É aplicar de verdade.</span>
             </h2>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-stretch md:gap-4">
+        <div className="mx-auto mt-14 grid max-w-4xl gap-5 md:grid-cols-[1fr_auto_1fr] md:items-stretch">
           <Reveal>
-            <div className="card-surface relative h-full p-7">
-              <p className="text-xs font-bold uppercase tracking-widest text-[var(--muted-foreground)]">
-                Antes do Academy
+            <div className="h-full rounded-2xl border border-white/8 bg-[var(--surface)] p-7">
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-white/45">
+                Antes
               </p>
-              <h3 className="mt-2 font-display text-xl font-extrabold text-[var(--offwhite)]">
-                A rotina hoje
-              </h3>
-              <ul className="mt-6 space-y-4">
+              <ul className="mt-5 space-y-3">
                 {before.map((t) => (
-                  <li key={t} className="flex gap-3 text-[var(--muted-foreground)]">
-                    <X className="mt-0.5 h-5 w-5 shrink-0 text-[var(--alert)]" />
-                    <span className="leading-relaxed">{t}</span>
+                  <li key={t} className="flex gap-3 text-white/55">
+                    <X className="mt-0.5 h-5 w-5 shrink-0 opacity-60" />
+                    <span>{t}</span>
                   </li>
                 ))}
               </ul>
@@ -57,31 +47,28 @@ export function Transformation() {
           </Reveal>
 
           <div className="hidden items-center justify-center md:flex">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)] text-[#141A0B] shadow-[0_10px_30px_-10px_rgba(138,171,35,0.6)]">
-              <ArrowRight className="h-5 w-5" />
+            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[var(--accent)]">
+              <ArrowRight className="h-5 w-5 text-black" />
             </div>
           </div>
 
           <Reveal delay={0.1}>
             <div
-              className="card-surface relative h-full p-7"
+              className="h-full rounded-2xl border p-7"
               style={{
-                borderColor: "color-mix(in oklab, var(--brand) 55%, transparent)",
+                borderColor: "hsl(80 78% 56% / 0.4)",
                 background:
-                  "linear-gradient(180deg, color-mix(in oklab, var(--brand) 8%, var(--card)) 0%, var(--card) 100%)",
+                  "linear-gradient(180deg, hsl(80 60% 16% / 0.4) 0%, hsl(0 0% 8%) 100%)",
               }}
             >
-              <p className="text-xs font-bold uppercase tracking-widest text-[var(--brand-bright)]">
-                Depois do Academy
+              <p className="text-[11px] font-bold uppercase tracking-[0.14em] text-[var(--accent)]">
+                Depois · em 90 dias
               </p>
-              <h3 className="mt-2 font-display text-xl font-extrabold text-[var(--offwhite)]">
-                A rotina em 90 dias
-              </h3>
-              <ul className="mt-6 space-y-4">
+              <ul className="mt-5 space-y-3">
                 {after.map((t) => (
-                  <li key={t} className="flex gap-3 text-[var(--offwhite)]">
-                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-bright)]" />
-                    <span className="leading-relaxed">{t}</span>
+                  <li key={t} className="flex gap-3 text-white">
+                    <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--accent)]" />
+                    <span>{t}</span>
                   </li>
                 ))}
               </ul>

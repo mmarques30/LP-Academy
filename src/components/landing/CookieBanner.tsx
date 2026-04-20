@@ -13,14 +13,15 @@ export function CookieBanner() {
     setShow(false);
   };
   return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 mx-auto max-w-2xl rounded-xl border border-[var(--border)] bg-[#1A1F10]/95 p-4 shadow-2xl backdrop-blur md:left-auto md:right-6">
+    <div className="fixed bottom-4 left-4 right-4 z-40 mx-auto max-w-md rounded-xl border border-white/10 bg-black/95 p-4 backdrop-blur md:left-auto md:right-6">
       <div className="flex items-start gap-3">
-        <p className="flex-1 text-sm text-[var(--sage)]">
-          Usamos cookies para melhorar sua experiência. Ao continuar, você concorda com nossa política de
-          privacidade.
+        <p className="flex-1 text-sm text-white/65">
+          Usamos cookies para melhorar sua experiência.
         </p>
-        <button onClick={accept} className="btn-primary !px-4 !py-2 !text-xs">Aceitar</button>
-        <button onClick={accept} aria-label="Fechar" className="text-[var(--muted-foreground)]">
+        <button onClick={accept} className="btn-primary !px-3 !py-1.5 !text-xs">
+          Aceitar
+        </button>
+        <button onClick={accept} aria-label="Fechar" className="text-white/40 hover:text-white">
           <X className="h-4 w-4" />
         </button>
       </div>

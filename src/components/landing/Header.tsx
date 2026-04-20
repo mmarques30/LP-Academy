@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Sparkles } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const links = [
-  { href: "#curriculo", label: "Currículo" },
-  { href: "#depoimentos", label: "Depoimentos" },
+  { href: "#historia", label: "História" },
+  { href: "#depoimentos", label: "Resultados" },
+  { href: "#oferta", label: "Oferta" },
   { href: "#faq", label: "FAQ" },
 ];
 
@@ -20,26 +21,21 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors ${
-        scrolled
-          ? "border-[var(--border)] bg-[#141A0B]/90 backdrop-blur-md"
-          : "border-transparent bg-[#141A0B]"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors ${
+        scrolled ? "border-b border-white/8 bg-black/80 backdrop-blur-md" : "border-b border-transparent"
       }`}
     >
       <div className="container-narrow flex items-center justify-between px-6 py-4">
-        <a href="#" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight">
-          <Sparkles className="h-5 w-5 text-[var(--brand)]" aria-hidden />
-          <span>
-            IA<span className="text-[var(--brand-bright)]">plicada</span>
-          </span>
+        <a href="#" className="flex items-center">
+          <img src="/logo-iaplicada.svg" alt="IAplicada" className="h-7 w-auto md:h-8" />
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-7 md:flex">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-[var(--sage)] transition-colors hover:text-[var(--brand-bright)]"
+              className="text-sm text-white/70 transition-colors hover:text-white"
             >
               {l.label}
             </a>
@@ -47,13 +43,13 @@ export function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <a href="#oferta" className="btn-primary !py-2.5 !text-sm">
-            Aplicar agora
+          <a href="#oferta" className="btn-primary !px-5 !py-2.5 !text-sm">
+            Quero entrar
           </a>
         </div>
 
         <button
-          className="md:hidden text-[var(--offwhite)]"
+          className="text-white md:hidden"
           onClick={() => setOpen((v) => !v)}
           aria-label="Abrir menu"
         >
@@ -62,20 +58,20 @@ export function Header() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[#141A0B] px-6 py-4">
+        <div className="md:hidden border-t border-white/8 bg-black/95 px-6 py-4">
           <nav className="flex flex-col gap-4">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-base font-medium text-[var(--sage)]"
+                className="text-base text-white/80"
               >
                 {l.label}
               </a>
             ))}
             <a href="#oferta" onClick={() => setOpen(false)} className="btn-primary">
-              Aplicar agora
+              Quero entrar
             </a>
           </nav>
         </div>

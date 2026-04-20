@@ -4,14 +4,11 @@ import { Hero } from "@/components/landing/Hero";
 import { LogosBar } from "@/components/landing/LogosBar";
 import { Problem } from "@/components/landing/Problem";
 import { Solution } from "@/components/landing/Solution";
-import { ForWho } from "@/components/landing/ForWho";
 import { Authority } from "@/components/landing/Authority";
 import { Transformation } from "@/components/landing/Transformation";
-import { Includes } from "@/components/landing/Includes";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Curriculum } from "@/components/landing/Curriculum";
 import { Bonuses } from "@/components/landing/Bonuses";
-import { ValueStack } from "@/components/landing/ValueStack";
 import { Offer } from "@/components/landing/Offer";
 import { Guarantee } from "@/components/landing/Guarantee";
 import { FAQ } from "@/components/landing/FAQ";
@@ -24,17 +21,17 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "IAplicada Academy · Aprenda IA aplicada ao trabalho real · R$ 147/mês" },
+      { title: "IAplicada Academy · IA aplicada ao trabalho real · R$ 147/mês" },
       {
         name: "description",
         content:
-          "Assinatura IAplicada Academy: aplique IA no seu trabalho de verdade. Aulas ao vivo toda segunda, mentoria, +100 prompts e comunidade. R$ 147/mês.",
+          "Assinatura IAplicada Academy: aulas ao vivo, mentoria, +100 prompts e comunidade. Aplique IA no trabalho de verdade. R$ 147/mês, sem fidelidade.",
       },
       { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
       {
         property: "og:description",
         content:
-          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que implementa. R$ 147/mês, sem fidelidade.",
+          "Aulas ao vivo toda segunda, mentoria com a Mari, +100 prompts testados e comunidade que implementa. R$ 147/mês.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -49,14 +46,11 @@ function Index() {
       <LogosBar />
       <Problem />
       <Solution />
-      <Transformation />
-      <ForWho />
       <Authority />
-      <Includes />
+      <Transformation />
       <Testimonials />
       <Curriculum />
       <Bonuses />
-      <ValueStack />
       <Offer />
       <Guarantee />
       <FAQ />

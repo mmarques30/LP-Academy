@@ -5,32 +5,38 @@ const testimonials = [
   {
     name: "Ana Paula Ferreira",
     role: "Analista de Marketing · Ambev",
-    text: "Em 2 meses de Academy eu automatizei 70% do meu trabalho de reporting. Meu gestor me chamou pra liderar a iniciativa de IA do time. O curso se pagou no primeiro mês só com o tempo que ganhei de volta.",
+    result: "Automatizei 70% do reporting",
+    text: "Em 2 meses eu estava liderando a iniciativa de IA do meu time. O Academy se pagou só com o tempo que ganhei de volta.",
   },
   {
     name: "Rodrigo Santos",
-    role: "Head de Vendas · Startup SaaS",
-    text: "Eu achei que já sabia IA porque usava ChatGPT todo dia. O Academy me mostrou o tanto que eu estava deixando na mesa. Hoje tenho 3 workflows rodando sozinhos e voltei a ter tempo pra estratégia.",
+    role: "Head de Vendas · SaaS",
+    result: "3 workflows rodando sozinhos",
+    text: "Achei que sabia IA porque usava ChatGPT todo dia. O Academy me mostrou o tanto que eu estava deixando na mesa.",
   },
   {
     name: "Júlia Costa",
-    role: "Empreendedora · Agência Digital",
-    text: "Eu fazia tudo à mão na minha agência e não crescia. Comecei no Academy em janeiro e em 4 meses dobrei minha capacidade sem contratar ninguém. A Mari ensina com uma clareza que não existe em outros lugares.",
+    role: "Empreendedora · Agência",
+    result: "Dobrei capacidade sem contratar",
+    text: "Em 4 meses dobrei minha capacidade sem contratar ninguém. A Mari ensina com uma clareza que não existe em outros lugares.",
   },
   {
     name: "Pedro Almeida",
-    role: "Coordenador Financeiro · Indústria",
-    text: "Fiz vários cursos de IA antes do Academy. Todos eram teóricos. O diferencial aqui é que toda semana tem aplicação real. Saí de iniciante pra virar referência no meu setor da empresa em 5 meses.",
+    role: "Coordenador Financeiro",
+    result: "Virei referência no meu setor",
+    text: "Fiz vários cursos antes. Todos teóricos. Aqui toda semana tem aplicação real. Em 5 meses virei a referência de IA.",
   },
   {
     name: "Camila Rocha",
     role: "Consultora · RH",
-    text: "A Mari entrega o que promete. Os Q&As quinzenais são o melhor da assinatura. É onde eu realmente destravo. Cada encontro volto com 2-3 coisas pra implementar na semana.",
+    result: "Volto de cada Q&A com 2-3 implementações",
+    text: "Os Q&As quinzenais são o melhor da assinatura. Cada encontro volto com coisas pra implementar na semana.",
   },
   {
     name: "Lucas Mendes",
-    role: "Desenvolvedor · Fintech",
-    text: "Assinei 'pra testar' em março. Cinco meses depois, não saio mais. A comunidade é viva, as aulas são densas e a Mari responde mesmo. Valor incomparável pelo preço.",
+    role: "Dev · Fintech",
+    result: "Assinei pra testar, não saio mais",
+    text: "Entrei em março. Cinco meses depois, não saio mais. A comunidade é viva e a Mari responde mesmo. Valor incomparável.",
   },
 ];
 
@@ -43,44 +49,53 @@ const initials = (name: string) =>
 
 export function Testimonials() {
   return (
-    <section id="depoimentos" className="section-pad bg-background">
+    <section id="depoimentos" className="section-pad bg-[var(--surface)]">
       <div className="container-narrow">
         <Reveal>
-          <h2 className="text-center text-3xl font-extrabold text-[var(--offwhite)] md:text-5xl">
-            O que os <span className="text-[var(--brand-bright)]">Aplicados</span> estão dizendo
-          </h2>
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="eyebrow">Prova</span>
+            <h2 className="mt-5 text-3xl font-bold leading-tight text-white md:text-5xl">
+              Resultado é o que importa.
+            </h2>
+          </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={(i % 3) * 0.08}>
-              <article className="card-surface h-full border-l-[3px] border-l-[var(--brand)] p-6">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--brand)]/20 font-bold text-[var(--brand-bright)]">
+            <Reveal key={t.name} delay={(i % 3) * 0.06}>
+              <article className="h-full rounded-2xl border border-white/8 bg-black/40 p-6">
+                <p className="text-sm font-semibold text-[var(--accent)]">
+                  {t.result}
+                </p>
+                <p className="mt-3 leading-relaxed text-white/80">"{t.text}"</p>
+                <div className="mt-5 flex items-center gap-3 border-t border-white/8 pt-4">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--accent-soft)] text-sm font-bold text-[var(--accent)]">
                     {initials(t.name)}
                   </span>
                   <div>
-                    <p className="font-semibold text-[var(--offwhite)]">{t.name}</p>
-                    <p className="text-xs text-[var(--muted-foreground)]">{t.role}</p>
+                    <p className="text-sm font-semibold text-white">{t.name}</p>
+                    <p className="text-xs text-white/50">{t.role}</p>
                   </div>
                 </div>
-                <p className="text-[var(--sage)] leading-relaxed">"{t.text}"</p>
               </article>
             </Reveal>
           ))}
         </div>
 
-        <Reveal delay={0.2}>
-          <div className="mt-14 flex flex-wrap items-center justify-center gap-x-10 gap-y-4 text-center">
-            <p className="flex items-center gap-2 font-display text-xl font-extrabold text-[var(--offwhite)]">
-              <Star className="h-5 w-5 fill-[var(--brand-bright)] text-[var(--brand-bright)]" />
-              4,9 de satisfação
+        <Reveal delay={0.15}>
+          <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-center justify-center gap-x-10 gap-y-3">
+            <p className="flex items-center gap-2 text-white">
+              <Star className="h-5 w-5 fill-[var(--accent)] text-[var(--accent)]" />
+              <span className="font-display text-xl font-bold">4,9</span>
+              <span className="text-sm text-white/55">de satisfação</span>
             </p>
-            <p className="font-display text-xl font-extrabold text-[var(--offwhite)]">
-              93% <span className="text-[var(--sage)] text-base font-normal">permanecem após 3 meses</span>
+            <p className="text-white">
+              <span className="font-display text-xl font-bold">93%</span>{" "}
+              <span className="text-sm text-white/55">seguem após 3 meses</span>
             </p>
-            <p className="font-display text-xl font-extrabold text-[var(--offwhite)]">
-              +2.000 <span className="text-[var(--sage)] text-base font-normal">Aplicados ativos</span>
+            <p className="text-white">
+              <span className="font-display text-xl font-bold">+2.000</span>{" "}
+              <span className="text-sm text-white/55">Aplicados ativos</span>
             </p>
           </div>
         </Reveal>

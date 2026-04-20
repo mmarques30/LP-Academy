@@ -1,20 +1,20 @@
-const logos = ["Itaú", "Ambev", "Magazine Luiza", "Nubank", "Natura", "Globo", "iFood", "Vivo"];
+const logos = ["Nubank", "Ambev", "Magazine Luiza", "Natura", "iFood", "Amazon"];
 
 export function LogosBar() {
   return (
-    <section className="bg-[var(--surface-alt)] py-14">
+    <section className="border-y border-white/8 bg-[var(--surface)] py-10">
       <div className="container-narrow px-6">
-        <p className="text-center text-sm uppercase tracking-widest text-[var(--muted-foreground)]">
-          Empresas e profissionais que já aplicam IA com a IAplicada
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-white/45">
+          Alunos em empresas como
         </p>
-        <div className="mt-8 grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-4 lg:grid-cols-8">
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
           {logos.map((l) => (
-            <div
+            <span
               key={l}
-              className="text-center font-display text-lg font-bold text-[var(--muted-foreground)]/70 transition-colors hover:text-[var(--sage)]"
+              className="font-display text-lg font-semibold text-white/55 md:text-xl"
             >
               {l}
-            </div>
+            </span>
           ))}
         </div>
       </div>
