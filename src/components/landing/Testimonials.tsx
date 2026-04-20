@@ -1,118 +1,70 @@
-import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
-
 const testimonials = [
   {
-    name: "Ana Paula Ferreira",
-    role: "Analista de Marketing · Ambev",
-    text: "Em 2 meses de Academy eu automatizei 70% do meu trabalho de reporting. Meu gestor me chamou pra liderar a iniciativa de IA do time. O Academy se pagou no primeiro mês só com o tempo que ganhei de volta.",
-    highlight: "automatizou 70% do reporting em 2 meses",
+    q: "Em 3 semanas eu economizei um dia inteiro por semana. O ROI pagou a assinatura em um mês.",
+    n: "Carolina S.",
+    r: "Gerente de Marketing · SP",
+    i: "CS",
   },
   {
-    name: "Rodrigo Santos",
-    role: "Head de Vendas · SaaS",
-    text: "Eu achei que já sabia IA porque usava ChatGPT todo dia. O Academy me mostrou o tanto que eu estava deixando na mesa. Hoje tenho 3 workflows rodando sozinhos e voltei a ter tempo pra estratégia.",
-    highlight: "3 workflows rodando sozinhos",
+    q: "Parei de fazer curso solto. Aqui eu aplico toda semana. Virou parte da minha rotina.",
+    n: "Rafael P.",
+    r: "Head de Vendas · Tech B2B",
+    i: "RP",
   },
   {
-    name: "Júlia Costa",
-    role: "Empreendedora · Agência Digital",
-    text: "Eu fazia tudo à mão na minha agência. Comecei no Academy em janeiro e em 4 meses dobrei minha capacidade sem contratar ninguém. A Mari ensina com clareza que não existe em outros lugares.",
-    highlight: "dobrou a capacidade em 4 meses",
+    q: "A Mariana fala como quem realmente usa IA no trabalho, não como quem vende curso.",
+    n: "Patrícia L.",
+    r: "Diretora de RH · Grupo industrial",
+    i: "PL",
   },
   {
-    name: "Pedro Almeida",
-    role: "Coordenador Financeiro · Indústria",
-    text: "Fiz vários cursos de IA antes do Academy. Todos eram teóricos. O diferencial aqui é que toda semana tem aplicação real. Saí de iniciante pra virar referência no meu setor da empresa em 5 meses.",
-    highlight: "virou referência de IA no setor",
-  },
-  {
-    name: "Camila Rocha",
-    role: "Consultora · RH",
-    text: "A Mari entrega o que promete. Os Q&As semanais são o melhor da assinatura. É onde eu realmente destravo. Cada encontro volto com 2-3 coisas pra implementar na semana.",
-    highlight: "destrava nos Q&As semanais",
-  },
-  {
-    name: "Lucas Mendes",
-    role: "Desenvolvedor · Fintech",
-    text: "Assinei \"pra testar\" em março. Cinco meses depois, não saio mais. A comunidade é viva, as aulas são densas e a Mari responde mesmo. Valor incomparável pelo preço.",
-    highlight: "testou em março, não saiu mais",
+    q: "O Q&A das quartas é o diferencial. Você leva um problema real e sai com a solução.",
+    n: "Eduardo M.",
+    r: "Product Manager · Fintech",
+    i: "EM",
   },
 ];
 
-const initials = (name: string) =>
-  name
-    .split(" ")
-    .map((n) => n[0])
-    .slice(0, 2)
-    .join("");
-
 export function Testimonials() {
   return (
-    <section id="depoimentos" className="section-pad bg-[var(--cream)]">
-      <div className="container-narrow px-6">
+    <section className="relative bg-section-alt section-pad">
+      <div className="container-wide px-4 sm:px-6">
         <div className="mx-auto max-w-3xl text-center">
-          <span className="eyebrow">Depoimentos</span>
-          <h2 className="mt-5 h-section">
-            O que os <span className="text-gradient-brand">Aplicados</span> estão dizendo
+          <span className="eyebrow">Quem já está dentro</span>
+          <h2 className="mt-6 h-section text-white">
+            +2.000 Aplicados que pararam de <em className="font-light text-white/60 not-italic">testar</em>
+            <br className="hidden sm:block" />
+            e começaram a <span className="text-gradient-lime">aplicar</span>.
           </h2>
         </div>
 
-        {/* Faixa de métricas */}
-        <div className="mx-auto mt-10 grid max-w-3xl grid-cols-1 gap-4 rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] p-6 text-center sm:grid-cols-3">
-          <div>
-            <p className="flex items-center justify-center gap-1.5 font-display text-2xl font-black text-[var(--cocoa)]">
-              <Star className="h-5 w-5 fill-[var(--brand-dark)] text-[var(--brand-dark)]" />
-              4,9
-            </p>
-            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
-              de satisfação
-            </p>
-          </div>
-          <div className="sm:border-x sm:border-[var(--border)]">
-            <p className="font-display text-2xl font-black text-[var(--cocoa)]">93%</p>
-            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
-              seguem ativos após 3 meses
-            </p>
-          </div>
-          <div>
-            <p className="font-display text-2xl font-black text-[var(--cocoa)]">+2.000</p>
-            <p className="mt-1 text-xs uppercase tracking-wider text-[var(--cocoa-soft)]">
-              Aplicados ativos
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid gap-5 md:mt-20 md:grid-cols-2 md:gap-6">
           {testimonials.map((t, i) => (
-            <motion.article
-              key={t.name}
-              initial={{ opacity: 1, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.45, delay: (i % 3) * 0.08 }}
-              className="relative h-full rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] p-6"
+            <figure
+              key={i}
+              className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-7 md:p-9"
             >
-              <Quote className="absolute right-5 top-5 h-6 w-6 text-[var(--brand)]/40" />
-              <div className="flex items-start gap-1 text-[var(--brand-dark)]">
-                {[0, 1, 2, 3, 4].map((i) => (
-                  <Star key={i} className="h-4 w-4 fill-[var(--brand-dark)]" />
-                ))}
-              </div>
-              <p className="mt-4 font-display text-base font-bold text-[var(--cocoa)] leading-snug">
-                "{t.highlight}"
-              </p>
-              <p className="mt-3 text-sm text-[var(--cocoa-soft)] leading-relaxed">{t.text}</p>
-              <div className="mt-5 flex items-center gap-3 border-t border-[var(--border)] pt-4">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--brand)]/20 font-bold text-[var(--brand-dark)]">
-                  {initials(t.name)}
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-[var(--cocoa)]">{t.name}</p>
-                  <p className="text-xs text-[var(--cocoa-soft)]">{t.role}</p>
+              <svg
+                aria-hidden
+                className="absolute right-7 top-7 h-8 w-8 text-[var(--lime)]/20"
+                viewBox="0 0 32 32"
+                fill="currentColor"
+              >
+                <path d="M10 8C5.6 8 2 11.6 2 16v8h10V14H8c0-2.2 1.8-4 4-4V8h-2zm14 0c-4.4 0-8 3.6-8 8v8h10V14h-4c0-2.2 1.8-4 4-4V8h-2z" />
+              </svg>
+              <blockquote className="font-display text-lg md:text-xl leading-snug text-white">
+                "{t.q}"
+              </blockquote>
+              <figcaption className="mt-6 flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[var(--lime)] to-[var(--lime-deep)] font-display text-sm font-bold text-[var(--ink)]">
+                  {t.i}
                 </div>
-              </div>
-            </motion.article>
+                <div>
+                  <div className="text-sm font-semibold text-white">{t.n}</div>
+                  <div className="text-xs text-white/50">{t.r}</div>
+                </div>
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>

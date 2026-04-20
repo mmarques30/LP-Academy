@@ -1,60 +1,65 @@
-import { motion } from "framer-motion";
-
-const signs = [
-  "Você abre o ChatGPT e trava em \"me resume isso\"",
-  "Quer automatizar uma planilha, mas não sabe por onde começar",
-  "Assiste vídeo de IA e termina com mais dúvida do que chegou",
-  "Tem 7 ferramentas abertas e nenhuma entrega resultado",
-  "Fecha relatório na mão sabendo que poderia ser em minutos",
-  "Evita falar de IA com liderança porque sente que não domina",
+const pains = [
+  {
+    n: "01",
+    t: "Você testou ChatGPT e achou genérico",
+    d: "Respostas rasas, nada que realmente acelere o seu trabalho. Você voltou pro jeito antigo e ficou com a sensação de que a IA 'ainda não serve pra mim'.",
+  },
+  {
+    n: "02",
+    t: "Fez curso, viu YouTube, e continuou travado",
+    d: "Aprendeu prompts soltos, vídeos de 2 horas, mas na prática nunca sabe por onde começar na sua rotina. O conteúdo nunca vira ação.",
+  },
+  {
+    n: "03",
+    t: "Vê todo mundo falando de IA, menos você fazendo",
+    d: "A sensação de ficar pra trás aumenta a cada semana. Colegas começam a citar ferramentas que você nunca ouviu falar — e você finge que sabe.",
+  },
 ];
 
 export function Problem() {
   return (
-    <section className="section-pad bg-section-soft">
-      <div className="container-tight px-6">
-        <div className="text-center">
-          <span className="eyebrow">O diagnóstico</span>
-          <h2 className="mt-5 h-section">
-            O problema não é IA.
+    <section className="relative bg-section-alt section-pad">
+      <div className="container-wide px-4 sm:px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="eyebrow">Diagnóstico</span>
+          <h2 className="mt-6 h-section text-white">
+            Você não tem problema com IA.
             <br />
-            É <span className="text-highlight">o que ninguém te mostra</span> fazer com ela.
+            Você tem problema com <span className="text-gradient-lime">método</span>.
           </h2>
           <p className="mt-6 lede">
-            Pesquisamos os Aplicados que trabalham em grandes empresas do Brasil. As duas dores que aparecem
-            em 8 de cada 10 respostas:
-          </p>
-          <p className="mt-4 font-display text-xl font-extrabold text-[var(--cocoa)] md:text-2xl">
-            "Não sei por onde começar."
-            <span className="mx-3 text-[var(--brand-dark)]">·</span>
-            "Não consigo aplicar no meu trabalho."
+            Se algum dos três cenários abaixo soa familiar, você não está sozinho — e o
+            problema não é você, é a forma como IA está sendo ensinada por aí.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-3 sm:grid-cols-2">
-          {signs.map((sign, i) => (
-            <motion.div
-              key={sign}
-              initial={{ opacity: 1, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--offwhite)] p-4"
+        <div className="mt-16 grid gap-5 md:mt-20 md:grid-cols-3 md:gap-6">
+          {pains.map((p) => (
+            <div
+              key={p.n}
+              className="group relative flex flex-col rounded-2xl border border-white/[0.08] bg-white/[0.015] p-6 md:p-8 transition-all duration-300 hover:border-[var(--lime)]/30 hover:bg-white/[0.03]"
             >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] font-bold">
-                ✕
+              <span className="font-display text-5xl md:text-6xl font-bold text-[var(--lime)]/30 leading-none transition-colors group-hover:text-[var(--lime)]/60">
+                {p.n}
               </span>
-              <p className="text-sm text-[var(--cocoa-soft)]">{sign}</p>
-            </motion.div>
+              <h3 className="mt-5 h-sub text-white">{p.t}</h3>
+              <p className="mt-3 text-sm md:text-base leading-relaxed text-white/60">
+                {p.d}
+              </p>
+            </div>
           ))}
         </div>
 
-        <p className="mt-10 text-center text-base text-[var(--cocoa-soft)]">
-          Se dois desses sinais te descrevem, o problema não é você.
-          <br className="hidden md:block" />
-          Ninguém te deu <strong className="text-[var(--cocoa)]">um sistema</strong> pra transformar IA em produtividade
-          de verdade.
-        </p>
+        {/* Pull quote */}
+        <div className="mx-auto mt-16 md:mt-24 max-w-3xl border-l-2 border-[var(--lime)] pl-6 md:pl-8">
+          <p className="font-display text-xl md:text-2xl lg:text-3xl leading-snug text-white/90 italic">
+            "O problema não é a ferramenta. É ninguém ter te mostrado como encaixar ela no
+            seu trabalho de verdade."
+          </p>
+          <p className="mt-4 text-sm uppercase tracking-[0.2em] text-white/45">
+            — Mariana Marques
+          </p>
+        </div>
       </div>
     </section>
   );

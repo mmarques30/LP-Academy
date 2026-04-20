@@ -6,7 +6,8 @@
 
 @theme inline {
   --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-display: "Sora", "Inter", sans-serif;
+  --font-accent: "Montserrat Alternates", "Sora", sans-serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -35,60 +36,59 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-surface-alt: var(--surface-alt);
-  --color-surface-deep: var(--surface-deep);
-  --color-brand: var(--brand);
-  --color-brand-bright: var(--brand-bright);
-  --color-brand-dark: var(--brand-dark);
-  --color-cocoa: var(--cocoa);
-  --color-cocoa-soft: var(--cocoa-soft);
-  --color-cream: var(--cream);
-  --color-cream-dark: var(--cream-dark);
-  --color-offwhite: var(--offwhite);
   --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-lime: var(--lime);
+  --color-lime-bright: var(--lime-bright);
+  --color-lime-electric: var(--lime-electric);
+  --color-lime-deep: var(--lime-deep);
+  --color-lime-pale: var(--lime-pale);
   --color-alert: var(--alert);
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 1rem;
 
-  /* IAplicada — paleta oficial adaptada pra premium light */
-  --brand: #AFC040;          /* lime IAplicada */
-  --brand-bright: #C8DB55;   /* glow / hover */
-  --brand-dark: #7E9025;     /* deep lime (stroke, hover escuro) */
-  --cocoa: #2C1402;          /* chocolate oficial — headline */
-  --cocoa-soft: #4A2B0E;     /* cocoa claro — parágrafos */
-  --ink: #1A0F01;            /* quase preto — CTA texto */
-  --cream: #F6F1E6;          /* bege areia — fundo principal */
-  --cream-dark: #EDE5D2;     /* bege mais denso — section alt */
-  --offwhite: #FBF8F0;       /* fundo ultraclaro */
-  --alert: #DB2B42;          /* vermelho urgência */
+  /* IAplicada — paleta oficial do iaplicada.com */
+  --ink: #060707;            /* preto profundo — fundo principal */
+  --ink-2: #111304;          /* preto oliva — sections alt */
+  --ink-3: #212217;          /* carvão — cards/surfaces */
+  --surface: #0C0C04;        /* camada ultra escura */
+  --surface-alt: #2A320D;    /* oliva profundo — borders/surfaces */
 
-  --background: var(--cream);
-  --foreground: var(--cocoa);
-  --surface-alt: var(--cream-dark);
-  --surface-deep: var(--cocoa);
+  --lime: #AFC040;           /* verde lime — primário */
+  --lime-bright: #DFF54F;    /* lime brilhante — glow/accent */
+  --lime-electric: #DDFF00;  /* amarelo elétrico — pop */
+  --lime-deep: #738925;      /* verde escuro — hover/stroke */
+  --lime-pale: #D9DFA1;      /* lime pálido — bordas sutis */
+  --alert: #DB2B42;          /* alerta */
 
-  --card: var(--offwhite);
-  --card-foreground: var(--cocoa);
-  --popover: var(--offwhite);
-  --popover-foreground: var(--cocoa);
+  --background: var(--ink);
+  --foreground: #F2F2F2;
 
-  --primary: var(--brand);
-  --primary-foreground: var(--cocoa);
+  --card: var(--ink-3);
+  --card-foreground: #F2F2F2;
+  --popover: var(--ink-3);
+  --popover-foreground: #F2F2F2;
 
-  --secondary: var(--cream-dark);
-  --secondary-foreground: var(--cocoa);
-  --muted: var(--cream-dark);
-  --muted-foreground: #7A6A52;
-  --accent: var(--brand-bright);
-  --accent-foreground: var(--cocoa);
+  --primary: var(--lime);
+  --primary-foreground: var(--ink);
+
+  --secondary: var(--ink-2);
+  --secondary-foreground: #F2F2F2;
+  --muted: var(--ink-2);
+  --muted-foreground: #9BA08A;
+  --accent: var(--lime-bright);
+  --accent-foreground: var(--ink);
   --destructive: var(--alert);
   --destructive-foreground: #FFFFFF;
 
-  --border: #E3D8BF;
-  --input: #E3D8BF;
-  --ring: var(--brand-dark);
+  --border: rgba(217, 223, 161, 0.14);
+  --input: rgba(217, 223, 161, 0.14);
+  --ring: var(--lime);
 }
 
 @layer base {
@@ -97,95 +97,139 @@
   }
   html {
     scroll-behavior: smooth;
+    background-color: var(--ink);
   }
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.028em;
-    color: var(--cocoa);
+    letter-spacing: -0.025em;
+    color: #FFFFFF;
   }
   ::selection {
-    background: var(--brand);
-    color: var(--cocoa);
+    background: var(--lime);
+    color: var(--ink);
   }
 }
 
 @layer utilities {
-  .bg-hero-gradient {
+  /* Fundos */
+  .bg-hero {
     background:
-      radial-gradient(80% 70% at 50% 0%, color-mix(in oklab, var(--brand) 16%, transparent) 0%, transparent 65%),
-      linear-gradient(180deg, var(--cream) 0%, var(--offwhite) 100%);
+      radial-gradient(60% 50% at 50% 0%, rgba(175, 192, 64, 0.18) 0%, transparent 65%),
+      radial-gradient(40% 35% at 85% 40%, rgba(115, 137, 37, 0.14) 0%, transparent 70%),
+      linear-gradient(180deg, #060707 0%, #0A0C05 100%);
   }
-  .bg-section-soft {
-    background: linear-gradient(180deg, var(--offwhite) 0%, var(--cream) 100%);
+  .bg-section {
+    background: linear-gradient(180deg, #060707 0%, #111304 100%);
   }
-  .bg-section-dark {
-    background: linear-gradient(180deg, var(--cocoa) 0%, #1F0D02 100%);
-    color: var(--offwhite);
+  .bg-section-alt {
+    background: #0A0B05;
   }
-  .bg-section-brand {
-    background: linear-gradient(180deg, var(--brand) 0%, var(--brand-dark) 100%);
-    color: var(--cocoa);
+  .bg-section-lime {
+    background: linear-gradient(140deg, #AFC040 0%, #738925 100%);
+    color: var(--ink);
   }
-  .text-highlight {
-    color: var(--brand-dark);
-    font-weight: 800;
-  }
-  .text-gradient-brand {
-    background: linear-gradient(90deg, var(--brand-dark) 0%, var(--brand) 100%);
+
+  /* Tipografia */
+  .text-gradient-lime {
+    background: linear-gradient(90deg, #DFF54F 0%, #AFC040 60%, #738925 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+  .text-dim {
+    color: #9BA08A;
+  }
+  .text-dim-soft {
+    color: #C5C9B3;
+  }
+
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[var(--cocoa)] px-7 py-4 text-sm md:text-base font-bold text-[var(--offwhite)] shadow-[0_10px_30px_-10px_rgba(44,20,2,0.45)] transition-all duration-200 hover:bg-[var(--brand)] hover:text-[var(--cocoa)] hover:scale-[1.02];
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[var(--lime)] px-6 py-3 text-sm md:text-base font-semibold text-[var(--ink)] transition-all duration-200 hover:bg-[var(--lime-bright)] hover:shadow-[0_0_30px_-5px_rgba(223,245,79,0.6)];
   }
   .btn-primary-xl {
-    @apply inline-flex items-center justify-center gap-3 rounded-full bg-[var(--brand)] px-10 py-5 text-base md:text-lg font-extrabold text-[var(--cocoa)] shadow-[0_20px_50px_-15px_rgba(175,192,64,0.55)] ring-1 ring-[var(--brand-dark)]/20 transition-all duration-200 hover:bg-[var(--brand-bright)] hover:scale-[1.02];
+    @apply inline-flex items-center justify-center gap-3 rounded-full bg-[var(--lime)] px-8 py-4 md:px-10 md:py-5 text-base md:text-lg font-bold text-[var(--ink)] shadow-[0_10px_40px_-10px_rgba(175,192,64,0.55)] transition-all duration-200 hover:bg-[var(--lime-bright)] hover:shadow-[0_15px_50px_-5px_rgba(223,245,79,0.7)] hover:-translate-y-0.5;
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)]/15 px-5 py-2.5 text-sm font-semibold text-[var(--cocoa)] transition-colors hover:border-[var(--cocoa)] hover:bg-[var(--cream-dark)];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm font-medium text-white/90 backdrop-blur transition-colors hover:border-[var(--lime)]/50 hover:bg-white/10 hover:text-white;
   }
+
+  /* Chips / Eyebrows */
   .chip {
-    @apply inline-flex items-center gap-2 rounded-full bg-[var(--cream-dark)] px-3.5 py-1.5 text-xs font-semibold text-[var(--cocoa-soft)];
+    @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3.5 py-1.5 text-xs font-medium text-[#C5C9B3] backdrop-blur;
   }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-[var(--lime)]/25 bg-[var(--lime)]/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--lime)] backdrop-blur;
+  }
+
+  /* Surfaces */
   .card-surface {
-    @apply rounded-2xl border border-[var(--border)] bg-[var(--card)];
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] backdrop-blur-sm;
   }
   .card-elevated {
-    @apply rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] shadow-[0_30px_70px_-40px_rgba(44,20,2,0.25)];
+    @apply rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.01] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.8)] backdrop-blur;
   }
+  .card-lime {
+    @apply rounded-3xl border border-[var(--lime)]/25 bg-gradient-to-br from-[var(--lime)]/15 via-[var(--lime)]/5 to-transparent;
+  }
+
+  /* Layout */
   .section-pad {
-    @apply px-6 py-20 md:py-28;
+    @apply px-4 py-16 sm:px-6 sm:py-20 md:py-28;
   }
   .container-narrow {
     @apply mx-auto w-full max-w-6xl;
   }
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl;
+  }
   .container-tight {
     @apply mx-auto w-full max-w-3xl;
   }
-  .eyebrow {
-    @apply inline-flex items-center gap-2 rounded-full bg-[var(--brand)]/15 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--brand-dark)] ring-1 ring-[var(--brand-dark)]/20;
-  }
-  .eyebrow-dark {
-    @apply inline-flex items-center gap-2 rounded-full bg-[var(--brand)]/15 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--brand-bright)] ring-1 ring-[var(--brand)]/30;
+
+  /* Typography scale */
+  .h-hero {
+    @apply font-display font-bold leading-[1.02] tracking-[-0.03em] text-[clamp(2.25rem,7vw,5.5rem)];
   }
   .h-section {
-    @apply font-display text-3xl md:text-4xl lg:text-5xl font-extrabold leading-[1.08];
+    @apply font-display font-bold leading-[1.08] tracking-[-0.025em] text-[clamp(1.75rem,4.5vw,3.25rem)];
   }
-  .h-hero {
-    @apply font-display text-4xl md:text-6xl lg:text-7xl font-extrabold leading-[1.02];
+  .h-sub {
+    @apply font-display font-semibold leading-tight tracking-tight text-xl sm:text-2xl md:text-3xl;
   }
   .lede {
-    @apply text-base md:text-lg text-[var(--cocoa-soft)] leading-relaxed;
+    @apply text-base sm:text-lg md:text-xl leading-relaxed text-[#C5C9B3];
   }
-  .divider-brand {
-    background: linear-gradient(90deg, transparent, var(--brand) 50%, transparent);
+
+  /* Dividers / ornaments */
+  .divider-lime {
+    background: linear-gradient(90deg, transparent, rgba(175, 192, 64, 0.4) 50%, transparent);
     height: 1px;
+  }
+  .ring-glow-lime {
+    box-shadow: 0 0 0 1px rgba(175, 192, 64, 0.2), 0 0 40px -5px rgba(175, 192, 64, 0.3);
+  }
+
+  /* Grid pattern (subtle) */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(217, 223, 161, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(217, 223, 161, 0.04) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+  .mask-fade-edges {
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
   }
 }
