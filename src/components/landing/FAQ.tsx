@@ -1,60 +1,70 @@
 import { useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 
 const faqs = [
-  { q: "Eu preciso saber alguma coisa de IA pra entrar?", a: "Não. O Academy tem trilhas do zero ao avançado. Se você nunca abriu um ChatGPT, começa pela Trilha 1. Se já usa, pula direto pras aplicações avançadas." },
-  { q: "Quanto tempo por semana eu preciso dedicar?", a: "O mínimo útil é 2h/semana: 1h na aula de segunda + 1h aplicando. Quem dedica 3–4h/semana avança bem rápido. E tudo fica gravado pra quem faz no próprio ritmo." },
-  { q: "As aulas são ao vivo ou gravadas?", a: "As duas. Toda segunda tem aula ao vivo (19h30). Se não puder ao vivo, fica gravada enquanto a sua assinatura estiver ativa." },
-  { q: "Tem fidelidade ou contrato de carência?", a: "Não. É assinatura mensal. Cancele quando quiser direto no painel — sem multa, sem burocracia." },
-  { q: "Serve pra quem é empreendedor? E pra quem é CLT?", a: "Serve pros dois. Os casos, exemplos e prompts cobrem ambos os contextos. A comunidade tem os dois perfis, o que enriquece muito a troca." },
-  { q: "Como funciona o Q&A semanal com a Mari?", a: "Quartas, 19h30, duração de 90 min. Você manda sua dúvida antes, a Mari prioriza e responde ao vivo. Fica gravado pra você rever depois." },
-  { q: "Quem é a MarIAna?", a: "Um agente de IA treinado com toda a expertise da Mari. Disponível 24/7 dentro da plataforma pra te destravar em prompt, ferramenta, workflow — ou só pensar em voz alta junto." },
-  { q: "E se eu travar na aplicação?", a: "Você tem três rotas: a MarIAna (24/7), a comunidade (+2.000 Aplicados ativos) e o Q&A ao vivo toda quarta. Muito difícil ficar parado por mais de 48h." },
-  { q: "Vocês emitem nota fiscal?", a: "Sim, para pessoa física ou jurídica. É só solicitar no e-mail do suporte após a compra." },
-  { q: "Como funciona a garantia de 7 dias?", a: "Você entra, testa por dentro: acessa as trilhas, participa de uma aula ao vivo, conversa com a MarIAna. Se nos primeiros 7 dias não fizer sentido, devolvemos 100% do valor. É só mandar um e-mail." },
+  {
+    q: "Sou iniciante total em IA. Dá pra entrar?",
+    a: "Dá. A Academy tem trilhas introdutórias que te colocam do zero ao uso real em 30 dias. A maior parte dos Aplicados começa sem conhecimento técnico nenhum.",
+  },
+  {
+    q: "Já uso ChatGPT. Vou aprender algo novo?",
+    a: "Sim. A diferença da Academy é o método: em vez de 'prompts mágicos', você aprende a integrar IA na sua rotina específica. Cases reais, ferramentas além do ChatGPT e a lógica por trás de cada uso.",
+  },
+  {
+    q: "E se eu não puder assistir ao vivo?",
+    a: "Todas as aulas ficam gravadas com transcrição. Você assiste no seu tempo. Os Q&A também, e você pode enviar pergunta antes se não puder estar presente.",
+  },
+  {
+    q: "Posso cancelar a qualquer momento?",
+    a: "Sim. Sem fidelidade, sem multa, sem formulário infinito. Dois cliques na área do aluno e pronto. E tem garantia de 7 dias se mudar de ideia.",
+  },
+  {
+    q: "Qual a diferença pra um curso tradicional de IA?",
+    a: "Curso tem começo, meio e fim — e suas dúvidas aparecem depois que acaba. A Academy é contínua: aulas novas toda semana, mentoria pra resolver problema real e comunidade que implementa junto.",
+  },
+  {
+    q: "Serve pra minha área (marketing, vendas, RH, finanças...)?",
+    a: "Sim. Temos 18 trilhas organizadas por função. Você escolhe a sua e aprofunda no que importa pro seu dia.",
+  },
 ];
 
 export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
+
   return (
-    <section id="faq" className="section-pad bg-[var(--cream)]">
-      <div className="container-narrow px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="eyebrow">FAQ</span>
-          <h2 className="mt-5 h-section">
-            Perguntas que <span className="text-gradient-brand">a gente mais recebe</span>
+    <section id="faq" className="relative bg-section-alt section-pad">
+      <div className="container-narrow px-4 sm:px-6">
+        <div className="text-center">
+          <span className="eyebrow">Dúvidas frequentes</span>
+          <h2 className="mt-6 h-section text-white">
+            Antes de entrar, <br className="sm:hidden" /> você pode estar
+            se <span className="text-gradient-lime">perguntando</span>…
           </h2>
-          <p className="mt-5 lede">
-            Ficou com alguma dúvida que não tá aqui? Chama o suporte pelo WhatsApp — responde gente
-            humana, não bot.
-          </p>
         </div>
 
-        <div className="mx-auto mt-12 max-w-3xl space-y-2.5">
+        <div className="mx-auto mt-12 md:mt-16 max-w-3xl divide-y divide-white/[0.08] rounded-2xl border border-white/[0.08] bg-white/[0.015]">
           {faqs.map((f, i) => {
             const isOpen = open === i;
             return (
-              <div
-                key={f.q}
-                className={`overflow-hidden rounded-2xl border bg-[var(--offwhite)] transition-colors ${
-                  isOpen ? "border-[var(--brand-dark)]/45 shadow-[0_20px_40px_-30px_rgba(44,20,2,0.25)]" : "border-[var(--border)]"
-                }`}
-              >
+              <div key={i}>
                 <button
                   onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-4 p-5 text-left"
+                  className="flex w-full items-start justify-between gap-6 px-5 py-5 text-left md:px-7 md:py-6 transition-colors hover:bg-white/[0.02]"
+                  aria-expanded={isOpen}
                 >
-                  <span className="font-semibold text-[var(--cocoa)]">{f.q}</span>
-                  <ChevronDown
-                    className={`h-5 w-5 shrink-0 transition-transform ${
-                      isOpen ? "rotate-180 text-[var(--brand-dark)]" : "text-[var(--cocoa-soft)]"
-                    }`}
-                  />
+                  <span className="font-display text-base md:text-lg font-semibold text-white">
+                    {f.q}
+                  </span>
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70">
+                    {isOpen ? <Minus className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
+                  </span>
                 </button>
                 {isOpen && (
-                  <p className="border-t border-[var(--border)] bg-[var(--cream)]/60 px-5 py-4 text-[var(--cocoa-soft)] leading-relaxed">
-                    {f.a}
-                  </p>
+                  <div className="px-5 pb-6 md:px-7 md:pb-7 -mt-1">
+                    <p className="text-sm md:text-base leading-relaxed text-white/65 max-w-[60ch]">
+                      {f.a}
+                    </p>
+                  </div>
                 )}
               </div>
             );

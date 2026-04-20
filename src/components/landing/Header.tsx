@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Logo } from "./Logo";
 
 const links = [
-  { href: "#metodo", label: "Método" },
-  { href: "#conteudo", label: "O que tem dentro" },
+  { href: "#autoridade", label: "Mariana" },
+  { href: "#academy", label: "Academy" },
   { href: "#oferta", label: "Investimento" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -13,7 +14,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 12);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -21,26 +22,23 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-[var(--border)] bg-[var(--cream)]/85 backdrop-blur-md"
-          : "border-b border-transparent bg-transparent"
+          ? "border-b border-white/[0.06] bg-[var(--ink)]/80 backdrop-blur-xl"
+          : "border-b border-transparent"
       }`}
     >
-      <div className="container-narrow flex items-center justify-between px-6 py-4">
-        <a href="#" className="flex items-center gap-2 font-display text-lg font-extrabold tracking-tight text-[var(--cocoa)]">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)] font-black">
-            IA
-          </span>
-          <span>plicada</span>
+      <div className="container-wide flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5">
+        <a href="#" aria-label="IAplicada" className="flex items-center text-white">
+          <Logo className="h-6 sm:h-7 w-auto" />
         </a>
 
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-[var(--cocoa-soft)] transition-colors hover:text-[var(--cocoa)]"
+              className="text-sm font-medium text-white/70 transition-colors hover:text-white"
             >
               {l.label}
             </a>
@@ -48,34 +46,38 @@ export function Header() {
         </nav>
 
         <div className="hidden md:block">
-          <a href="#oferta" className="btn-primary !py-2.5 !px-5 !text-sm">
+          <a href="#oferta" className="btn-primary !px-5 !py-2.5 !text-sm">
             Entrar na Academy
           </a>
         </div>
 
         <button
-          className="md:hidden text-[var(--cocoa)]"
+          className="md:hidden text-white"
           onClick={() => setOpen((v) => !v)}
-          aria-label="Abrir menu"
+          aria-label={open ? "Fechar menu" : "Abrir menu"}
         >
-          {open ? <X /> : <Menu />}
+          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[var(--cream)] px-6 py-4">
-          <nav className="flex flex-col gap-4">
+        <div className="md:hidden border-t border-white/[0.08] bg-[var(--ink)]/95 backdrop-blur-xl px-4 py-5 sm:px-6">
+          <nav className="flex flex-col gap-1">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="text-base font-semibold text-[var(--cocoa)]"
+                className="rounded-lg px-3 py-3 text-base font-medium text-white/85 transition-colors hover:bg-white/5 hover:text-white"
               >
                 {l.label}
               </a>
             ))}
-            <a href="#oferta" onClick={() => setOpen(false)} className="btn-primary">
+            <a
+              href="#oferta"
+              onClick={() => setOpen(false)}
+              className="btn-primary mt-3 w-full"
+            >
               Entrar na Academy
             </a>
           </nav>
