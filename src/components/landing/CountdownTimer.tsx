@@ -10,11 +10,16 @@ function getDiff(end: Date) {
 }
 
 export function CountdownTimer({ endDate }: { endDate: Date }) {
-  const [t, setT] = useState(() => getDiff(endDate));
+  const [t, setT] = useState<{ d: number; h: number; m: number; s: number } | null>(null);
   useEffect(() => {
+    setT(getDiff(endDate));
     const id = setInterval(() => setT(getDiff(endDate)), 1000);
     return () => clearInterval(id);
   }, [endDate]);
+
+  if (!t) {
+    return <div className="flex items-center justify-center gap-2 sm:gap-3 h-[72px]" aria-hidden />;
+  }
 
   const Box = ({ v, l }: { v: number; l: string }) => (
     <div className="flex flex-col items-center rounded-lg border border-[var(--brand)]/40 bg-[#1A1F10] px-4 py-3 min-w-[68px]">
