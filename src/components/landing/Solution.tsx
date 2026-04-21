@@ -35,12 +35,15 @@ export function Solution() {
 
             {/* Imagem lifestyle */}
             <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
-              <div className="aspect-[5/4] overflow-hidden">
+              <div className="aspect-[5/4] overflow-hidden bg-[var(--cream)]">
                 <img
-                  src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=1400&q=80"
-                  alt="Profissional aplicando IA no trabalho"
-                  className="img-warm h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]"
+                  src="/dashboard-aula47.jpg"
+                  alt="Dashboard de projeções operacionais construído em aula da IAplicada"
+                  width="1200"
+                  height="960"
+                  className="h-full w-full object-cover object-top transition-transform duration-[1200ms] hover:scale-[1.04]"
                   loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div className="flex items-center justify-between border-t border-[var(--cocoa)]/10 p-5">
