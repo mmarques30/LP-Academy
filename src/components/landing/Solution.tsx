@@ -37,7 +37,7 @@ export function Solution() {
             <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
               <div className="aspect-[5/4] overflow-hidden bg-[var(--cream)]">
                 <img
-                  src="/dashboard-aula47.jpg"
+                  src="/dashboard-aula47-v2.jpg"
                   alt="Dashboard de projeções operacionais construído em aula da IAplicada"
                   width="1200"
                   height="960"
