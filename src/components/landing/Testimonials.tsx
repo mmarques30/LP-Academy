@@ -1,70 +1,101 @@
+import { motion } from "framer-motion";
+import { Star } from "lucide-react";
+
 const testimonials = [
   {
-    q: "Em 3 semanas eu economizei um dia inteiro por semana. O ROI pagou a assinatura em um mês.",
-    n: "Carolina S.",
-    r: "Gerente de Marketing · SP",
-    i: "CS",
+    name: "Ana Paula Ferreira",
+    role: "Analista de Marketing · Ambev",
+    text: "Em 3 semanas automatizei 70% do meu reporting com Claude. Meu gestor me chamou pra liderar a iniciativa de IA do time. O Academy se pagou no primeiro mês.",
+    highlight: "15 horas por semana, recuperadas.",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=240&q=80",
   },
   {
-    q: "Parei de fazer curso solto. Aqui eu aplico toda semana. Virou parte da minha rotina.",
-    n: "Rafael P.",
-    r: "Head de Vendas · Tech B2B",
-    i: "RP",
+    name: "Rodrigo Santos",
+    role: "Head Comercial · Suzano",
+    text: "Eu achei que já sabia IA porque usava ChatGPT todo dia. O Academy mostrou o tanto que eu deixava na mesa. Hoje tenho 3 workflows rodando em Zapier — sozinhos.",
+    highlight: "3 workflows rodando sozinhos.",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80",
   },
   {
-    q: "A Mariana fala como quem realmente usa IA no trabalho, não como quem vende curso.",
-    n: "Patrícia L.",
-    r: "Diretora de RH · Grupo industrial",
-    i: "PL",
-  },
-  {
-    q: "O Q&A das quartas é o diferencial. Você leva um problema real e sai com a solução.",
-    n: "Eduardo M.",
-    r: "Product Manager · Fintech",
-    i: "EM",
+    name: "Júlia Costa",
+    role: "Fundadora · Agência digital",
+    text: "Entrei em janeiro. Em 4 meses dobrei a capacidade da agência sem contratar ninguém. A Mari ensina com uma clareza que não existe em outro lugar.",
+    highlight: "Dobrou a capacidade em 4 meses.",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&q=80",
   },
 ];
 
 export function Testimonials() {
   return (
-    <section className="relative bg-section-alt section-pad">
-      <div className="container-wide px-4 sm:px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="eyebrow">Quem já está dentro</span>
-          <h2 className="mt-6 h-section text-white">
-            +2.000 Aplicados que pararam de <em className="font-light text-white/60 not-italic">testar</em>
-            <br className="hidden sm:block" />
-            e começaram a <span className="text-gradient-lime">aplicar</span>.
-          </h2>
+    <section id="depoimentos" className="section-pad bg-[var(--cream)]">
+      <div className="container-wide px-6">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <span className="eyebrow">05 — Quem aplica</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Histórias de quem parou
+              <br />
+              <span className="serif-italic text-[var(--brand-dark)]">de adiar a IA.</span>
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-8 text-[15px] text-[var(--cocoa-soft)]">
+            <div>
+              <p className="font-display text-3xl text-[var(--cocoa)]">4,9<span className="text-lg text-[var(--cocoa-soft)]">/5</span></p>
+              <p className="mt-0.5 text-[12px] uppercase tracking-[0.18em]">satisfação</p>
+            </div>
+            <div className="h-10 w-px bg-[var(--cocoa)]/15" />
+            <div>
+              <p className="font-display text-3xl text-[var(--cocoa)]">93%</p>
+              <p className="mt-0.5 text-[12px] uppercase tracking-[0.18em]">ativos após 3m</p>
+            </div>
+            <div className="h-10 w-px bg-[var(--cocoa)]/15" />
+            <div>
+              <p className="font-display text-3xl text-[var(--cocoa)]">+2.000</p>
+              <p className="mt-0.5 text-[12px] uppercase tracking-[0.18em]">Aplicados</p>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-16 grid gap-5 md:mt-20 md:grid-cols-2 md:gap-6">
+        <div className="mt-16 grid gap-6 lg:grid-cols-3">
           {testimonials.map((t, i) => (
-            <figure
-              key={i}
-              className="relative rounded-3xl border border-white/[0.08] bg-gradient-to-b from-white/[0.04] to-white/[0.01] p-7 md:p-9"
+            <motion.article
+              key={t.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className={`group relative flex flex-col overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_70px_-30px_rgba(44,20,2,0.25)] ${
+                i === 1 ? "lg:translate-y-10" : ""
+              }`}
             >
-              <svg
-                aria-hidden
-                className="absolute right-7 top-7 h-8 w-8 text-[var(--lime)]/20"
-                viewBox="0 0 32 32"
-                fill="currentColor"
-              >
-                <path d="M10 8C5.6 8 2 11.6 2 16v8h10V14H8c0-2.2 1.8-4 4-4V8h-2zm14 0c-4.4 0-8 3.6-8 8v8h10V14h-4c0-2.2 1.8-4 4-4V8h-2z" />
-              </svg>
-              <blockquote className="font-display text-lg md:text-xl leading-snug text-white">
-                "{t.q}"
-              </blockquote>
-              <figcaption className="mt-6 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[var(--lime)] to-[var(--lime-deep)] font-display text-sm font-bold text-[var(--ink)]">
-                  {t.i}
-                </div>
+              <div className="flex items-center gap-1 text-[var(--brand-dark)]">
+                {[0, 1, 2, 3, 4].map((k) => (
+                  <Star key={k} className="h-3.5 w-3.5 fill-current" />
+                ))}
+              </div>
+
+              <p className="mt-7 font-display text-[22px] leading-[1.2] text-[var(--cocoa)]">
+                "{t.highlight}"
+              </p>
+
+              <p className="mt-5 text-[15px] leading-[1.6] text-[var(--cocoa-soft)]">
+                {t.text}
+              </p>
+
+              <div className="mt-8 flex items-center gap-4 border-t border-[var(--cocoa)]/10 pt-6">
+                <img
+                  src={t.avatar}
+                  alt={t.name}
+                  className="img-warm h-12 w-12 rounded-full border border-[var(--cocoa)]/10 object-cover"
+                  loading="lazy"
+                />
                 <div>
-                  <div className="text-sm font-semibold text-white">{t.n}</div>
-                  <div className="text-xs text-white/50">{t.r}</div>
+                  <p className="font-display text-[17px] text-[var(--cocoa)]">{t.name}</p>
+                  <p className="text-[13px] text-[var(--cocoa-soft)]">{t.role}</p>
                 </div>
-              </figcaption>
-            </figure>
+              </div>
+            </motion.article>
           ))}
         </div>
       </div>

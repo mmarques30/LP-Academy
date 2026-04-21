@@ -1,91 +1,153 @@
-import { Check, ArrowUpRight, Shield } from "lucide-react";
+import { motion } from "framer-motion";
+import { Check, ArrowRight, Shield, Lock } from "lucide-react";
 
-const included = [
-  "Aula ao vivo toda segunda · 19h30",
-  "Q&A da sua rotina toda quarta",
-  "18 trilhas práticas por função",
-  "Biblioteca de +100 prompts testados",
-  "Mapa de +50 ferramentas de IA",
-  "Comunidade no Discord · 24/7",
-  "Aulas gravadas com transcrição",
-  "MarIAna — assistente IA privada",
+const CHECKOUT_MONTHLY = "#";
+const CHECKOUT_ANNUAL = "#";
+
+const includes = [
+  "18 trilhas + novos conteúdos quinzenais",
+  "Aula ao vivo, toda segunda · 19h30",
+  "Q&A com a Mari, toda quarta · 19h30",
+  "MarIAna · agente IA 24/7 com a expertise da Mari",
+  "Comunidade de +2.000 Aplicados ativos",
+  "Prompts, templates e workflows em Claude, Zapier e Manus",
+  "Gravação de todas as aulas ao vivo",
+  "Sem fidelidade · cancele quando quiser",
+];
+
+const annualExtras = [
+  "2 meses grátis (economia de R$ 1.764)",
+  "Encontro presencial anual com a Mari",
+  "Prioridade em Q&A e novas turmas",
 ];
 
 export function Offer() {
   return (
-    <section id="oferta" className="relative bg-section section-pad">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-grid opacity-30 mask-fade-b"
-      />
-      <div className="container-wide relative px-4 sm:px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <span className="eyebrow">Investimento</span>
-          <h2 className="mt-6 h-section text-white">
-            Menos que um jantar.
-            <br />
-            O <span className="text-gradient-lime">dia inteiro</span> que você recupera.
-          </h2>
+    <section id="investimento" className="section-pad bg-[var(--cream)]">
+      <div className="container-wide px-6">
+        <div className="grid items-end gap-6 md:grid-cols-2 md:gap-12">
+          <div>
+            <span className="eyebrow">06 — Investimento</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Menos de <span className="serif-italic text-[var(--brand-dark)]">R$ 5 por dia.</span>
+              <br />
+              Sem fidelidade.
+            </h2>
+          </div>
+          <p className="text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">
+            Você entra hoje e testa por dentro. Se em 7 dias o Academy não fizer
+            sentido, devolvemos 100% do valor — sem burocracia.
+          </p>
         </div>
 
-        <div className="mx-auto mt-14 md:mt-16 max-w-4xl">
-          <div className="relative overflow-hidden rounded-[2rem] border border-[var(--lime)]/25 bg-gradient-to-br from-[var(--ink-3)] via-[var(--ink-2)] to-[var(--ink)] p-8 md:p-12">
-            {/* Glow corner */}
+        <div className="mt-16 grid gap-6 lg:grid-cols-[1fr_1.15fr]">
+          {/* Mensal */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col rounded-[28px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 md:p-10"
+          >
+            <div className="flex items-center justify-between">
+              <span className="mono-label text-[var(--cocoa-soft)]">Mensal</span>
+              <span className="chip">Sem fidelidade</span>
+            </div>
+
+            <div className="mt-10 flex items-end gap-2">
+              <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--cocoa)]">
+                R$ 146
+              </span>
+              <span className="mb-3 text-[var(--cocoa-soft)]">/mês</span>
+            </div>
+            <p className="mt-2 text-sm text-[var(--cocoa-soft)]">
+              Cobrança recorrente · cancele quando quiser.
+            </p>
+
+            <div className="my-8 h-px bg-[var(--cocoa)]/10" />
+
+            <ul className="space-y-3.5">
+              {includes.slice(0, 5).map((i) => (
+                <li key={i} className="flex items-start gap-3 text-[15px] text-[var(--cocoa)]">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-dark)]" strokeWidth={2.5} />
+                  <span>{i}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={CHECKOUT_MONTHLY}
+              className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)] bg-transparent px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--cocoa)] hover:text-[var(--offwhite)] md:mt-12"
+            >
+              Assinar mensal
+              <ArrowRight className="h-4 w-4" />
+            </a>
+
+            <p className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--cocoa-soft)]">
+              <Lock className="h-3.5 w-3.5" /> Checkout seguro · Pix ou cartão
+            </p>
+          </motion.div>
+
+          {/* Anual */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative flex flex-col overflow-hidden rounded-[28px] bg-[var(--cocoa)] p-8 text-[var(--offwhite)] shadow-[0_40px_100px_-30px_rgba(44,20,2,0.55)] md:p-10"
+          >
             <div
               aria-hidden
-              className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full blur-[100px]"
-              style={{ background: "radial-gradient(circle, rgba(175,192,64,0.4), transparent 70%)" }}
+              className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full blur-[80px]"
+              style={{ background: "color-mix(in oklab, var(--brand) 25%, transparent)" }}
             />
 
-            <div className="relative grid gap-10 md:grid-cols-12 md:gap-12">
-              <div className="md:col-span-5">
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--lime)]">
-                  Academy · Assinatura mensal
-                </p>
-                <div className="mt-5 flex items-baseline gap-2">
-                  <span className="font-display text-5xl md:text-7xl font-bold text-white">
-                    R$ 147
-                  </span>
-                  <span className="text-base md:text-lg text-white/50">/mês</span>
-                </div>
-                <p className="mt-2 text-sm text-white/55">
-                  Equivale a <strong className="text-white/80">R$ 4,90/dia</strong>.
-                </p>
-
-                <div className="mt-8 flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4">
-                  <Shield className="mt-0.5 h-5 w-5 shrink-0 text-[var(--lime)]" />
-                  <div className="text-sm text-white/75">
-                    <strong className="text-white">Garantia de 7 dias.</strong> Se não for pra
-                    você, a gente devolve 100% — sem burocracia.
-                  </div>
-                </div>
-
-                <a href="#" className="btn-primary-xl mt-8 w-full">
-                  Começar agora
-                  <ArrowUpRight className="h-5 w-5" />
-                </a>
-                <p className="mt-3 text-center text-xs text-white/40">
-                  Pagamento seguro · Cartão, Pix ou boleto · Cancele quando quiser
-                </p>
-              </div>
-
-              <div className="md:col-span-7">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
-                  O que está incluído
-                </p>
-                <ul className="mt-5 grid gap-3">
-                  {included.map((l) => (
-                    <li key={l} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[var(--lime)] text-[var(--ink)]">
-                        <Check className="h-3 w-3" strokeWidth={3} />
-                      </span>
-                      <span className="text-sm md:text-base text-white/85">{l}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="relative flex items-center justify-between">
+              <span className="mono-label text-[var(--brand)]">Anual · recomendado</span>
+              <span className="rounded-full bg-[var(--brand)] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--cocoa)]">
+                Mais escolhido
+              </span>
             </div>
-          </div>
+
+            <div className="relative mt-10">
+              <p className="text-sm text-[var(--offwhite)]/50 line-through">R$ 1.764/ano</p>
+              <div className="mt-1 flex items-end gap-2">
+                <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--offwhite)]">
+                  12× R$ 333
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-[var(--offwhite)]/70">
+                Ou <strong className="text-[var(--offwhite)]">R$ 3.997 à vista</strong> · equivale a 2 meses grátis
+              </p>
+            </div>
+
+            <div className="my-8 h-px bg-[var(--offwhite)]/15" />
+
+            <ul className="space-y-3.5">
+              <li className="flex items-start gap-3 text-[15px] text-[var(--offwhite)]">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" strokeWidth={2.5} />
+                <span><strong>Tudo do mensal</strong> com acesso de 12 meses</span>
+              </li>
+              {annualExtras.map((i) => (
+                <li key={i} className="flex items-start gap-3 text-[15px] text-[var(--offwhite)]">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" strokeWidth={2.5} />
+                  <span>{i}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href={CHECKOUT_ANNUAL}
+              className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--brand-bright)] md:mt-12"
+            >
+              Garantir plano anual
+              <ArrowRight className="h-4 w-4" />
+            </a>
+
+            <p className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--offwhite)]/60">
+              <Shield className="h-3.5 w-3.5" /> 7 dias de garantia total
+            </p>
+          </motion.div>
         </div>
       </div>
     </section>

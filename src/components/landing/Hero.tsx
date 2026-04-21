@@ -1,158 +1,193 @@
+import { motion } from "framer-motion";
+import { ArrowRight, Star } from "lucide-react";
 import { useState } from "react";
-import { ArrowUpRight, Star } from "lucide-react";
+
+const FALLBACK_PORTRAIT =
+  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80";
 
 export function Hero() {
-  const [imgError, setImgError] = useState(false);
+  const [src, setSrc] = useState("/mariana.jpg");
   return (
-    <section className="relative isolate overflow-hidden bg-hero pt-28 pb-20 sm:pt-32 md:pt-40 md:pb-28">
-      {/* Grid pattern */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-grid opacity-40 mask-fade-b"
-      />
-      {/* Lime glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 h-[600px] w-[600px] -translate-x-1/2 rounded-full blur-[120px] opacity-60"
-        style={{ background: "radial-gradient(circle, rgba(175,192,64,0.35), transparent 60%)" }}
-      />
+    <section className="relative overflow-hidden bg-hero-canvas pt-32 md:pt-36">
+      {/* Topo — marquee de credibilidade */}
+      <div className="border-y border-[var(--cocoa)]/10 py-2.5">
+        <div className="flex overflow-hidden">
+          <div className="marquee flex shrink-0 items-center gap-10 whitespace-nowrap px-5 text-[12px] font-medium uppercase tracking-[0.22em] text-[var(--cocoa-soft)]">
+            {Array.from({ length: 2 }).map((_, idx) => (
+              <div key={idx} className="flex items-center gap-10">
+                <span>+2.000 profissionais aplicando</span>
+                <span className="text-[var(--brand-dark)]">◆</span>
+                <span>Cimed · Ambev · Amazon · Suzano · PSA · Tur Star</span>
+                <span className="text-[var(--brand-dark)]">◆</span>
+                <span>Aula ao vivo toda segunda</span>
+                <span className="text-[var(--brand-dark)]">◆</span>
+                <span>18 trilhas + conteúdo novo quinzenal</span>
+                <span className="text-[var(--brand-dark)]">◆</span>
+                <span>Q&amp;A com a Mari toda quarta</span>
+                <span className="text-[var(--brand-dark)]">◆</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-      <div className="container-wide relative px-4 sm:px-6">
-        <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-8">
-          {/* Coluna texto */}
-          <div className="order-2 lg:order-1 lg:col-span-7">
-            <div className="flex items-center gap-3">
-              <span className="eyebrow">
-                <span className="h-1.5 w-1.5 rounded-full bg-[var(--lime)]" />
-                Academy · Edição 2026
-              </span>
-            </div>
+      <div className="container-wide relative px-6">
+        <div className="grid gap-14 pt-16 pb-24 md:pt-20 md:pb-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-12 lg:pt-28">
+          {/* Coluna copy */}
+          <div className="flex flex-col">
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="eyebrow"
+            >
+              Academy · Temporada 2026
+            </motion.span>
 
-            <h1 className="mt-6 h-hero text-white">
-              Pare de <span className="italic font-light text-[#C5C9B3]">testar</span> IA.
-              <br className="hidden sm:block" />
-              Comece a <span className="text-gradient-lime">aplicar</span>.
-            </h1>
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 h-display text-[var(--cocoa)]"
+            >
+              Aplicar IA<br />
+              <span className="serif-italic text-[var(--brand-dark)]">de verdade.</span>
+              <br />
+              Sem hype.
+            </motion.h1>
 
-            <p className="mt-6 lede max-w-xl">
-              A Academy que transforma ferramentas de IA em resultado real no seu trabalho.
-              Aulas ao vivo toda segunda, mentoria semanal e uma comunidade que implementa
-              junto — sem hype, sem promessa mágica.
-            </p>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.18 }}
+              className="mt-9 max-w-[46ch] text-[17px] leading-[1.55] text-[var(--cocoa-soft)] md:text-[19px]"
+            >
+              Recupere 10 a 20h por semana com IA prática. Aula ao vivo toda
+              segunda, mentoria com a Mari toda quarta e o método APLICA — o
+              sistema que tira ChatGPT do rascunho e coloca no seu fluxo de trabalho.
+            </motion.p>
 
-            <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-              <a href="#oferta" className="btn-primary-xl w-full sm:w-auto">
-                Entrar na Academy
-                <ArrowUpRight className="h-5 w-5" />
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
+            >
+              <a href="#investimento" className="btn-primary-xl">
+                Começar agora — R$ 146/mês
+                <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href="#academy"
-                className="text-sm font-medium text-white/70 underline-offset-4 transition-colors hover:text-white hover:underline"
+                href="#metodo"
+                className="inline-flex items-center gap-2 px-2 py-2 text-sm font-medium text-[var(--cocoa-soft)] transition-colors hover:text-[var(--cocoa)]"
               >
-                Ver o que tem dentro →
+                Ver o método APLICA
+                <span aria-hidden>→</span>
               </a>
-            </div>
+            </motion.div>
 
-            <p className="mt-5 text-sm text-white/50">
-              R$ 147/mês · Sem fidelidade · Cancele quando quiser
-            </p>
-
-            {/* Prova social inline */}
-            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {/* Social proof minimalista */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.55 }}
+              className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-4 border-t border-[var(--cocoa)]/10 pt-6"
+            >
               <div className="flex items-center gap-3">
                 <div className="flex -space-x-2">
-                  {["#AFC040", "#DFF54F", "#738925", "#D9DFA1"].map((c, i) => (
-                    <span
-                      key={i}
-                      className="h-8 w-8 rounded-full border-2 border-[var(--ink)] ring-1 ring-white/10"
-                      style={{ background: c }}
-                    />
-                  ))}
-                </div>
-                <div className="text-sm">
-                  <div className="font-semibold text-white">+2.000 Aplicados</div>
-                  <div className="text-white/50">aplicando IA no dia a dia</div>
-                </div>
-              </div>
-
-              <div className="hidden h-10 w-px bg-white/10 sm:block" />
-
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-0.5">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <Star key={i} className="h-4 w-4 fill-[var(--lime)] text-[var(--lime)]" />
-                  ))}
-                </div>
-                <div className="text-sm">
-                  <span className="font-semibold text-white">4.9/5</span>
-                  <span className="ml-1 text-white/50">· 380+ avaliações</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Coluna foto */}
-          <div className="order-1 lg:order-2 lg:col-span-5">
-            <div className="relative mx-auto max-w-md lg:max-w-none">
-              {/* Moldura com glow */}
-              <div
-                aria-hidden
-                className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[var(--lime)]/30 via-transparent to-[var(--lime-deep)]/20 blur-2xl"
-              />
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/[0.08] bg-white/[0.02] shadow-[0_40px_100px_-30px_rgba(0,0,0,0.8)]">
-                <div className="aspect-[3/4] w-full">
-                  {imgError ? (
-                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[var(--ink-3)] via-[var(--ink-2)] to-[var(--ink)]">
-                      <div className="flex flex-col items-center gap-3 text-center px-6">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[var(--lime)] to-[var(--lime-deep)]">
-                          <span className="font-display text-3xl font-bold text-[var(--ink)]">M</span>
-                        </div>
-                        <p className="font-display text-lg font-semibold text-white">Mariana Marques</p>
-                        <p className="text-xs text-white/40">
-                          Salve a foto em <code className="rounded bg-white/10 px-1.5 py-0.5 text-[var(--lime)]">public/mariana-hero.jpg</code>
-                        </p>
-                      </div>
-                    </div>
-                  ) : (
+                  {[
+                    "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80",
+                    "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=120&q=80",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80",
+                    "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
+                  ].map((u, i) => (
                     <img
-                      src="/mariana-hero.jpg"
-                      alt="Mariana Marques, fundadora da IAplicada"
-                      className="h-full w-full object-cover"
-                      loading="eager"
-                      onError={() => setImgError(true)}
+                      key={i}
+                      src={u}
+                      alt=""
+                      className="img-warm h-9 w-9 rounded-full border-2 border-[var(--cream)] object-cover"
                     />
-                  )}
+                  ))}
                 </div>
-
-                {/* Overlay com nome */}
-                <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--ink)] via-[var(--ink)]/70 to-transparent p-6 pt-20">
-                  <div className="flex items-end justify-between gap-4">
-                    <div>
-                      <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--lime)]">
-                        Fundadora
-                      </p>
-                      <p className="mt-1 font-display text-xl font-bold text-white">
-                        Mariana Marques
-                      </p>
-                      <p className="text-sm text-white/60">
-                        Ex-Amazon, Suzano · 10+ anos em produto
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <span className="text-sm text-[var(--cocoa-soft)]">
+                  <strong className="font-semibold text-[var(--cocoa)]">+2.000</strong> Aplicados ativos
+                </span>
               </div>
-
-              {/* Badge flutuante */}
-              <div className="absolute -right-4 top-8 hidden rotate-3 rounded-2xl border border-white/10 bg-[var(--ink-3)]/90 px-4 py-3 backdrop-blur md:block">
-                <div className="flex items-center gap-2">
-                  <span className="flex h-2 w-2 animate-pulse rounded-full bg-[var(--lime)]" />
-                  <p className="text-[11px] font-semibold uppercase tracking-wider text-white/80">
-                    Ao vivo · Segundas 19h30
-                  </p>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-0.5 text-[var(--brand-dark)]">
+                  {[0, 1, 2, 3, 4].map((i) => (
+                    <Star key={i} className="h-4 w-4 fill-current" />
+                  ))}
                 </div>
+                <span className="text-sm text-[var(--cocoa-soft)]">
+                  <strong className="font-semibold text-[var(--cocoa)]">4,9/5</strong> em 380+ avaliações
+                </span>
               </div>
-            </div>
+            </motion.div>
           </div>
+
+          {/* Coluna imagem */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+            className="relative lg:pl-10"
+          >
+            <div className="relative">
+              {/* Moldura com grain */}
+              <div className="relative overflow-hidden rounded-[28px] bg-[var(--cocoa)] shadow-[0_40px_100px_-40px_rgba(44,20,2,0.45)] ring-1 ring-[var(--cocoa)]/10">
+                <div className="relative aspect-[4/5]">
+                  <img
+                    src={src}
+                    onError={() => setSrc(FALLBACK_PORTRAIT)}
+                    alt="Mariana Marques, fundadora da IAplicada"
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                  />
+                  {/* overlay warm */}
+                  <div
+                    aria-hidden
+                    className="absolute inset-0 grain mix-blend-multiply opacity-40"
+                  />
+                </div>
+                {/* Caption no rodapé da foto */}
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between bg-gradient-to-t from-[var(--cocoa)] via-[var(--cocoa)]/70 to-transparent p-6 pt-20 text-[var(--offwhite)]">
+                  <div>
+                    <p className="mono-label opacity-70">Fundadora</p>
+                    <p className="mt-1.5 font-display text-2xl">Mariana Marques</p>
+                  </div>
+                  <span className="chip border-[var(--offwhite)]/25 bg-[var(--offwhite)]/10 !text-[var(--offwhite)]">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--brand)]" />
+                    Aula ao vivo · seg, 19h30
+                  </span>
+                </div>
+              </div>
+
+              {/* Card flutuante — stat */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.8 }}
+                className="absolute -left-6 bottom-10 hidden rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-5 shadow-[0_20px_50px_-20px_rgba(44,20,2,0.25)] md:block"
+              >
+                <p className="mono-label text-[var(--cocoa-soft)]">Satisfação</p>
+                <p className="mt-2 font-display text-4xl text-[var(--cocoa)]">4,9<span className="text-xl text-[var(--cocoa-soft)]">/5</span></p>
+                <p className="mt-1 text-xs text-[var(--cocoa-soft)]">380+ reviews</p>
+              </motion.div>
+
+              {/* Card flutuante — método */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: 0.95 }}
+                className="absolute -right-4 top-8 hidden rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--brand)] p-4 shadow-[0_20px_50px_-20px_rgba(175,192,64,0.55)] md:block"
+              >
+                <p className="mono-label text-[var(--cocoa)]/80">Método</p>
+                <p className="mt-1 font-display text-xl text-[var(--cocoa)]">APLICA</p>
+                <p className="mt-0.5 text-xs text-[var(--cocoa)]/75">6 passos</p>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </section>

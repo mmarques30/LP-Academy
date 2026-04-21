@@ -1,108 +1,91 @@
-import { Calendar, Users, Compass, Wrench } from "lucide-react";
+import { motion } from "framer-motion";
 
-const pillars = [
-  {
-    icon: Calendar,
-    t: "Aula ao vivo toda segunda",
-    d: "19h30. Tema aplicado ao trabalho real. Gravada e com transcrição pra você revisar quando quiser.",
-  },
-  {
-    icon: Users,
-    t: "Q&A toda quarta",
-    d: "Você traz um caso da sua rotina. Resolvemos ao vivo com IA. Sem teoria, sem slide.",
-  },
-  {
-    icon: Compass,
-    t: "Trilhas por função",
-    d: "18 trilhas práticas pra marketing, vendas, produto, RH, finanças e liderança. Você escolhe.",
-  },
-  {
-    icon: Wrench,
-    t: "Biblioteca viva de prompts",
-    d: "+100 prompts testados em times reais, organizados por cenário. Copia, adapta e usa.",
-  },
+const aplica = [
+  { letter: "A", title: "Analisar", desc: "Onde IA gera valor real no seu trabalho." },
+  { letter: "P", title: "Priorizar", desc: "Qual workflow destravar primeiro." },
+  { letter: "L", title: "Limpar", desc: "Cortar ruído e criar o prompt certo." },
+  { letter: "I", title: "Implementar", desc: "Rodar na semana, não no próximo tri." },
+  { letter: "C", title: "Calibrar", desc: "Afinar até virar rotina que entrega." },
+  { letter: "A", title: "Automatizar", desc: "Tirar você da operação e multiplicar." },
 ];
 
-export function Academy() {
+export function Solution() {
   return (
-    <section id="academy" className="relative bg-section section-pad">
-      <div className="container-wide px-4 sm:px-6">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
-          <div className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start">
-            <span className="eyebrow">O que é a Academy</span>
-            <h2 className="mt-6 h-section text-white">
-              Uma <span className="text-gradient-lime">assinatura</span> —
-              não um curso.
+    <section id="metodo" className="section-pad bg-[var(--cream)]">
+      <div className="container-wide px-6">
+        <div className="grid items-start gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          {/* Lado copy */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:sticky lg:top-28"
+          >
+            <span className="eyebrow">02 — A solução</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Método <span className="serif-italic text-[var(--brand-dark)]">APLICA</span>.
+              <br />
+              6 passos. Toda semana.
             </h2>
-            <p className="mt-6 lede">
-              Cursos terminam. A sua rotina não. A Academy é um ambiente contínuo de
-              aprendizado: aulas novas toda semana, mentoria ao vivo e uma comunidade que
-              implementa junto.
+            <p className="mt-7 lede">
+              O sistema que destrava profissionais brilhantes do medo de IA —
+              e transforma cada aula em uma entrega concreta na sua rotina.
             </p>
 
-            <div className="mt-10 flex items-center gap-4 rounded-2xl border border-[var(--lime)]/25 bg-[var(--lime)]/5 p-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--lime)] text-[var(--ink)]">
-                <span className="text-sm font-bold">R$</span>
+            {/* Imagem lifestyle */}
+            <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
+              <div className="aspect-[5/4] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=1400&q=80"
+                  alt="Profissional aplicando IA no trabalho"
+                  className="img-warm h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]"
+                  loading="lazy"
+                />
               </div>
-              <div>
-                <p className="font-semibold text-white">R$ 147/mês · sem fidelidade</p>
-                <p className="text-sm text-white/60">
-                  Cancela quando quiser. Sem pegadinha.
+              <div className="flex items-center justify-between border-t border-[var(--cocoa)]/10 p-5">
+                <p className="text-sm text-[var(--cocoa-soft)]">
+                  <span className="font-display text-[var(--cocoa)]">Aula 47</span>{" "}
+                  · <em className="serif-italic">Reporting com Claude em 12 min</em>
                 </p>
+                <span className="mono-label text-[var(--cocoa-soft)]">seg · 19h30</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-7">
-            <div className="grid gap-4 sm:grid-cols-2">
-              {pillars.map((p) => {
-                const Icon = p.icon;
-                return (
-                  <div
-                    key={p.t}
-                    className="group rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 transition-all hover:border-[var(--lime)]/30 hover:bg-white/[0.04]"
+          {/* Grid APLICA */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            {aplica.map((p, i) => (
+              <motion.article
+                key={`${p.letter}-${i}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: (i % 2) * 0.08 }}
+                className={`group relative overflow-hidden rounded-[22px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-7 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_60px_-30px_rgba(44,20,2,0.25)] ${
+                  i === 0 ? "sm:translate-y-8" : ""
+                } ${i === 3 ? "sm:translate-y-8" : ""}`}
+              >
+                <div className="flex items-baseline justify-between">
+                  <span className="font-mono text-[11px] tracking-[0.22em] text-[var(--cocoa-soft)]">
+                    0{i + 1}
+                  </span>
+                  <span
+                    className="font-display text-[76px] leading-none text-[var(--brand)] opacity-80 transition-all duration-500 group-hover:opacity-100"
+                    aria-hidden
                   >
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--lime)]/12 text-[var(--lime)] transition-colors group-hover:bg-[var(--lime)] group-hover:text-[var(--ink)]">
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    <h3 className="mt-5 text-lg md:text-xl font-display font-semibold text-white">
-                      {p.t}
-                    </h3>
-                    <p className="mt-2 text-sm md:text-base leading-relaxed text-white/60">
-                      {p.d}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-
-            {/* Bônus em barra horizontal */}
-            <div className="mt-6 rounded-2xl border border-white/[0.08] bg-gradient-to-r from-[var(--ink-3)] to-transparent p-6 md:p-8">
-              <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[var(--lime)]">
-                Inclui
-              </p>
-              <div className="mt-4 grid gap-3 text-sm text-white/75 md:grid-cols-2 md:gap-x-8">
-                {[
-                  "Biblioteca de +100 prompts testados",
-                  "Mapa de +50 ferramentas de IA",
-                  "Comunidade no Discord · 24/7",
-                  "Aulas gravadas com transcrição",
-                  "Templates prontos por função",
-                  "MarIAna — assistente IA privada",
-                ].map((l) => (
-                  <div key={l} className="flex items-start gap-2">
-                    <span className="mt-1.5 block h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--lime)]" />
-                    <span>{l}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+                    {p.letter}
+                  </span>
+                </div>
+                <p className="mt-6 font-display text-2xl text-[var(--cocoa)]">{p.title}</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--cocoa-soft)]">
+                  {p.desc}
+                </p>
+              </motion.article>
+            ))}
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-// Backwards-compat export
-export const Solution = Academy;

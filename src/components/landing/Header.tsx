@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { Logo } from "./Logo";
 
 const links = [
-  { href: "#autoridade", label: "Mariana" },
+  { href: "#metodo", label: "Método" },
   { href: "#academy", label: "Academy" },
-  { href: "#oferta", label: "Investimento" },
-  { href: "#faq", label: "FAQ" },
+  { href: "#fundadora", label: "Fundadora" },
+  { href: "#investimento", label: "Investimento" },
 ];
 
 export function Header() {
@@ -14,7 +13,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -22,63 +21,71 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled
-          ? "border-b border-white/[0.06] bg-[var(--ink)]/80 backdrop-blur-xl"
-          : "border-b border-transparent"
+          ? "border-b border-[var(--cocoa)]/8 bg-[var(--cream)]/85 backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="container-wide flex items-center justify-between px-4 py-4 sm:px-6 sm:py-5">
-        <a href="#" aria-label="IAplicada" className="flex items-center text-white">
-          <Logo className="h-6 sm:h-7 w-auto" />
+      <div className="container-wide flex items-center justify-between px-6 py-5">
+        <a href="#" className="flex items-center gap-2.5 text-[var(--cocoa)]">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--cocoa)] text-[var(--brand)] font-display text-lg font-semibold">
+            i
+          </span>
+          <span className="font-display text-lg tracking-tight">
+            IAplicada<span className="text-[var(--cocoa-soft)]">/Academy</span>
+          </span>
         </a>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-9 lg:flex">
           {links.map((l) => (
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium text-white/70 transition-colors hover:text-white"
+              className="text-[13px] font-medium text-[var(--cocoa-soft)] transition-colors hover:text-[var(--cocoa)]"
             >
               {l.label}
             </a>
           ))}
         </nav>
 
-        <div className="hidden md:block">
-          <a href="#oferta" className="btn-primary !px-5 !py-2.5 !text-sm">
-            Entrar na Academy
+        <div className="hidden items-center gap-3 lg:flex">
+          <a
+            href="#investimento"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--cocoa)] px-5 py-2.5 text-[13px] font-medium text-[var(--offwhite)] transition-all hover:bg-[var(--ink)]"
+          >
+            Entrar pro Academy
           </a>
         </div>
 
         <button
-          className="md:hidden text-white"
+          className="text-[var(--cocoa)] lg:hidden"
           onClick={() => setOpen((v) => !v)}
-          aria-label={open ? "Fechar menu" : "Abrir menu"}
+          aria-label="Abrir menu"
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? <X /> : <Menu />}
         </button>
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/[0.08] bg-[var(--ink)]/95 backdrop-blur-xl px-4 py-5 sm:px-6">
-          <nav className="flex flex-col gap-1">
+        <div className="border-t border-[var(--cocoa)]/10 bg-[var(--cream)] px-6 py-6 lg:hidden">
+          <nav className="flex flex-col gap-5">
             {links.map((l) => (
               <a
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 text-base font-medium text-white/85 transition-colors hover:bg-white/5 hover:text-white"
+                className="font-display text-xl text-[var(--cocoa)]"
               >
                 {l.label}
               </a>
             ))}
             <a
-              href="#oferta"
+              href="#investimento"
               onClick={() => setOpen(false)}
-              className="btn-primary mt-3 w-full"
+              className="mt-3 inline-flex items-center justify-center rounded-full bg-[var(--cocoa)] px-6 py-3.5 text-sm font-medium text-[var(--offwhite)]"
             >
-              Entrar na Academy
+              Entrar pro Academy
             </a>
           </nav>
         </div>
