@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { VslIntro } from "@/components/landing/VslIntro";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { Problem } from "@/components/landing/Problem";
@@ -38,7 +37,6 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
-      <VslIntro />
       <Header />
       <Hero />
       <Problem />
