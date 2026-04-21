@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Instagram, Youtube, Linkedin } from "lucide-react";
-import { useState } from "react";
 
-const FALLBACK =
-  "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1400&q=80";
+const MARI_PHOTO = "/mariana.jpg";
 
 const credentials = [
   "+3 anos construindo a IAplicada",
@@ -20,8 +18,6 @@ const stats = [
 ];
 
 export function Authority() {
-  const [src, setSrc] = useState("/mariana-studio.jpg");
-
   return (
     <section id="fundadora" className="bg-section-dark relative overflow-hidden py-24 md:py-32 lg:py-40">
       <div
@@ -45,8 +41,7 @@ export function Authority() {
             <div className="relative overflow-hidden rounded-[28px] ring-1 ring-[var(--offwhite)]/10">
               <div className="aspect-[4/5]">
                 <img
-                  src={src}
-                  onError={() => setSrc(FALLBACK)}
+                  src={MARI_PHOTO}
                   alt="Mariana Marques"
                   className="h-full w-full object-cover"
                   loading="lazy"
