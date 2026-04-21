@@ -3,25 +3,25 @@ import { Star } from "lucide-react";
 
 const testimonials = [
   {
-    name: "Ana Paula Ferreira",
-    role: "Analista de Marketing · Ambev",
-    text: "Em 3 semanas automatizei 70% do meu reporting com Claude. Meu gestor me chamou pra liderar a iniciativa de IA do time. O Academy se pagou no primeiro mês.",
-    highlight: "15 horas por semana, recuperadas.",
-    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=240&q=80",
+    name: "Beatriz Franca",
+    role: "E-commerce · Aluna Academy",
+    highlight: "Criei uma calculadora de previsão de receita pro meu e-commerce.",
+    text: "Depois do hotseat da Mari minha cabeça ficou a mil. Criei uma calculadora onde brinco com os valores de tráfego, produtos e ticket médio — e ela já me dá uma estimativa super precisa pros próximos meses.",
+    avatar: "/avatar-beatriz.jpg",
   },
   {
-    name: "Rodrigo Santos",
-    role: "Head Comercial · Suzano",
-    text: "Eu achei que já sabia IA porque usava ChatGPT todo dia. O Academy mostrou o tanto que eu deixava na mesa. Hoje tenho 3 workflows rodando em Zapier — sozinhos.",
-    highlight: "3 workflows rodando sozinhos.",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=240&q=80",
+    name: "Karine Martins",
+    role: "Líder · Aluna Academy",
+    highlight: "Hoje consigo lidar com o mundo corporativo com mais ferramentas.",
+    text: "Não sei como agradecer todo o seu apoio nesta minha jornada de ser líder. Seu suporte foi fundamental pras minhas tomadas de decisão. Espero compartilhar muito do que aprendi com meu time.",
+    avatar: "/avatar-karine.jpg",
   },
   {
-    name: "Júlia Costa",
-    role: "Fundadora · Agência digital",
-    text: "Entrei em janeiro. Em 4 meses dobrei a capacidade da agência sem contratar ninguém. A Mari ensina com uma clareza que não existe em outro lugar.",
-    highlight: "Dobrou a capacidade em 4 meses.",
-    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=240&q=80",
+    name: "Géssina Zaniboni Feltrin",
+    role: "Aluna Academy",
+    highlight: "Aprender como usar IA na prática pra gerar impacto de verdade.",
+    text: "Mais do que entender o que cada ferramenta é, precisamos aprender como usá-la na prática. O curso da Mari me mostrou isso. Não é só sobre ChatGPT — existem muitas plataformas que abrem espaço pra gente pensar de forma mais estratégica.",
+    avatar: "/avatar-gessina.jpg",
   },
 ];
 
@@ -87,7 +87,7 @@ export function Testimonials() {
                 <img
                   src={t.avatar}
                   alt={t.name}
-                  className="img-warm h-12 w-12 rounded-full border border-[var(--cocoa)]/10 object-cover"
+                  className="h-12 w-12 rounded-full border border-[var(--cocoa)]/10 object-cover"
                   loading="lazy"
                 />
                 <div>

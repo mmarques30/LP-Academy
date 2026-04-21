@@ -7,12 +7,9 @@ import { Play } from "lucide-react";
 const YOUTUBE_ID = "YOUR_VSL_ID_HERE";
 
 const POSTER = "/mariana.jpg";
-const POSTER_FALLBACK =
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1200&q=80";
 
 export function HeroVslPlayer() {
   const [playing, setPlaying] = useState(false);
-  const [posterSrc, setPosterSrc] = useState(POSTER);
   const hasRealVideo = YOUTUBE_ID !== "YOUR_VSL_ID_HERE";
 
   return (
@@ -36,8 +33,7 @@ export function HeroVslPlayer() {
             ) : (
               <>
                 <img
-                  src={posterSrc}
-                  onError={() => setPosterSrc(POSTER_FALLBACK)}
+                  src={POSTER}
                   alt="Mariana Marques, fundadora da IAplicada"
                   className="h-full w-full object-cover"
                   loading="eager"
@@ -71,7 +67,7 @@ export function HeroVslPlayer() {
                     <p className="mono-label opacity-70">Fundadora</p>
                     <p className="mt-1.5 font-display text-2xl">Mariana Marques</p>
                   </div>
-                  <span className="chip border-[var(--offwhite)]/25 bg-[var(--offwhite)]/10 !text-[var(--offwhite)]">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-[var(--offwhite)]/25 bg-[var(--cocoa)]/40 px-3.5 py-1.5 text-xs font-medium text-[var(--offwhite)] backdrop-blur-md">
                     <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--brand)]" />
                     Aula ao vivo · seg, 19h30
                   </span>
