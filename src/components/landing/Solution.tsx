@@ -53,7 +53,7 @@ export function Solution() {
             </div>
           </motion.div>
 
-          {/* Grid APLICA */}
+          {/* Grid APLICA — clean 2×3 */}
           <div className="grid gap-4 sm:grid-cols-2">
             {aplica.map((p, i) => (
               <motion.article
@@ -61,17 +61,15 @@ export function Solution() {
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.55, delay: (i % 2) * 0.08 }}
-                className={`group relative overflow-hidden rounded-[22px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-7 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_60px_-30px_rgba(44,20,2,0.25)] ${
-                  i === 0 ? "sm:translate-y-8" : ""
-                } ${i === 3 ? "sm:translate-y-8" : ""}`}
+                transition={{ duration: 0.5, delay: (i % 2) * 0.06 + Math.floor(i / 2) * 0.04 }}
+                className="group relative overflow-hidden rounded-[22px] border border-[var(--cocoa)]/10 bg-white p-7 transition-all duration-500 hover:border-[var(--brand-dark)]/40 hover:shadow-[0_30px_60px_-30px_rgba(13,13,13,0.15)]"
               >
                 <div className="flex items-baseline justify-between">
                   <span className="font-mono text-[11px] tracking-[0.22em] text-[var(--cocoa-soft)]">
                     0{i + 1}
                   </span>
                   <span
-                    className="font-display text-[76px] leading-none text-[var(--brand)] opacity-80 transition-all duration-500 group-hover:opacity-100"
+                    className="font-display text-[76px] leading-none text-[var(--brand-dark)] opacity-80 transition-all duration-500 group-hover:opacity-100"
                     aria-hidden
                   >
                     {p.letter}

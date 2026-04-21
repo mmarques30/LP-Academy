@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import { Logo } from "./Logo";
 
 const links = [
   { href: "#metodo", label: "Método" },
@@ -28,12 +29,10 @@ export function Header() {
       }`}
     >
       <div className="container-wide flex items-center justify-between px-6 py-5">
-        <a href="#" className="flex items-center gap-2.5 text-[var(--cocoa)]">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--cocoa)] text-[var(--brand)] font-display text-lg font-semibold">
-            i
-          </span>
-          <span className="font-display text-lg tracking-tight">
-            IAplicada<span className="text-[var(--cocoa-soft)]">/Academy</span>
+        <a href="#" className="flex items-center gap-2.5 text-[var(--cocoa)]" aria-label="IAplicada">
+          <Logo className="h-7 w-auto" />
+          <span className="hidden text-[13px] font-medium text-[var(--cocoa-soft)] sm:inline">
+            /Academy
           </span>
         </a>
 
@@ -52,7 +51,7 @@ export function Header() {
         <div className="hidden items-center gap-3 lg:flex">
           <a
             href="#investimento"
-            className="inline-flex items-center gap-2 rounded-full bg-[var(--cocoa)] px-5 py-2.5 text-[13px] font-medium text-[var(--offwhite)] transition-all hover:bg-[var(--ink)]"
+            className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-dark)] px-5 py-2.5 text-[13px] font-medium text-white transition-all hover:bg-[#5C6F1D]"
           >
             Entrar pro Academy
           </a>
@@ -83,7 +82,7 @@ export function Header() {
             <a
               href="#investimento"
               onClick={() => setOpen(false)}
-              className="mt-3 inline-flex items-center justify-center rounded-full bg-[var(--cocoa)] px-6 py-3.5 text-sm font-medium text-[var(--offwhite)]"
+              className="mt-3 inline-flex items-center justify-center rounded-full bg-[var(--brand-dark)] px-6 py-3.5 text-sm font-medium text-white"
             >
               Entrar pro Academy
             </a>

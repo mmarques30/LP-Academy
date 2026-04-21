@@ -1,17 +1,15 @@
 import { Instagram, Youtube, Linkedin } from "lucide-react";
+import { Logo } from "./Logo";
 
 export function Footer() {
   return (
     <footer className="border-t border-[var(--border)] bg-[var(--cream)]">
       <div className="container-narrow grid gap-10 px-6 py-14 md:grid-cols-3">
         <div>
-          <div className="flex items-center gap-2 font-display text-lg font-extrabold text-[var(--cocoa)]">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)] font-black">
-              IA
-            </span>
-            plicada
+          <div className="text-[var(--cocoa)]" aria-label="IAplicada">
+            <Logo className="h-8 w-auto" />
           </div>
-          <p className="mt-4 max-w-xs text-sm leading-relaxed text-[var(--cocoa-soft)]">
+          <p className="mt-5 max-w-xs text-sm leading-relaxed text-[var(--cocoa-soft)]">
             A casa dos profissionais que aplicam IA no trabalho de verdade.
           </p>
           <p className="mt-4 text-xs font-bold uppercase tracking-[0.2em] text-[var(--brand-dark)]">

@@ -23,7 +23,7 @@ export function HeroVslPlayer() {
       className="relative lg:pl-10"
     >
       <div className="relative">
-        <div className="relative overflow-hidden rounded-[28px] bg-[var(--cocoa)] shadow-[0_40px_100px_-40px_rgba(44,20,2,0.45)] ring-1 ring-[var(--cocoa)]/10">
+        <div className="relative overflow-hidden rounded-[28px] bg-[var(--cocoa-soft)] shadow-[0_40px_100px_-40px_rgba(13,13,13,0.4)] ring-1 ring-[var(--cocoa)]/10">
           <div className="relative aspect-[4/5]">
             {playing && hasRealVideo ? (
               <iframe
@@ -85,7 +85,7 @@ export function HeroVslPlayer() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.8 }}
-          className="absolute -left-6 bottom-10 hidden rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-5 shadow-[0_20px_50px_-20px_rgba(44,20,2,0.25)] md:block"
+          className="absolute -left-6 bottom-10 hidden rounded-2xl border border-[var(--cocoa)]/10 bg-white p-5 shadow-[0_20px_50px_-20px_rgba(13,13,13,0.15)] md:block"
         >
           <p className="mono-label text-[var(--cocoa-soft)]">Satisfação</p>
           <p className="mt-2 font-display text-4xl text-[var(--cocoa)]">
