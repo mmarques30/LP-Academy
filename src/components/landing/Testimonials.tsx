@@ -65,7 +65,7 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`group relative flex flex-col overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_70px_-30px_rgba(44,20,2,0.25)] ${
+              className={`group relative flex flex-col overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] ${
                 i === 1 ? "lg:translate-y-10" : ""
               }`}
             >

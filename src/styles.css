@@ -53,21 +53,26 @@
 :root {
   --radius: 0.75rem;
 
-  --brand: #AFC040;
-  --brand-bright: #C8DB55;
-  --brand-dark: #7E9025;
-  --cocoa: #2C1402;
-  --cocoa-soft: #4A2B0E;
-  --ink: #1A0F01;
-  --cream: #F6F1E6;
-  --cream-dark: #EDE5D2;
-  --offwhite: #FBF8F0;
+  /* Paleta oficial IAplicada */
+  --brand: #AFC040;          /* Brand 600 */
+  --brand-bright: #BCC95D;   /* Brand 500 */
+  --brand-dark: #738925;     /* Brand 900 / Verde */
+  --brand-pale: #F6F7E9;     /* Brand 100 */
+
+  /* Tokens neutros — mantêm os nomes --cocoa/--cream por compatibilidade,
+     mas os valores agora são os oficiais (near-black + warm charcoal + cream). */
+  --cocoa: #0D0D0D;          /* Texto Primário */
+  --cocoa-soft: #2F302B;     /* Texto Secundário / Background Dark */
+  --ink: #0D0D0D;
+  --cream: #FFFFF6;          /* Amarelo Claro */
+  --cream-dark: #F2F2F2;     /* Background Cinza */
+  --offwhite: #FFFFFF;       /* Background Light */
   --alert: #DB2B42;
 
   --background: var(--cream);
   --foreground: var(--cocoa);
   --surface-alt: var(--cream-dark);
-  --surface-deep: var(--cocoa);
+  --surface-deep: var(--cocoa-soft);
 
   --card: var(--offwhite);
   --card-foreground: var(--cocoa);
@@ -75,19 +80,19 @@
   --popover-foreground: var(--cocoa);
 
   --primary: var(--brand);
-  --primary-foreground: var(--cocoa);
+  --primary-foreground: #FFFFFF;
 
   --secondary: var(--cream-dark);
   --secondary-foreground: var(--cocoa);
   --muted: var(--cream-dark);
-  --muted-foreground: #7A6A52;
+  --muted-foreground: #666666;
   --accent: var(--brand-bright);
   --accent-foreground: var(--cocoa);
   --destructive: var(--alert);
   --destructive-foreground: #FFFFFF;
 
-  --border: #E3D8BF;
-  --input: #E3D8BF;
+  --border: #E5E5E5;
+  --input: #E5E5E5;
   --ring: var(--brand-dark);
 }
 
@@ -132,8 +137,8 @@
   }
   .bg-section-dark {
     background:
-      radial-gradient(70% 60% at 50% 0%, color-mix(in oklab, var(--brand) 14%, transparent) 0%, transparent 65%),
-      linear-gradient(180deg, var(--cocoa) 0%, #1F0D02 100%);
+      radial-gradient(70% 60% at 50% 0%, color-mix(in oklab, var(--brand) 16%, transparent) 0%, transparent 65%),
+      linear-gradient(180deg, #2F302B 0%, #1A1B16 100%);
     color: var(--offwhite);
   }
   .bg-paper {
@@ -194,13 +199,13 @@
 
   /* ——— Buttons ——— */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[var(--cocoa)] px-7 py-3.5 text-[15px] font-medium text-[var(--offwhite)] transition-all duration-300 hover:bg-[var(--ink)];
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-3.5 text-[15px] font-medium text-white transition-all duration-300 hover:bg-[#5C6F1D];
   }
   .btn-primary-xl {
-    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--cocoa)] px-8 py-4 text-[15px] md:text-base font-medium text-[var(--offwhite)] shadow-[0_20px_50px_-20px_rgba(44,20,2,0.5)] transition-all duration-300 hover:bg-[var(--ink)] hover:shadow-[0_25px_60px_-20px_rgba(44,20,2,0.6)];
+    @apply inline-flex items-center justify-center gap-2.5 rounded-full bg-[var(--brand-dark)] px-8 py-4 text-[15px] md:text-base font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.45)] transition-all duration-300 hover:bg-[#5C6F1D] hover:shadow-[0_25px_60px_-20px_rgba(115,137,37,0.55)];
   }
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)]/15 px-5 py-2.5 text-sm font-medium text-[var(--cocoa)] transition-all hover:border-[var(--cocoa)] hover:bg-[var(--cocoa)] hover:text-[var(--offwhite)];
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)]/15 px-5 py-2.5 text-sm font-medium text-[var(--cocoa)] transition-all hover:border-[var(--cocoa)] hover:bg-[var(--cocoa)] hover:text-white;
   }
 
   /* ——— Chips / meta ——— */

@@ -94,7 +94,7 @@ export function Offer() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="relative flex flex-col overflow-hidden rounded-[28px] bg-[var(--cocoa)] p-8 text-[var(--offwhite)] shadow-[0_40px_100px_-30px_rgba(44,20,2,0.55)] md:p-10"
+            className="relative flex flex-col overflow-hidden rounded-[28px] bg-[var(--cocoa-soft)] p-8 text-white shadow-[0_40px_100px_-30px_rgba(13,13,13,0.5)] md:p-10"
           >
             <div
               aria-hidden
