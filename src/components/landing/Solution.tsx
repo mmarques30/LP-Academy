@@ -35,12 +35,16 @@ export function Solution() {
 
             {/* Imagem lifestyle */}
             <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
-              <div className="aspect-[5/4] overflow-hidden">
+              <div className="aspect-[5/4] overflow-hidden bg-[var(--cream)]">
                 <img
-                  src="/dashboard-aula47.png"
+                  src="/dashboard-aula47.jpg"
                   alt="Dashboard de projeções operacionais construído em aula da IAplicada"
+                  width="1200"
+                  height="960"
                   className="h-full w-full object-cover object-top transition-transform duration-[1200ms] hover:scale-[1.04]"
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                 />
               </div>
               <div className="flex items-center justify-between border-t border-[var(--cocoa)]/10 p-5">
