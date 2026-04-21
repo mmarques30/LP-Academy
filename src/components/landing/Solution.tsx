@@ -42,8 +42,9 @@ export function Solution() {
                   width="1200"
                   height="960"
                   className="h-full w-full object-cover object-top transition-transform duration-[1200ms] hover:scale-[1.04]"
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
+                  fetchPriority="high"
                 />
               </div>
               <div className="flex items-center justify-between border-t border-[var(--cocoa)]/10 p-5">
