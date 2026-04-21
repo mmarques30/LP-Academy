@@ -37,9 +37,9 @@ export function Solution() {
             <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
               <div className="aspect-[5/4] overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=1400&q=80"
-                  alt="Profissional aplicando IA no trabalho"
-                  className="img-warm h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]"
+                  src="/dashboard-aula47.png"
+                  alt="Dashboard de projeções operacionais construído em aula da IAplicada"
+                  className="h-full w-full object-cover object-top transition-transform duration-[1200ms] hover:scale-[1.04]"
                   loading="lazy"
                 />
               </div>
