@@ -1,60 +1,73 @@
 import { motion } from "framer-motion";
 
-const signs = [
-  "Você abre o ChatGPT e trava em \"me resume isso\"",
-  "Quer automatizar uma planilha, mas não sabe por onde começar",
-  "Assiste vídeo de IA e termina com mais dúvida do que chegou",
-  "Tem 7 ferramentas abertas e nenhuma entrega resultado",
-  "Fecha relatório na mão sabendo que poderia ser em minutos",
-  "Evita falar de IA com liderança porque sente que não domina",
+const signals = [
+  {
+    n: "01",
+    k: "Você assina ChatGPT",
+    v: "e ainda perde 3h por semana em tarefas que IA faria em 10 minutos.",
+  },
+  {
+    n: "02",
+    k: "Você já viu 50 vídeos de prompt",
+    v: "e mesmo assim trava na hora de aplicar no seu trabalho.",
+  },
+  {
+    n: "03",
+    k: "Seu time fala de IA em reunião",
+    v: "mas ninguém — nem a TI — tá de fato aplicando no fluxo.",
+  },
 ];
 
 export function Problem() {
   return (
-    <section className="section-pad bg-section-soft">
-      <div className="container-tight px-6">
-        <div className="text-center">
-          <span className="eyebrow">O diagnóstico</span>
-          <h2 className="mt-5 h-section">
-            O problema não é IA.
-            <br />
-            É <span className="text-highlight">o que ninguém te mostra</span> fazer com ela.
-          </h2>
-          <p className="mt-6 lede">
-            Pesquisamos os Aplicados que trabalham em grandes empresas do Brasil. As duas dores que aparecem
-            em 8 de cada 10 respostas:
-          </p>
-          <p className="mt-4 font-display text-xl font-extrabold text-[var(--cocoa)] md:text-2xl">
-            "Não sei por onde começar."
-            <span className="mx-3 text-[var(--brand-dark)]">·</span>
-            "Não consigo aplicar no meu trabalho."
-          </p>
-        </div>
+    <section className="relative border-y border-[var(--cocoa)]/10 bg-[var(--offwhite)] py-24 md:py-32">
+      <div className="container-narrow px-6">
+        <div className="grid gap-12 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7 }}
+          >
+            <span className="eyebrow">01 — O problema</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Consumir conteúdo sobre IA
+              <br />
+              <span className="serif-italic text-[var(--brand-dark)]">não é aplicar IA.</span>
+            </h2>
+            <p className="mt-7 lede">
+              A maioria dos profissionais está paralisada no mesmo lugar há dois anos —
+              assinando ferramentas, consumindo tutorial e ainda fazendo tudo no braço.
+            </p>
+          </motion.div>
 
-        <div className="mt-14 grid gap-3 sm:grid-cols-2">
-          {signs.map((sign, i) => (
-            <motion.div
-              key={sign}
-              initial={{ opacity: 1, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="flex items-start gap-3 rounded-2xl border border-[var(--border)] bg-[var(--offwhite)] p-4"
-            >
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--alert)]/10 text-[var(--alert)] font-bold">
-                ✕
-              </span>
-              <p className="text-sm text-[var(--cocoa-soft)]">{sign}</p>
-            </motion.div>
-          ))}
+          <div>
+            <ol className="divide-y divide-[var(--cocoa)]/10 border-y border-[var(--cocoa)]/10">
+              {signals.map((s, i) => (
+                <motion.li
+                  key={s.n}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.55, delay: i * 0.08 }}
+                  className="grid gap-4 py-8 md:grid-cols-[auto_1fr] md:gap-8"
+                >
+                  <span className="font-mono text-[12px] font-medium tracking-[0.18em] text-[var(--brand-dark)]">
+                    {s.n}
+                  </span>
+                  <div>
+                    <p className="font-display text-xl text-[var(--cocoa)] md:text-[22px]">
+                      {s.k}
+                    </p>
+                    <p className="mt-2 text-[15px] leading-relaxed text-[var(--cocoa-soft)]">
+                      {s.v}
+                    </p>
+                  </div>
+                </motion.li>
+              ))}
+            </ol>
+          </div>
         </div>
-
-        <p className="mt-10 text-center text-base text-[var(--cocoa-soft)]">
-          Se dois desses sinais te descrevem, o problema não é você.
-          <br className="hidden md:block" />
-          Ninguém te deu <strong className="text-[var(--cocoa)]">um sistema</strong> pra transformar IA em produtividade
-          de verdade.
-        </p>
       </div>
     </section>
   );

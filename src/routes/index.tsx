@@ -1,17 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { VslIntro } from "@/components/landing/VslIntro";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { Problem } from "@/components/landing/Problem";
 import { Solution } from "@/components/landing/Solution";
-import { ForWho } from "@/components/landing/ForWho";
-import { Authority } from "@/components/landing/Authority";
 import { Includes } from "@/components/landing/Includes";
-import { Curriculum } from "@/components/landing/Curriculum";
-import { Transformation } from "@/components/landing/Transformation";
+import { Authority } from "@/components/landing/Authority";
 import { Testimonials } from "@/components/landing/Testimonials";
-import { ValueStack } from "@/components/landing/ValueStack";
 import { Offer } from "@/components/landing/Offer";
-import { Guarantee } from "@/components/landing/Guarantee";
 import { FAQ } from "@/components/landing/FAQ";
 import { FinalCTA } from "@/components/landing/FinalCTA";
 import { Footer } from "@/components/landing/Footer";
@@ -26,13 +22,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Assinatura IAplicada Academy: trilhas práticas, aulas ao vivo toda segunda, mentoria e comunidade que implementa. R$ 147/mês, sem fidelidade.",
+          "Assinatura IAplicada Academy: trilhas práticas, aula ao vivo toda segunda, mentoria semanal e comunidade que implementa. R$ 147/mês, sem fidelidade.",
       },
       { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
       {
         property: "og:description",
         content:
-          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que implementa. R$ 147/mês, sem fidelidade.",
+          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que aplica. R$ 147/mês, sem fidelidade.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -41,20 +37,16 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <main className="bg-background text-foreground">
+    <main className="bg-[var(--cream)] text-[var(--cocoa)]">
+      <VslIntro />
       <Header />
       <Hero />
       <Problem />
       <Solution />
-      <ForWho />
-      <Authority />
       <Includes />
-      <Curriculum />
-      <Transformation />
+      <Authority />
       <Testimonials />
-      <ValueStack />
       <Offer />
-      <Guarantee />
       <FAQ />
       <FinalCTA />
       <Footer />

@@ -1,58 +1,89 @@
 import { motion } from "framer-motion";
 
 const aplica = [
-  { letter: "A", title: "Analisar", desc: "Mapeamos onde IA gera valor real no seu trabalho." },
-  { letter: "P", title: "Priorizar", desc: "Escolhemos juntos o que implementar primeiro." },
-  { letter: "L", title: "Levantar", desc: "A ferramenta certa pra cada caso — nada de testar 30." },
-  { letter: "I", title: "Implementar", desc: "Você aplica na rotina com acompanhamento." },
-  { letter: "C", title: "Compartilhar", desc: "Documenta e repassa pro time ganhar escala." },
-  { letter: "A", title: "Automatizar", desc: "Transforma o que repete em fluxo que roda sozinho." },
+  { letter: "A", title: "Analisar", desc: "Onde IA gera valor real no seu trabalho." },
+  { letter: "P", title: "Priorizar", desc: "Qual workflow destravar primeiro." },
+  { letter: "L", title: "Limpar", desc: "Cortar ruído e criar o prompt certo." },
+  { letter: "I", title: "Implementar", desc: "Rodar na semana, não no próximo tri." },
+  { letter: "C", title: "Calibrar", desc: "Afinar até virar rotina que entrega." },
+  { letter: "A", title: "Automatizar", desc: "Tirar você da operação e multiplicar." },
 ];
 
 export function Solution() {
   return (
     <section id="metodo" className="section-pad bg-[var(--cream)]">
-      <div className="container-narrow px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="eyebrow">O método</span>
-          <h2 className="mt-5 h-section">
-            O <span className="text-gradient-brand">APLICA</span> — seis passos pra transformar IA em
-            resultado no seu dia a dia
-          </h2>
-          <p className="mt-5 lede">
-            Um sistema testado com +2.000 Aplicados. Você deixa de colecionar prompts e passa a ter um
-            processo claro do diagnóstico à automação.
-          </p>
-        </div>
+      <div className="container-wide px-6">
+        <div className="grid items-start gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+          {/* Lado copy */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:sticky lg:top-28"
+          >
+            <span className="eyebrow">02 — A solução</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Método <span className="serif-italic text-[var(--brand-dark)]">APLICA</span>.
+              <br />
+              6 passos. Toda semana.
+            </h2>
+            <p className="mt-7 lede">
+              O sistema que destrava profissionais brilhantes do medo de IA —
+              e transforma cada aula em uma entrega concreta na sua rotina.
+            </p>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {aplica.map((a, i) => (
-            <motion.div
-              key={a.title + i}
-              initial={{ opacity: 1, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.45, delay: i * 0.06 }}
-              className="group relative overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--offwhite)] p-7 transition-shadow hover:shadow-[0_30px_70px_-40px_rgba(44,20,2,0.25)]"
-            >
-              <div className="flex items-center gap-4">
-                <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--brand)]/20 font-display text-2xl font-black text-[var(--brand-dark)] ring-1 ring-[var(--brand-dark)]/20">
-                  {a.letter}
-                </span>
-                <h3 className="font-display text-xl font-extrabold text-[var(--cocoa)]">{a.title}</h3>
+            {/* Imagem lifestyle */}
+            <div className="mt-10 overflow-hidden rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)]">
+              <div className="aspect-[5/4] overflow-hidden">
+                <img
+                  src="https://images.unsplash.com/photo-1573496799652-408c2ac9fe98?auto=format&fit=crop&w=1400&q=80"
+                  alt="Profissional aplicando IA no trabalho"
+                  className="img-warm h-full w-full object-cover transition-transform duration-[1200ms] hover:scale-[1.04]"
+                  loading="lazy"
+                />
               </div>
-              <p className="mt-5 text-[var(--cocoa-soft)] leading-relaxed">{a.desc}</p>
-              <span className="pointer-events-none absolute -right-8 -bottom-8 font-display text-[120px] font-black leading-none text-[var(--brand)]/10">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-            </motion.div>
-          ))}
-        </div>
+              <div className="flex items-center justify-between border-t border-[var(--cocoa)]/10 p-5">
+                <p className="text-sm text-[var(--cocoa-soft)]">
+                  <span className="font-display text-[var(--cocoa)]">Aula 47</span>{" "}
+                  · <em className="serif-italic">Reporting com Claude em 12 min</em>
+                </p>
+                <span className="mono-label text-[var(--cocoa-soft)]">seg · 19h30</span>
+              </div>
+            </div>
+          </motion.div>
 
-        <div className="mt-12 flex justify-center">
-          <a href="#oferta" className="btn-primary">
-            Quero aplicar o método APLICA
-          </a>
+          {/* Grid APLICA */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            {aplica.map((p, i) => (
+              <motion.article
+                key={`${p.letter}-${i}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.55, delay: (i % 2) * 0.08 }}
+                className={`group relative overflow-hidden rounded-[22px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-7 transition-all duration-500 hover:border-[var(--cocoa)]/25 hover:shadow-[0_30px_60px_-30px_rgba(44,20,2,0.25)] ${
+                  i === 0 ? "sm:translate-y-8" : ""
+                } ${i === 3 ? "sm:translate-y-8" : ""}`}
+              >
+                <div className="flex items-baseline justify-between">
+                  <span className="font-mono text-[11px] tracking-[0.22em] text-[var(--cocoa-soft)]">
+                    0{i + 1}
+                  </span>
+                  <span
+                    className="font-display text-[76px] leading-none text-[var(--brand)] opacity-80 transition-all duration-500 group-hover:opacity-100"
+                    aria-hidden
+                  >
+                    {p.letter}
+                  </span>
+                </div>
+                <p className="mt-6 font-display text-2xl text-[var(--cocoa)]">{p.title}</p>
+                <p className="mt-2 text-[15px] leading-relaxed text-[var(--cocoa-soft)]">
+                  {p.desc}
+                </p>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

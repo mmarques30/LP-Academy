@@ -1,64 +1,75 @@
 import { motion } from "framer-motion";
-import { Check, Lock, Shield, Sparkles, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, Shield, Lock } from "lucide-react";
 
 const CHECKOUT_MONTHLY = "#";
 const CHECKOUT_ANNUAL = "#";
 
 const includes = [
-  "Acesso completo às 18 trilhas",
-  "Aulas ao vivo toda segunda-feira",
-  "Q&A ao vivo toda quarta com a Mari",
-  "MarIAna · agente IA 24/7",
-  "+100 prompts testados",
-  "+50 ferramentas avaliadas",
-  "Comunidade Aplicados (+2.000 membros)",
+  "18 trilhas + novos conteúdos quinzenais",
+  "Aula ao vivo, toda segunda · 19h30",
+  "Q&A com a Mari, toda quarta · 19h30",
+  "MarIAna · agente IA 24/7 com a expertise da Mari",
+  "Comunidade de +2.000 Aplicados ativos",
+  "Prompts, templates e workflows em Claude, Zapier e Manus",
   "Gravação de todas as aulas ao vivo",
-  "3 bônus exclusivos inclusos",
-  "Sem fidelidade — cancele quando quiser",
+  "Sem fidelidade · cancele quando quiser",
+];
+
+const annualExtras = [
+  "2 meses grátis (economia de R$ 1.764)",
+  "Encontro presencial anual com a Mari",
+  "Prioridade em Q&A e novas turmas",
 ];
 
 export function Offer() {
   return (
-    <section id="oferta" className="section-pad bg-section-brand">
-      <div className="container-narrow px-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-[var(--cocoa)]/15 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--cocoa)]">
-            <Sparkles className="h-3.5 w-3.5" />
-            Sua vaga no Academy
-          </span>
-          <h2 className="mt-5 h-section !text-[var(--cocoa)]">
-            Entre hoje por <span className="underline decoration-[var(--cocoa)]/20 decoration-[6px] underline-offset-4">R$ 147/mês</span>
-          </h2>
-          <p className="mt-5 text-lg text-[var(--cocoa)]/80">
-            Menos de R$ 5 por dia. Sem fidelidade. Sem taxa de adesão. Você só continua se o Academy
-            fizer o que tem que fazer por você.
+    <section id="investimento" className="section-pad bg-[var(--cream)]">
+      <div className="container-wide px-6">
+        <div className="grid items-end gap-6 md:grid-cols-2 md:gap-12">
+          <div>
+            <span className="eyebrow">06 — Investimento</span>
+            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+              Menos de <span className="serif-italic text-[var(--brand-dark)]">R$ 5 por dia.</span>
+              <br />
+              Sem fidelidade.
+            </h2>
+          </div>
+          <p className="text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">
+            Você entra hoje e testa por dentro. Se em 7 dias o Academy não fizer
+            sentido, devolvemos 100% do valor — sem burocracia.
           </p>
         </div>
 
-        <div className="mx-auto mt-14 grid max-w-5xl gap-6 md:grid-cols-2">
+        <div className="mt-16 grid gap-6 lg:grid-cols-[1fr_1.15fr]">
           {/* Mensal */}
           <motion.div
-            initial={{ opacity: 1, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="relative overflow-hidden rounded-3xl border border-[var(--cocoa)]/15 bg-[var(--offwhite)] p-7 md:p-9 shadow-[0_40px_80px_-40px_rgba(44,20,2,0.4)]"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col rounded-[28px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 md:p-10"
           >
-            <span className="chip">Mensal · Sem fidelidade</span>
-            <div className="mt-6 flex items-end gap-3">
-              <span className="font-display text-6xl font-black leading-none text-[var(--cocoa)] md:text-7xl">
-                R$147
+            <div className="flex items-center justify-between">
+              <span className="mono-label text-[var(--cocoa-soft)]">Mensal</span>
+              <span className="chip">Sem fidelidade</span>
+            </div>
+
+            <div className="mt-10 flex items-end gap-2">
+              <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--cocoa)]">
+                R$ 146
               </span>
-              <span className="mb-2 text-[var(--cocoa-soft)]">/mês</span>
+              <span className="mb-3 text-[var(--cocoa-soft)]">/mês</span>
             </div>
             <p className="mt-2 text-sm text-[var(--cocoa-soft)]">
-              Cobrança recorrente no cartão. Cancele a qualquer momento.
+              Cobrança recorrente · cancele quando quiser.
             </p>
 
-            <ul className="mt-7 space-y-3">
-              {includes.map((i) => (
-                <li key={i} className="flex gap-3 text-[var(--cocoa)] text-[15px]">
-                  <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-dark)]" strokeWidth={2.5} />
+            <div className="my-8 h-px bg-[var(--cocoa)]/10" />
+
+            <ul className="space-y-3.5">
+              {includes.slice(0, 5).map((i) => (
+                <li key={i} className="flex items-start gap-3 text-[15px] text-[var(--cocoa)]">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-dark)]" strokeWidth={2.5} />
                   <span>{i}</span>
                 </li>
               ))}
@@ -66,93 +77,78 @@ export function Offer() {
 
             <a
               href={CHECKOUT_MONTHLY}
-              className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--cocoa)] px-8 py-4 text-base font-extrabold text-[var(--offwhite)] transition-all hover:bg-[var(--ink)] hover:scale-[1.01]"
+              className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)] bg-transparent px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--cocoa)] hover:text-[var(--offwhite)] md:mt-12"
             >
-              Quero a assinatura mensal
+              Assinar mensal
               <ArrowRight className="h-4 w-4" />
             </a>
 
             <p className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--cocoa-soft)]">
-              <Lock className="h-3.5 w-3.5" /> Checkout seguro · Cartão ou Pix
+              <Lock className="h-3.5 w-3.5" /> Checkout seguro · Pix ou cartão
             </p>
           </motion.div>
 
-          {/* Anual — destaque */}
+          {/* Anual */}
           <motion.div
-            initial={{ opacity: 1, y: 16 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.08 }}
-            className="relative overflow-hidden rounded-3xl border-2 border-[var(--cocoa)] bg-[var(--cocoa)] p-7 md:p-9 text-[var(--offwhite)] shadow-[0_40px_80px_-40px_rgba(44,20,2,0.6)]"
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative flex flex-col overflow-hidden rounded-[28px] bg-[var(--cocoa)] p-8 text-[var(--offwhite)] shadow-[0_40px_100px_-30px_rgba(44,20,2,0.55)] md:p-10"
           >
-            <div className="absolute right-4 top-4">
-              <span className="rounded-full bg-[var(--brand)] px-3 py-1 text-[10px] font-black uppercase tracking-widest text-[var(--cocoa)]">
-                Mais escolhido · economiza R$ 1.767
+            <div
+              aria-hidden
+              className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full blur-[80px]"
+              style={{ background: "color-mix(in oklab, var(--brand) 25%, transparent)" }}
+            />
+
+            <div className="relative flex items-center justify-between">
+              <span className="mono-label text-[var(--brand)]">Anual · recomendado</span>
+              <span className="rounded-full bg-[var(--brand)] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--cocoa)]">
+                Mais escolhido
               </span>
             </div>
 
-            <span className="inline-flex items-center gap-2 rounded-full bg-[var(--brand)]/15 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-[var(--brand-bright)] ring-1 ring-[var(--brand)]/30">
-              Anual · 2 meses grátis
-            </span>
-
-            <div className="mt-6 flex items-end gap-3">
-              <span className="font-display text-lg text-[var(--offwhite)]/60 line-through">R$ 1.764</span>
+            <div className="relative mt-10">
+              <p className="text-sm text-[var(--offwhite)]/50 line-through">R$ 1.764/ano</p>
+              <div className="mt-1 flex items-end gap-2">
+                <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--offwhite)]">
+                  12× R$ 333
+                </span>
+              </div>
+              <p className="mt-2 text-sm text-[var(--offwhite)]/70">
+                Ou <strong className="text-[var(--offwhite)]">R$ 3.997 à vista</strong> · equivale a 2 meses grátis
+              </p>
             </div>
-            <div className="flex items-end gap-3">
-              <span className="font-display text-6xl font-black leading-none text-[var(--offwhite)] md:text-7xl">
-                12×R$333
-              </span>
-            </div>
-            <p className="mt-2 text-sm text-[var(--offwhite)]/70">
-              Ou <strong className="text-[var(--offwhite)]">R$ 3.997 à vista</strong> · equivalente a
-              R$ 333/mês
-            </p>
 
-            <ul className="mt-7 space-y-3">
-              <li className="flex gap-3 text-[var(--offwhite)] text-[15px]">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-bright)]" strokeWidth={2.5} />
-                <span>
-                  <strong>Tudo do plano mensal</strong>, com acesso ao ano completo
-                </span>
+            <div className="my-8 h-px bg-[var(--offwhite)]/15" />
+
+            <ul className="space-y-3.5">
+              <li className="flex items-start gap-3 text-[15px] text-[var(--offwhite)]">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" strokeWidth={2.5} />
+                <span><strong>Tudo do mensal</strong> com acesso de 12 meses</span>
               </li>
-              <li className="flex gap-3 text-[var(--offwhite)] text-[15px]">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-bright)]" strokeWidth={2.5} />
-                <span>
-                  <strong>2 meses grátis</strong> em relação ao mensal (R$ 1.764 → R$ 3.997)
-                </span>
-              </li>
-              <li className="flex gap-3 text-[var(--offwhite)] text-[15px]">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-bright)]" strokeWidth={2.5} />
-                <span>
-                  <strong>Encontro presencial</strong> com a Mari e Aplicados ao final do ano
-                </span>
-              </li>
-              <li className="flex gap-3 text-[var(--offwhite)] text-[15px]">
-                <Check className="mt-0.5 h-5 w-5 shrink-0 text-[var(--brand-bright)]" strokeWidth={2.5} />
-                <span>
-                  <strong>Prioridade</strong> em Q&amp;As e novas turmas de mentoria
-                </span>
-              </li>
+              {annualExtras.map((i) => (
+                <li key={i} className="flex items-start gap-3 text-[15px] text-[var(--offwhite)]">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand)]" strokeWidth={2.5} />
+                  <span>{i}</span>
+                </li>
+              ))}
             </ul>
 
             <a
               href={CHECKOUT_ANNUAL}
-              className="btn-primary-xl mt-8 w-full !bg-[var(--brand)] !text-[var(--cocoa)] hover:!bg-[var(--brand-bright)]"
+              className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--brand-bright)] md:mt-12"
             >
-              Quero o plano anual · economizar R$ 1.767
-              <ArrowRight className="h-5 w-5" />
+              Garantir plano anual
+              <ArrowRight className="h-4 w-4" />
             </a>
 
             <p className="mt-4 flex items-center justify-center gap-2 text-xs text-[var(--offwhite)]/60">
-              <Shield className="h-3.5 w-3.5" /> 7 dias de garantia · cartão, boleto ou Pix
+              <Shield className="h-3.5 w-3.5" /> 7 dias de garantia total
             </p>
           </motion.div>
         </div>
-
-        <p className="mx-auto mt-10 max-w-2xl text-center text-sm text-[var(--cocoa)]/70">
-          Você começa hoje. Se em 7 dias não fizer sentido, devolvemos 100% do valor —
-          sem pergunta, sem formulário longo. É só mandar um e-mail.
-        </p>
       </div>
     </section>
   );

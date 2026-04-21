@@ -14,22 +14,23 @@ export function StickyMobileCta() {
   return (
     <div
       aria-hidden={!visible}
-      className={`fixed inset-x-0 bottom-0 z-40 border-t border-[var(--border)] bg-[var(--cream)]/95 px-4 py-3 backdrop-blur-md transition-transform duration-300 md:hidden ${
+      className={`fixed inset-x-0 bottom-0 z-40 border-t border-[var(--cocoa)]/10 bg-[var(--cream)]/95 px-4 py-3 backdrop-blur-xl transition-transform duration-500 lg:hidden ${
         visible ? "translate-y-0" : "translate-y-full"
       }`}
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--brand-dark)]">
-            Academy
-          </p>
-          <p className="truncate font-display text-base font-extrabold text-[var(--cocoa)]">
-            R$ 147<span className="text-sm font-normal text-[var(--cocoa-soft)]">/mês</span>
-            <span className="ml-2 text-xs font-medium text-[var(--cocoa-soft)]">sem fidelidade</span>
+          <p className="mono-label text-[var(--cocoa-soft)]">Academy</p>
+          <p className="mt-0.5 truncate font-display text-lg text-[var(--cocoa)]">
+            R$ 146<span className="text-sm text-[var(--cocoa-soft)]">/mês</span>
+            <span className="ml-2 text-[11px] text-[var(--cocoa-soft)]">· sem fidelidade</span>
           </p>
         </div>
-        <a href="#oferta" className="btn-primary shrink-0 !px-5 !py-3 !text-sm">
+        <a
+          href="#investimento"
+          className="inline-flex shrink-0 items-center gap-2 rounded-full bg-[var(--cocoa)] px-5 py-3 text-sm font-medium text-[var(--offwhite)]"
+        >
           Entrar <ArrowRight className="h-4 w-4" />
         </a>
       </div>
