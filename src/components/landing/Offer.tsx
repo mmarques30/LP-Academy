@@ -16,7 +16,7 @@ const includes = [
 ];
 
 const annualExtras = [
-  "2 meses grátis (economia de R$ 1.764)",
+  "Economia de R$ 267 no ano (vs plano mensal)",
   "Encontro presencial anual com a Mari",
   "Prioridade em Q&A e novas turmas",
 ];
@@ -56,7 +56,7 @@ export function Offer() {
 
             <div className="mt-10 flex items-end gap-2">
               <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--cocoa)]">
-                R$ 146
+                R$ 147
               </span>
               <span className="mb-3 text-[var(--cocoa-soft)]">/mês</span>
             </div>
@@ -113,11 +113,12 @@ export function Offer() {
               <p className="text-sm text-[var(--offwhite)]/50 line-through">R$ 1.764/ano</p>
               <div className="mt-1 flex items-end gap-2">
                 <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--offwhite)]">
-                  12× R$ 333
+                  R$ 1.497
                 </span>
+                <span className="mb-3 text-[var(--offwhite)]/70">/ano</span>
               </div>
               <p className="mt-2 text-sm text-[var(--offwhite)]/70">
-                Ou <strong className="text-[var(--offwhite)]">R$ 3.997 à vista</strong> · equivale a 2 meses grátis
+                Ou <strong className="text-[var(--offwhite)]">12× R$ 125</strong> · economia de R$ 267
               </p>
             </div>
 
