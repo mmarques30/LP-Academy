@@ -52,7 +52,7 @@ export function Testimonials() {
             <div className="h-10 w-px bg-[var(--cocoa)]/15" />
             <div>
               <p className="font-display text-3xl text-[var(--cocoa)]">+700</p>
-              <p className="mt-0.5 text-[12px] uppercase tracking-[0.18em]">Aplicados</p>
+              <p className="mt-0.5 text-[12px] uppercase tracking-[0.18em]">alunos</p>
             </div>
           </div>
         </div>

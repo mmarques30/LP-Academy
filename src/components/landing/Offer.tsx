@@ -9,7 +9,7 @@ const includes = [
   "Aula ao vivo, toda segunda · 19h30",
   "Q&A com a Mari, toda quarta · 19h30",
   "MarIAna · agente IA 24/7 com a expertise da Mari",
-  "Comunidade de +700 Aplicados ativos",
+  "Comunidade de +700 alunos ativos",
   "Prompts, templates e workflows em Claude, Zapier e Manus",
   "Gravação de todas as aulas ao vivo",
   "Sem fidelidade · cancele quando quiser",
