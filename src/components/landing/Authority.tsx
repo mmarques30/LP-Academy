@@ -11,7 +11,7 @@ const credentials = [
 ];
 
 const stats = [
-  ["+2.000", "Aplicados"],
+  ["+700", "Aplicados"],
   ["+80", "empresas"],
   ["+500h", "de mentoria"],
   ["4,9", "satisfação"],
