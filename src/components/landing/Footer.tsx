@@ -45,17 +45,17 @@ export function Footer() {
           </p>
           <ul className="mt-4 space-y-3 text-sm text-[var(--cocoa-soft)]">
             <li>
-              <a href="#" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://instagram.com/marimarquescb" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Instagram className="h-4 w-4" /> @marimarquescb
               </a>
             </li>
             <li>
-              <a href="#" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Youtube className="h-4 w-4" /> @iaplicadaa
               </a>
             </li>
             <li>
-              <a href="#" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://linkedin.com/in/marimarquescb" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Linkedin className="h-4 w-4" /> Mariana Marques
               </a>
             </li>

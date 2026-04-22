@@ -12,7 +12,7 @@ const credentials = [
 
 const stats = [
   ["+700", "Aplicados"],
-  ["+80", "empresas"],
+  ["+20", "empresas"],
   ["+500h", "de mentoria"],
   ["4,9", "satisfação"],
 ];
@@ -54,21 +54,20 @@ export function Authority() {
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--ink)] via-[var(--ink)]/70 to-transparent p-7 pt-24">
                 <p className="mono-label text-[var(--brand)]">Mariana Marques</p>
                 <p className="mt-2 font-display text-3xl text-[var(--offwhite)] md:text-4xl">
-                  Fundadora &<br />
-                  <span className="serif-italic">professora-chefe</span>
+                  <span className="serif-italic">Founder</span> IAplicada
                 </p>
               </div>
             </div>
 
             {/* Redes sociais */}
             <div className="mt-6 flex items-center gap-5">
-              <a href="#" aria-label="Instagram" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://instagram.com/marimarquescb" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Instagram className="h-4 w-4" /> @marimarquescb
               </a>
-              <a href="#" aria-label="YouTube" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Youtube className="h-4 w-4" /> @iaplicadaa
               </a>
-              <a href="#" aria-label="LinkedIn" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://linkedin.com/in/marimarquescb" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Linkedin className="h-4 w-4" />
               </a>
             </div>
