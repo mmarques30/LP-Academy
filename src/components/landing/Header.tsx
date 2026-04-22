@@ -7,6 +7,7 @@ const links = [
   { href: "#academy", label: "Academy" },
   { href: "#fundadora", label: "Fundadora" },
   { href: "#investimento", label: "Investimento" },
+  { href: "/empresas", label: "Empresas" },
 ];
 
 export function Header() {
