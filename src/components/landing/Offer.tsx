@@ -16,7 +16,7 @@ const includes = [
 ];
 
 const annualExtras = [
-  "Economia de R$ 267 no ano (vs plano mensal)",
+  "Economia de R$ 467 no ano (vs plano mensal)",
   "Encontro presencial anual com a Mari",
   "Prioridade em Q&A e novas turmas",
 ];
@@ -113,12 +113,12 @@ export function Offer() {
               <p className="text-sm text-[var(--offwhite)]/50 line-through">R$ 1.764/ano</p>
               <div className="mt-1 flex items-end gap-2">
                 <span className="font-display text-[clamp(3.5rem,8vw,5.5rem)] leading-[0.9] text-[var(--offwhite)]">
-                  R$ 1.497
+                  R$ 1.297
                 </span>
                 <span className="mb-3 text-[var(--offwhite)]/70">/ano</span>
               </div>
               <p className="mt-2 text-sm text-[var(--offwhite)]/70">
-                Ou <strong className="text-[var(--offwhite)]">12× R$ 125</strong> · economia de R$ 267
+                Ou <strong className="text-[var(--offwhite)]">12× R$ 108</strong> · economia de R$ 467
               </p>
             </div>
 
