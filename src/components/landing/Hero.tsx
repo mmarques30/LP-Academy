@@ -11,7 +11,7 @@ export function Hero() {
           <div className="marquee flex shrink-0 items-center gap-10 whitespace-nowrap px-5 text-[12px] font-medium uppercase tracking-[0.22em] text-[var(--cocoa-soft)]">
             {Array.from({ length: 2 }).map((_, idx) => (
               <div key={idx} className="flex items-center gap-10">
-                <span>+2.000 profissionais aplicando</span>
+                <span>+700 profissionais aplicando</span>
                 <span className="text-[var(--brand-dark)]">◆</span>
                 <span>Cimed · Ambev · Amazon · Suzano · PSA · Tur Star</span>
                 <span className="text-[var(--brand-dark)]">◆</span>
@@ -106,7 +106,7 @@ export function Hero() {
                   ))}
                 </div>
                 <span className="text-sm text-[var(--cocoa-soft)]">
-                  <strong className="font-semibold text-[var(--cocoa)]">+2.000</strong> Aplicados ativos
+                  <strong className="font-semibold text-[var(--cocoa)]">+700</strong> Aplicados ativos
                 </span>
               </div>
               <div className="flex items-center gap-2">
