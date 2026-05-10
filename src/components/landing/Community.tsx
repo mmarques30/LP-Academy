@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Check } from "lucide-react";
+import { ArrowRight, Check, Loader2 } from "lucide-react";
 
-// Form Lovable IAplicada — slug "academy"
+// Edge Function Supabase que recebe a submissão (chave anon do projeto IAplicada
+// é public por design — apenas valida payload + insere na tabela de leads).
+const FORM_ENDPOINT = "https://ciwdlceyjsnlnunktqzx.supabase.co/functions/v1/form-submit";
 const FORM_SLUG = "academy";
-const FORM_ORIGIN = "https://id-preview--ce4ae4c7-4381-4764-a549-46545bb9de13.lovable.app";
 
 const benefits = [
   "Aula ao vivo gratuita toda segunda · 19h30",
@@ -12,49 +13,61 @@ const benefits = [
   "Newsletter quinzenal com prompts e workflows testados",
 ];
 
+type SubmitState = "idle" | "loading" | "success" | "error";
+
+function collectUtms(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const params = new URLSearchParams(window.location.search);
+  const keys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
+  const out: Record<string, string> = {};
+  for (const k of keys) {
+    const v = params.get(k);
+    if (v) out[k] = v;
+  }
+  return out;
+}
+
 export function Community() {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState<SubmitState>("idle");
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Monta o iframe do form Lovable preservando o comportamento do embed oficial
-  // (UTMs + auto-resize via postMessage). Equivalente em React do <script> que a Mari mandou.
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (state === "loading") return;
 
-    // Captura UTMs da URL atual e repassa pro iframe
-    const params = new URLSearchParams(window.location.search);
-    const utmKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"];
-    const utmQuery = utmKeys
-      .map((k) => `${k}=${encodeURIComponent(params.get(k) || "")}`)
-      .join("&");
+    setState("loading");
+    setErrorMsg(null);
 
-    const iframe = document.createElement("iframe");
-    iframe.src = `${FORM_ORIGIN}/form/${FORM_SLUG}?${utmQuery}&embed=1`;
-    iframe.style.width = "100%";
-    iframe.style.minHeight = "720px";
-    iframe.style.border = "0";
-    iframe.style.borderRadius = "12px";
-    iframe.setAttribute("loading", "lazy");
-    iframe.setAttribute("title", "Formulário IAplicada");
-    container.appendChild(iframe);
+    try {
+      const payload = {
+        slug: FORM_SLUG,
+        name: name.trim(),
+        email: email.trim(),
+        ...collectUtms(),
+      };
 
-    // Auto-resize quando o form interno avisar a altura via postMessage
-    const onMessage = (e: MessageEvent) => {
-      const data = e.data as { type?: string; slug?: string; height?: number } | null;
-      if (!data || data.type !== "iaplicada-form-resize") return;
-      if (data.slug !== FORM_SLUG) return;
-      if (typeof data.height !== "number") return;
-      iframe.style.height = `${data.height + 20}px`;
-    };
-    window.addEventListener("message", onMessage);
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    return () => {
-      window.removeEventListener("message", onMessage);
-      if (iframe.parentNode === container) {
-        container.removeChild(iframe);
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        throw new Error(body || `Erro ${res.status}`);
       }
-    };
-  }, []);
+
+      setState("success");
+    } catch (err) {
+      console.error("[Community form]", err);
+      setErrorMsg(
+        "Não conseguimos enviar agora. Tenta de novo em alguns segundos ou manda um oi pra contato@iaplicada.com.",
+      );
+      setState("error");
+    }
+  }
 
   return (
     <section id="comunidade" className="section-pad bg-[var(--cream)]">
@@ -99,7 +112,7 @@ export function Community() {
             </p>
           </motion.div>
 
-          {/* Iframe do form Lovable IAplicada */}
+          {/* Form nativo */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -107,12 +120,106 @@ export function Community() {
             transition={{ duration: 0.8, delay: 0.15 }}
             className="relative"
           >
-            <div className="rounded-[24px] bg-[var(--offwhite)] p-6 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-8">
-              <div
-                ref={containerRef}
-                id="iaplicada-form-academy"
-                style={{ width: "100%", maxWidth: "640px", margin: "0 auto" }}
-              />
+            <div className="rounded-[28px] bg-[var(--offwhite)] p-8 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-10">
+              {state === "success" ? (
+                <div className="flex flex-col items-center text-center">
+                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)]">
+                    <Check className="h-7 w-7" strokeWidth={2.5} />
+                  </span>
+                  <h3 className="mt-6 font-display text-2xl text-[var(--cocoa)]">
+                    Tá dentro da comunidade.
+                  </h3>
+                  <p className="mt-4 max-w-sm text-[15px] leading-[1.6] text-[var(--cocoa-soft)]">
+                    Te mandamos o link da aula de segunda 19h30 e da comunidade IAplicada
+                    pro email <strong className="text-[var(--cocoa)]">{email}</strong>.
+                    Confere a caixa de entrada (e o spam, por garantia).
+                  </p>
+                </div>
+              ) : (
+                <>
+                  <div>
+                    <span className="mono-label text-[var(--brand-dark)]">Inscrição gratuita</span>
+                    <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-3xl">
+                      Recebe o link da aula de segunda
+                    </h3>
+                    <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
+                      Preenche e a gente te manda o convite + o acesso à comunidade.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-5" noValidate>
+                    <div>
+                      <label
+                        htmlFor="community-name"
+                        className="block text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--cocoa-soft)]"
+                      >
+                        Seu nome
+                      </label>
+                      <input
+                        id="community-name"
+                        name="name"
+                        type="text"
+                        required
+                        autoComplete="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        disabled={state === "loading"}
+                        placeholder="Como podemos te chamar"
+                        className="mt-2 block w-full rounded-xl border border-[var(--cocoa)]/15 bg-[var(--cream)] px-4 py-3.5 text-[15px] text-[var(--cocoa)] placeholder:text-[var(--cocoa-soft)]/60 transition-all focus:border-[var(--brand-dark)] focus:bg-[var(--offwhite)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/30 disabled:opacity-60"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="community-email"
+                        className="block text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--cocoa-soft)]"
+                      >
+                        Seu melhor email
+                      </label>
+                      <input
+                        id="community-email"
+                        name="email"
+                        type="email"
+                        required
+                        autoComplete="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        disabled={state === "loading"}
+                        placeholder="voce@email.com"
+                        className="mt-2 block w-full rounded-xl border border-[var(--cocoa)]/15 bg-[var(--cream)] px-4 py-3.5 text-[15px] text-[var(--cocoa)] placeholder:text-[var(--cocoa-soft)]/60 transition-all focus:border-[var(--brand-dark)] focus:bg-[var(--offwhite)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/30 disabled:opacity-60"
+                      />
+                    </div>
+
+                    {state === "error" && errorMsg && (
+                      <p className="rounded-lg bg-red-50 px-4 py-3 text-[13px] leading-[1.5] text-red-700">
+                        {errorMsg}
+                      </p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={state === "loading"}
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
+                    >
+                      {state === "loading" ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          Enviando...
+                        </>
+                      ) : (
+                        <>
+                          Quero entrar grátis
+                          <ArrowRight className="h-4 w-4" />
+                        </>
+                      )}
+                    </button>
+
+                    <p className="text-center text-[12px] text-[var(--cocoa-soft)]">
+                      Sem spam. Cancele quando quiser.
+                    </p>
+                  </form>
+                </>
+              )}
             </div>
           </motion.div>
         </div>
