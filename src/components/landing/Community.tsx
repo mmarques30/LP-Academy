@@ -1,16 +1,27 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Loader2 } from "lucide-react";
+import { ArrowRight, Check, Loader2, Lock } from "lucide-react";
 
 // Edge Function Supabase que recebe a submissão (chave anon do projeto IAplicada
 // é public por design — apenas valida payload + insere na tabela de leads).
 const FORM_ENDPOINT = "https://ciwdlceyjsnlnunktqzx.supabase.co/functions/v1/form-submit";
 const FORM_SLUG = "academy";
 
-const benefits = [
-  "Aula ao vivo gratuita toda segunda · 19h30",
-  "Acesso à comunidade IAplicada",
-  "Newsletter quinzenal com prompts e workflows testados",
+// O que a pessoa recebe se inscrevendo grátis (assistir a aula ao vivo,
+// participar da comunidade aberta, receber a newsletter).
+const freeBenefits = [
+  "Aula ao vivo de toda segunda · 19h30 (assistir)",
+  "Acesso à comunidade aberta IAplicada",
+  "Newsletter quinzenal com novidades",
+];
+
+// O que só quem compra o Academy tem — o "resultado de verdade"
+// fica aqui, não no plano gratuito.
+const academyOnly = [
+  "Gravação de todas as aulas pra rever quando quiser",
+  "Materiais, prompts e workflows do método APLICA",
+  "Q&A toda quarta com a Mari + 18 trilhas completas",
+  "Comunidade fechada com +700 Aplicados ativos",
 ];
 
 type SubmitState = "idle" | "loading" | "success" | "error";
@@ -88,13 +99,18 @@ export function Community() {
             </h2>
 
             <p className="mt-7 max-w-[46ch] text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">
-              Entra grátis na comunidade IAplicada e participa da aula ao vivo de toda
-              segunda às 19h30 — sem cartão, sem fidelidade. Você sente o método
-              APLICA na prática antes de decidir entrar pro Academy.
+              Assiste a aula ao vivo de toda segunda 19h30, entra na comunidade
+              aberta e recebe a newsletter — sem cartão. É o gostinho do método
+              APLICA na prática. As gravações, materiais e mentoria semanal —
+              o que faz IA virar <em className="serif-italic text-[var(--cocoa)]">resultado de verdade</em> —
+              ficam dentro do Academy.
             </p>
 
-            <ul className="mt-10 space-y-4">
-              {benefits.map((b) => (
+            <p className="mt-10 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
+              O que você acessa de graça
+            </p>
+            <ul className="mt-4 space-y-3.5">
+              {freeBenefits.map((b) => (
                 <li
                   key={b}
                   className="flex items-start gap-3 text-[15px] leading-[1.55] text-[var(--cocoa)]"
@@ -107,9 +123,36 @@ export function Community() {
               ))}
             </ul>
 
-            <p className="mono-label mt-10 text-[var(--cocoa-soft)]">
-              Sem cartão · sem fidelidade · cancele quando quiser
-            </p>
+            {/* Contraste: o que SÓ está no Academy pago. Tom mais quieto
+                (cocoa-soft, sem chips coloridos) pra não competir
+                visualmente com o form, mas explícito o suficiente pra
+                deixar claro onde está o resultado de verdade. */}
+            <div className="mt-8 rounded-2xl border border-[var(--cocoa)]/12 bg-[var(--offwhite)]/70 p-6">
+              <div className="flex items-center gap-2.5">
+                <Lock className="h-3.5 w-3.5 text-[var(--cocoa-soft)]" />
+                <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--cocoa-soft)]">
+                  Resultado de verdade fica no Academy
+                </span>
+              </div>
+              <ul className="mt-4 space-y-2.5">
+                {academyOnly.map((b) => (
+                  <li
+                    key={b}
+                    className="flex items-start gap-2.5 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]"
+                  >
+                    <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--cocoa-soft)]/60" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="#investimento"
+                className="mt-5 inline-flex items-center gap-1.5 text-[13px] font-medium text-[var(--brand-dark)] transition-colors hover:text-[#5C6F1D]"
+              >
+                Ver o Academy completo
+                <ArrowRight className="h-3.5 w-3.5" />
+              </a>
+            </div>
           </motion.div>
 
           {/* Form nativo */}
@@ -130,9 +173,21 @@ export function Community() {
                     Tá dentro da comunidade.
                   </h3>
                   <p className="mt-4 max-w-sm text-[15px] leading-[1.6] text-[var(--cocoa-soft)]">
-                    Te mandamos o link da aula de segunda 19h30 e da comunidade IAplicada
-                    pro email <strong className="text-[var(--cocoa)]">{email}</strong>.
+                    Te mandamos o link da aula de segunda 19h30 e da comunidade
+                    aberta pro email <strong className="text-[var(--cocoa)]">{email}</strong>.
                     Confere a caixa de entrada (e o spam, por garantia).
+                  </p>
+                  <p className="mt-6 max-w-sm text-[13px] leading-[1.55] text-[var(--cocoa-soft)]/85">
+                    Quando quiser ir mais fundo — com gravações, materiais e
+                    mentoria semanal —
+                    {" "}
+                    <a
+                      href="#investimento"
+                      className="font-medium text-[var(--brand-dark)] underline-offset-2 hover:underline"
+                    >
+                      o Academy te espera
+                    </a>
+                    .
                   </p>
                 </div>
               ) : (
