@@ -2,9 +2,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 
-// Troca isso pelo ID do vídeo do YouTube da sua VSL
-// Ex: se o link é https://youtu.be/ABC123XYZ, o ID é "ABC123XYZ"
-const YOUTUBE_ID = "YOUR_VSL_ID_HERE";
+// VSL oficial: https://youtu.be/iVC_szCBrnU
+const YOUTUBE_ID = "iVC_szCBrnU";
 
 const POSTER = "/mariana.jpg";
 
