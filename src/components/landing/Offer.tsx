@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { Check, ArrowRight, Shield, Lock } from "lucide-react";
 
-const CHECKOUT_MONTHLY = "#";
-const CHECKOUT_ANNUAL = "#";
+const CHECKOUT_MONTHLY = "https://pague.lia.com.br/iaplicada/oferta?offer_id=58de246e-e1c2-4257-a04e-2b3e1bf34d40";
+const CHECKOUT_ANNUAL = "https://pague.lia.com.br/iaplicada/oferta?offer_id=58de246e-e1c2-4257-a04e-2b3e1bf34d40";
 
 const includes = [
   "18 trilhas + novos conteúdos quinzenais",
