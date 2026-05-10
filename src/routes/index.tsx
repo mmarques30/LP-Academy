@@ -5,6 +5,7 @@ import { Problem } from "@/components/landing/Problem";
 import { Solution } from "@/components/landing/Solution";
 import { Includes } from "@/components/landing/Includes";
 import { Authority } from "@/components/landing/Authority";
+import { Community } from "@/components/landing/Community";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { Offer } from "@/components/landing/Offer";
 import { FAQ } from "@/components/landing/FAQ";
@@ -43,6 +44,7 @@ function Index() {
       <Solution />
       <Includes />
       <Authority />
+      <Community />
       <Testimonials />
       <Offer />
       <FAQ />

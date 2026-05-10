@@ -27,7 +27,7 @@ export function Offer() {
       <div className="container-wide px-6">
         <div className="grid items-end gap-6 md:grid-cols-2 md:gap-12">
           <div>
-            <span className="eyebrow">06 — Investimento</span>
+            <span className="eyebrow">07 — Investimento</span>
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
               Menos de <span className="serif-italic text-[var(--brand-dark)]">R$ 5 por dia.</span>
               <br />

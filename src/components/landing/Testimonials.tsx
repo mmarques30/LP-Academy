@@ -31,7 +31,7 @@ export function Testimonials() {
       <div className="container-wide px-6">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="eyebrow">05 — Quem aplica</span>
+            <span className="eyebrow">06 — Quem aplica</span>
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
               Histórias de quem parou
               <br />

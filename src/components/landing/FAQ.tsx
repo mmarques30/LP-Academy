@@ -20,7 +20,7 @@ export function FAQ() {
       <div className="container-wide px-6">
         <div className="grid gap-14 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
           <div>
-            <span className="eyebrow">07 — Dúvidas</span>
+            <span className="eyebrow">08 — Dúvidas</span>
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
               Perguntas
               <br />
