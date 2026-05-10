@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
 
@@ -7,13 +7,65 @@ const YOUTUBE_ID = "iVC_szCBrnU";
 
 const POSTER = "/mariana.jpg";
 
+declare global {
+  interface Window {
+    YT?: {
+      Player: new (
+        host: HTMLElement | string,
+        opts: Record<string, unknown>,
+      ) => { destroy: () => void; playVideo: () => void };
+    };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+// Carrega o IFrame Player API uma única vez (cache em memória)
+let ytApiPromise: Promise<Window["YT"]> | null = null;
+
+function loadYouTubeAPI(): Promise<Window["YT"]> {
+  if (typeof window === "undefined") return Promise.resolve(undefined);
+  if (ytApiPromise) return ytApiPromise;
+
+  ytApiPromise = new Promise((resolve) => {
+    if (window.YT && window.YT.Player) {
+      resolve(window.YT);
+      return;
+    }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prev?.();
+      resolve(window.YT);
+    };
+    if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
+      const s = document.createElement("script");
+      s.src = "https://www.youtube.com/iframe_api";
+      s.async = true;
+      document.body.appendChild(s);
+    }
+  });
+
+  return ytApiPromise;
+}
+
 export function HeroVslPlayer() {
   const [open, setOpen] = useState(false);
-  const hasRealVideo = YOUTUBE_ID !== "YOUR_VSL_ID_HERE";
+  const hasRealVideo = (YOUTUBE_ID as string) !== "YOUR_VSL_ID_HERE";
+  const playerHostRef = useRef<HTMLDivElement | null>(null);
+  const playerRef = useRef<{ destroy: () => void; playVideo: () => void } | null>(null);
 
-  // ESC fecha + trava scroll do body enquanto o modal estiver aberto
+  // Pré-carrega o script do YouTube IFrame API assim que o Hero monta,
+  // pra quando a pessoa clicar em play o vídeo já comece a tocar na hora
+  // (sem esperar o download da API).
+  useEffect(() => {
+    if (!hasRealVideo) return;
+    loadYouTubeAPI();
+  }, [hasRealVideo]);
+
+  // Ao abrir o modal: instancia o player, autoplay confiável via API,
+  // trava scroll, escuta ESC.
   useEffect(() => {
     if (!open) return;
+
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
@@ -22,9 +74,48 @@ export function HeroVslPlayer() {
     };
     window.addEventListener("keydown", onKey);
 
+    let cancelled = false;
+
+    loadYouTubeAPI().then((YT) => {
+      if (cancelled || !YT || !playerHostRef.current) return;
+      // O YT.Player substitui o host element por um <iframe>, então
+      // funciona perfeitamente com o div ref'd que renderizamos abaixo.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      playerRef.current = new YT.Player(playerHostRef.current, {
+        videoId: YOUTUBE_ID,
+        host: "https://www.youtube-nocookie.com",
+        playerVars: {
+          autoplay: 1,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+        },
+        events: {
+          // Fallback: alguns browsers ignoram autoplay=1 no playerVars,
+          // mas respeitam playVideo() dentro de onReady porque o gesture
+          // do clique ainda é considerado válido nesse ponto.
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onReady: (e: any) => {
+            try {
+              e.target.playVideo();
+            } catch {
+              /* noop */
+            }
+          },
+        },
+      } as Record<string, unknown>);
+    });
+
     return () => {
+      cancelled = true;
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
+      try {
+        playerRef.current?.destroy?.();
+      } catch {
+        /* noop */
+      }
+      playerRef.current = null;
     };
   }, [open]);
 
@@ -51,10 +142,16 @@ export function HeroVslPlayer() {
                 className="absolute inset-0 bg-gradient-to-t from-[var(--cocoa)]/60 via-transparent to-transparent"
               />
 
+              {/* Faixa "VÍDEO" no topo do poster pra ficar explícito que tem vídeo */}
+              <div className="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full border border-[var(--offwhite)]/25 bg-[var(--cocoa)]/55 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--offwhite)] backdrop-blur-md">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--brand)]" />
+                Vídeo · Mensagem da Mari
+              </div>
+
               <button
                 type="button"
                 onClick={() => hasRealVideo && setOpen(true)}
-                aria-label="Reproduzir mensagem da Mari"
+                aria-label="Assistir o vídeo da Mari"
                 className="group absolute inset-0 flex flex-col items-center justify-center gap-4 focus:outline-none"
               >
                 <span className="relative flex h-20 w-20 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)] shadow-[0_10px_40px_-5px_rgba(175,192,64,0.55)] transition-transform duration-500 group-hover:scale-110 md:h-24 md:w-24">
@@ -64,8 +161,8 @@ export function HeroVslPlayer() {
                   />
                   <Play className="relative h-8 w-8 translate-x-0.5 md:h-10 md:w-10" fill="currentColor" />
                 </span>
-                <span className="mono-label text-[var(--offwhite)]">
-                  {hasRealVideo ? "Mensagem da Mari · 3 min" : "VSL placeholder — troque o YOUTUBE_ID"}
+                <span className="font-display text-lg text-[var(--offwhite)] md:text-xl">
+                  {hasRealVideo ? "Aperte play pra assistir" : "VSL placeholder — troque o YOUTUBE_ID"}
                 </span>
               </button>
 
@@ -147,13 +244,8 @@ export function HeroVslPlayer() {
               </button>
 
               <div className="relative aspect-video overflow-hidden rounded-2xl bg-black shadow-[0_40px_100px_-30px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
-                  title="VSL · Mariana Marques"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="absolute inset-0 h-full w-full"
-                />
+                {/* O YT.Player substitui esse div por um <iframe> ao instanciar */}
+                <div ref={playerHostRef} className="absolute inset-0 h-full w-full" />
               </div>
             </motion.div>
           </motion.div>
