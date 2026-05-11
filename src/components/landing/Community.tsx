@@ -148,7 +148,7 @@ export function Community() {
             <span className="eyebrow">05 — Comunidade gratuita</span>
 
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
-              Conhece por dentro,{" "}
+              Sente o método,{" "}
               <span className="serif-italic text-[var(--brand-dark)]">sem cartão.</span>
             </h2>
 
