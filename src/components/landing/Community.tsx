@@ -128,7 +128,7 @@ export function Community() {
     } catch (err) {
       console.error("[Community form]", err);
       setErrorMsg(
-        "Não conseguimos enviar agora. Tenta de novo em alguns segundos ou manda um oi pra contato@iaplicada.com.",
+        "Não conseguimos enviar agora. Tenta de novo em alguns segundos ou manda um oi pra equipe@iaplicada.com.",
       );
       setState("error");
     }

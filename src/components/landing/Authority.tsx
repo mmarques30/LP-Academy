@@ -61,13 +61,13 @@ export function Authority() {
 
             {/* Redes sociais */}
             <div className="mt-6 flex items-center gap-5">
-              <a href="https://instagram.com/marimarquescb" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://www.instagram.com/marimarquescb/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Instagram className="h-4 w-4" /> @marimarquescb
               </a>
-              <a href="https://youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://www.youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Youtube className="h-4 w-4" /> @iaplicadaa
               </a>
-              <a href="https://linkedin.com/in/marimarquescb" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
+              <a href="https://www.linkedin.com/in/marianamarquescabral/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex items-center gap-2 text-sm text-[var(--offwhite)]/60 transition-colors hover:text-[var(--brand)]">
                 <Linkedin className="h-4 w-4" />
               </a>
             </div>
