@@ -39,7 +39,9 @@ const MOTIVO_OPTIONS = [
   "Curiosidade/interesse pessoal",
 ];
 
-type SubmitState = "idle" | "loading" | "success" | "error";
+// "success" não existe mais como estado renderizado: o submit bem-sucedido
+// redireciona direto pra /thank-you sem flashar nada inline.
+type SubmitState = "idle" | "loading" | "error";
 
 function getUtms() {
   if (typeof window === "undefined") {
@@ -119,8 +121,9 @@ export function Community() {
         throw new Error(body || `HTTP ${res.status}`);
       }
 
-      setState("success");
-      // Redireciona pra página de obrigado com próximos passos
+      // Redireciona direto pra página de obrigado — sem mostrar nada
+      // inline. A próxima tela já é a /thank-you com a experiência
+      // completa de próximos passos.
       navigate({ to: "/thank-you" });
     } catch (err) {
       console.error("[Community form]", err);
@@ -190,171 +193,153 @@ export function Community() {
             className="relative"
           >
             <div className="rounded-[28px] bg-[var(--offwhite)] p-7 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-9">
-              {state === "success" ? (
-                <div className="flex flex-col items-center text-center">
-                  <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)]">
-                    <Check className="h-7 w-7" strokeWidth={2.5} />
-                  </span>
-                  <h3 className="mt-6 font-display text-2xl text-[var(--cocoa)]">
-                    Tá dentro da comunidade.
-                  </h3>
-                  <p className="mt-4 max-w-sm text-[15px] leading-[1.6] text-[var(--cocoa-soft)]">
-                    Te mandamos o link da aula de segunda 19h30 e da comunidade
-                    aberta pro email <strong className="text-[var(--cocoa)]">{email}</strong>.
-                    Confere a caixa de entrada (e o spam, por garantia).
-                  </p>
+              <div>
+                <span className="mono-label text-[var(--brand-dark)]">Inscrição gratuita</span>
+                <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-3xl">
+              Recebe o link da aula de segunda
+                </h3>
+                <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
+              Preenche e a gente te manda o convite + o acesso à comunidade.
+                </p>
+              </div>
+
+              <form onSubmit={handleSubmit} className="mt-7 space-y-4" noValidate>
+                <div>
+              <label htmlFor="community-firstname" className={labelClass}>
+                Nome Completo
+              </label>
+              <input
+                id="community-firstname"
+                name="firstname"
+                type="text"
+                required
+                autoComplete="name"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                disabled={state === "loading"}
+                placeholder="Seu nome completo"
+                className={inputClass}
+              />
                 </div>
+
+                <div>
+              <label htmlFor="community-email" className={labelClass}>
+                E-mail
+              </label>
+              <input
+                id="community-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={state === "loading"}
+                placeholder="seu@email.com"
+                className={inputClass}
+              />
+                </div>
+
+                <div>
+              <label htmlFor="community-phone" className={labelClass}>
+                Telefone com DDD
+              </label>
+              <input
+                id="community-phone"
+                name="phone"
+                type="tel"
+                required
+                autoComplete="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                disabled={state === "loading"}
+                placeholder="(11) 99999-9999"
+                className={inputClass}
+              />
+                </div>
+
+                <div>
+              <label htmlFor="community-objetivo" className={labelClass}>
+                Qual o seu objetivo ao participar da comunidade?
+              </label>
+              <div className="relative">
+                <select
+                  id="community-objetivo"
+                  name="objetivo_com_a_comunidade"
+                  required
+                  value={objetivo}
+                  onChange={(e) => setObjetivo(e.target.value)}
+                  disabled={state === "loading"}
+                  className={`${inputClass} appearance-none pr-10`}
+                >
+                  <option value="" disabled>
+                    Selecione...
+                  </option>
+                  {OBJETIVO_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
+              </div>
+                </div>
+
+                <div>
+              <label htmlFor="community-motivo" className={labelClass}>
+                Por qual motivo você quer aprender IA?
+              </label>
+              <div className="relative">
+                <select
+                  id="community-motivo"
+                  name="motivo_para_aprender_ia"
+                  required
+                  value={motivo}
+                  onChange={(e) => setMotivo(e.target.value)}
+                  disabled={state === "loading"}
+                  className={`${inputClass} appearance-none pr-10`}
+                >
+                  <option value="" disabled>
+                    Selecione...
+                  </option>
+                  {MOTIVO_OPTIONS.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
+              </div>
+                </div>
+
+                {state === "error" && errorMsg && (
+              <p className="rounded-lg bg-red-50 px-4 py-3 text-[13px] leading-[1.5] text-red-700">
+                {errorMsg}
+              </p>
+                )}
+
+                <button
+              type="submit"
+              disabled={state === "loading"}
+              className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
+                >
+              {state === "loading" ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Enviando...
+                </>
               ) : (
                 <>
-                  <div>
-                    <span className="mono-label text-[var(--brand-dark)]">Inscrição gratuita</span>
-                    <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-3xl">
-                      Recebe o link da aula de segunda
-                    </h3>
-                    <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
-                      Preenche e a gente te manda o convite + o acesso à comunidade.
-                    </p>
-                  </div>
-
-                  <form onSubmit={handleSubmit} className="mt-7 space-y-4" noValidate>
-                    <div>
-                      <label htmlFor="community-firstname" className={labelClass}>
-                        Nome Completo
-                      </label>
-                      <input
-                        id="community-firstname"
-                        name="firstname"
-                        type="text"
-                        required
-                        autoComplete="name"
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
-                        disabled={state === "loading"}
-                        placeholder="Seu nome completo"
-                        className={inputClass}
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="community-email" className={labelClass}>
-                        E-mail
-                      </label>
-                      <input
-                        id="community-email"
-                        name="email"
-                        type="email"
-                        required
-                        autoComplete="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        disabled={state === "loading"}
-                        placeholder="seu@email.com"
-                        className={inputClass}
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="community-phone" className={labelClass}>
-                        Telefone com DDD
-                      </label>
-                      <input
-                        id="community-phone"
-                        name="phone"
-                        type="tel"
-                        required
-                        autoComplete="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        disabled={state === "loading"}
-                        placeholder="(11) 99999-9999"
-                        className={inputClass}
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="community-objetivo" className={labelClass}>
-                        Qual o seu objetivo ao participar da comunidade?
-                      </label>
-                      <div className="relative">
-                        <select
-                          id="community-objetivo"
-                          name="objetivo_com_a_comunidade"
-                          required
-                          value={objetivo}
-                          onChange={(e) => setObjetivo(e.target.value)}
-                          disabled={state === "loading"}
-                          className={`${inputClass} appearance-none pr-10`}
-                        >
-                          <option value="" disabled>
-                            Selecione...
-                          </option>
-                          {OBJETIVO_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="community-motivo" className={labelClass}>
-                        Por qual motivo você quer aprender IA?
-                      </label>
-                      <div className="relative">
-                        <select
-                          id="community-motivo"
-                          name="motivo_para_aprender_ia"
-                          required
-                          value={motivo}
-                          onChange={(e) => setMotivo(e.target.value)}
-                          disabled={state === "loading"}
-                          className={`${inputClass} appearance-none pr-10`}
-                        >
-                          <option value="" disabled>
-                            Selecione...
-                          </option>
-                          {MOTIVO_OPTIONS.map((opt) => (
-                            <option key={opt} value={opt}>
-                              {opt}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
-                      </div>
-                    </div>
-
-                    {state === "error" && errorMsg && (
-                      <p className="rounded-lg bg-red-50 px-4 py-3 text-[13px] leading-[1.5] text-red-700">
-                        {errorMsg}
-                      </p>
-                    )}
-
-                    <button
-                      type="submit"
-                      disabled={state === "loading"}
-                      className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {state === "loading" ? (
-                        <>
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                          Enviando...
-                        </>
-                      ) : (
-                        <>
-                          Quero entrar grátis
-                          <ArrowRight className="h-4 w-4" />
-                        </>
-                      )}
-                    </button>
-
-                    <p className="text-center text-[12px] text-[var(--cocoa-soft)]">
-                      Sem spam. Cancele quando quiser.
-                    </p>
-                  </form>
+                  Quero entrar grátis
+                  <ArrowRight className="h-4 w-4" />
                 </>
               )}
+                </button>
+
+                <p className="text-center text-[12px] text-[var(--cocoa-soft)]">
+              Sem spam. Cancele quando quiser.
+                </p>
+              </form>
             </div>
           </motion.div>
         </div>
