@@ -23,15 +23,19 @@ export function Footer() {
           </p>
           <ul className="mt-4 space-y-2 text-sm text-[var(--cocoa-soft)]">
             {[
-              { l: "Academy", h: "#" },
-              { l: "Empresas", h: "/empresas" },
-              { l: "Blog", h: "#" },
-              { l: "Contato", h: "#" },
-              { l: "Termos de uso", h: "#" },
-              { l: "Política de privacidade", h: "#" },
-            ].map(({ l, h }) => (
+              { l: "Academy", h: "#", ext: false },
+              { l: "Business", h: "https://iaplicada.com", ext: true },
+              { l: "Blog", h: "#", ext: false },
+              { l: "Contato", h: "mailto:equipe@iaplicada.com", ext: false },
+              { l: "Termos de uso", h: "#", ext: false },
+              { l: "Política de privacidade", h: "#", ext: false },
+            ].map(({ l, h, ext }) => (
               <li key={l}>
-                <a href={h} className="hover:text-[var(--cocoa)]">
+                <a
+                  href={h}
+                  {...(ext ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="hover:text-[var(--cocoa)]"
+                >
                   {l}
                 </a>
               </li>
@@ -45,17 +49,17 @@ export function Footer() {
           </p>
           <ul className="mt-4 space-y-3 text-sm text-[var(--cocoa-soft)]">
             <li>
-              <a href="https://instagram.com/marimarquescb" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://www.instagram.com/marimarquescb/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Instagram className="h-4 w-4" /> @marimarquescb
               </a>
             </li>
             <li>
-              <a href="https://youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://www.youtube.com/@iaplicadaa" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Youtube className="h-4 w-4" /> @iaplicadaa
               </a>
             </li>
             <li>
-              <a href="https://linkedin.com/in/marimarquescb" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
+              <a href="https://www.linkedin.com/in/marianamarquescabral/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 hover:text-[var(--cocoa)]">
                 <Linkedin className="h-4 w-4" /> Mariana Marques
               </a>
             </li>
@@ -66,7 +70,14 @@ export function Footer() {
       <div className="border-t border-[var(--border)]">
         <div className="container-narrow flex flex-col items-center justify-between gap-2 px-6 py-6 text-xs text-[var(--cocoa-soft)] md:flex-row">
           <p>© 2026 IAplicada · Todos os direitos reservados</p>
-          <p>contato@iaplicada.com</p>
+          <p>
+            <a
+              href="mailto:equipe@iaplicada.com"
+              className="hover:text-[var(--cocoa)]"
+            >
+              equipe@iaplicada.com
+            </a>
+          </p>
         </div>
       </div>
     </footer>

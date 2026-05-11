@@ -2,12 +2,14 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./Logo";
 
+// `external` abre em nova aba (item Business aponta pro site iaplicada.com,
+// os demais são âncoras dentro da LP)
 const links = [
-  { href: "#metodo", label: "Método" },
-  { href: "#academy", label: "Academy" },
-  { href: "#fundadora", label: "Fundadora" },
-  { href: "#investimento", label: "Investimento" },
-  { href: "/empresas", label: "Empresas" },
+  { href: "#metodo", label: "Método", external: false },
+  { href: "#academy", label: "Academy", external: false },
+  { href: "#fundadora", label: "Fundadora", external: false },
+  { href: "#investimento", label: "Investimento", external: false },
+  { href: "https://iaplicada.com", label: "Business", external: true },
 ];
 
 export function Header() {
@@ -42,6 +44,7 @@ export function Header() {
             <a
               key={l.href}
               href={l.href}
+              {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
               className="text-[13px] font-medium text-[var(--cocoa-soft)] transition-colors hover:text-[var(--cocoa)]"
             >
               {l.label}
@@ -74,6 +77,7 @@ export function Header() {
               <a
                 key={l.href}
                 href={l.href}
+                {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 onClick={() => setOpen(false)}
                 className="font-display text-xl text-[var(--cocoa)]"
               >

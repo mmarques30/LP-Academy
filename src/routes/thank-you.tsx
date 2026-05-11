@@ -28,7 +28,7 @@ const steps = [
   },
   {
     icon: ShieldCheck,
-    title: "Adiciona contato@iaplicada.com aos contatos",
+    title: "Adiciona equipe@iaplicada.com aos contatos",
     detail:
       "Pra garantir que tudo da Mari chegue até você sem cair no spam.",
   },
