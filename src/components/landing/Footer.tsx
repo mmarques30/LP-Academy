@@ -25,7 +25,6 @@ export function Footer() {
             {[
               { l: "Academy", h: "#", ext: false },
               { l: "Business", h: "https://iaplicada.com", ext: true },
-              { l: "Blog", h: "#", ext: false },
               { l: "Contato", h: "mailto:equipe@iaplicada.com", ext: false },
               { l: "Termos de uso", h: "#", ext: false },
               { l: "Política de privacidade", h: "#", ext: false },
