@@ -3,22 +3,33 @@ import { useEffect } from "react";
 /**
  * Microsoft Clarity (https://clarity.microsoft.com/)
  *
- * Project ID da Mari, fixado direto no código pra evitar dependência
- * de env var no Lovable. Pra trocar de projeto (ex: separar dev/prod),
- * setar VITE_CLARITY_PROJECT_ID no Lovable Settings → Environment
- * Variables, que sobrepõe este default.
+ * Project ID da Mari fixado no código. Pra trocar (ex: separar
+ * dev/prod), setar VITE_CLARITY_PROJECT_ID no Lovable → sobrepõe.
  *
- * Acessar dashboard: https://clarity.microsoft.com/projects/view/wpgxq27fhi/dashboard
+ * Dashboard: https://clarity.microsoft.com/projects/view/wpgxq27fhi
  *
- * Comportamento:
- * - Injeta o snippet oficial da Microsoft no document.head após o
- *   hydrate (useEffect — script é client-only por design).
- * - Dedup via id="clarity-tag": navegação client-side entre / e
- *   /thank-you não injeta de novo.
- * - Privacy by default: Clarity anonimiza IP e mascara conteúdo de
- *   inputs. Não captura senhas.
+ * Por que NÃO usamos a IIFE oficial da Microsoft via script.text:
+ *   A IIFE injetada como inline script (script.text=…) é bloqueada
+ *   por CSP com 'strict-dynamic', padrão em hosts modernos como
+ *   Cloudflare/Lovable. Reescrevemos o equivalente sem inline:
+ *     1. Define window.clarity como queue de comandos (mesmo papel
+ *        que o começo da IIFE)
+ *     2. Cria <script async src="https://www.clarity.ms/tag/{id}">
+ *        — script externo é carregado por código com nonce válido
+ *        (o próprio bundle React), passa pelo strict-dynamic
+ *
+ * Dedup: script.id="clarity-tag" — re-render ou navegação client-side
+ * não re-injeta.
  */
 const DEFAULT_CLARITY_PROJECT_ID = "wpgxq27fhi";
+
+type ClarityQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
+
+declare global {
+  interface Window {
+    clarity?: ClarityQueue;
+  }
+}
 
 export function ClarityScript() {
   useEffect(() => {
@@ -31,15 +42,26 @@ export function ClarityScript() {
 
     if (document.getElementById("clarity-tag")) return;
 
+    // 1) Define a fila de comandos clarity (equivalente ao começo
+    //    da IIFE oficial). Comandos chamados antes do tag carregar
+    //    ficam na queue e são processados quando o script real
+    //    inicializa.
+    if (!window.clarity) {
+      const queue: unknown[][] = [];
+      const clarityFn = function (...args: unknown[]) {
+        queue.push(args);
+      } as ClarityQueue;
+      clarityFn.q = queue;
+      window.clarity = clarityFn;
+    }
+
+    // 2) Carrega o tag real via <script src=…> — script externo
+    //    passa por CSP strict-dynamic porque é injetado por código
+    //    do bundle (que tem nonce válido).
     const s = document.createElement("script");
     s.id = "clarity-tag";
-    s.type = "text/javascript";
     s.async = true;
-    // Snippet oficial Microsoft Clarity (IIFE que injeta o tag real
-    // do tracker e expõe window.clarity como queue de comandos).
-    s.text = `(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window, document, "clarity", "script", ${JSON.stringify(
-      projectId,
-    )});`;
+    s.src = `https://www.clarity.ms/tag/${projectId}`;
     document.head.appendChild(s);
   }, []);
 
