@@ -7,115 +7,69 @@ const YOUTUBE_ID = "iVC_szCBrnU";
 
 const POSTER = "/mariana.jpg";
 
-declare global {
-  interface Window {
-    YT?: {
-      Player: new (
-        host: HTMLElement | string,
-        opts: Record<string, unknown>,
-      ) => { destroy: () => void; playVideo: () => void };
-    };
-    onYouTubeIframeAPIReady?: () => void;
-  }
+// enablejsapi=1 permite controlar o iframe via postMessage (play/pause)
+// sem precisar carregar o YouTube IFrame Player API (que adicionava ~30KB
+// + delay de inicialização). origin=window.location.origin fortalece
+// segurança das mensagens.
+function buildEmbedSrc() {
+  const origin =
+    typeof window !== "undefined" ? `&origin=${encodeURIComponent(window.location.origin)}` : "";
+  return `https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1${origin}`;
 }
 
-// Carrega o IFrame Player API uma única vez (cache em memória)
-let ytApiPromise: Promise<Window["YT"]> | null = null;
-
-function loadYouTubeAPI(): Promise<Window["YT"]> {
-  if (typeof window === "undefined") return Promise.resolve(undefined);
-  if (ytApiPromise) return ytApiPromise;
-
-  ytApiPromise = new Promise((resolve) => {
-    if (window.YT && window.YT.Player) {
-      resolve(window.YT);
-      return;
-    }
-    const prev = window.onYouTubeIframeAPIReady;
-    window.onYouTubeIframeAPIReady = () => {
-      prev?.();
-      resolve(window.YT);
-    };
-    if (!document.querySelector('script[src="https://www.youtube.com/iframe_api"]')) {
-      const s = document.createElement("script");
-      s.src = "https://www.youtube.com/iframe_api";
-      s.async = true;
-      document.body.appendChild(s);
-    }
-  });
-
-  return ytApiPromise;
+function postCommand(iframe: HTMLIFrameElement | null, func: "playVideo" | "pauseVideo") {
+  try {
+    iframe?.contentWindow?.postMessage(
+      JSON.stringify({ event: "command", func, args: [] }),
+      "*",
+    );
+  } catch {
+    /* noop */
+  }
 }
 
 export function HeroVslPlayer() {
   const [open, setOpen] = useState(false);
+  const [primed, setPrimed] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const hasRealVideo = (YOUTUBE_ID as string) !== "YOUR_VSL_ID_HERE";
-  const playerHostRef = useRef<HTMLDivElement | null>(null);
-  const playerRef = useRef<{ destroy: () => void; playVideo: () => void } | null>(null);
 
-  // Pré-carrega o script do YouTube IFrame API assim que o Hero monta,
-  // pra quando a pessoa clicar em play o vídeo já comece a tocar na hora
-  // (sem esperar o download da API).
+  // Pre-monta o iframe LOGO após hydrate. O iframe fica em uma região
+  // offscreen mas com dimensões reais — o YouTube vê como "visível",
+  // baixa o player + metadata + thumbnail do vídeo. Quando a pessoa
+  // clica em play, esse mesmo iframe (já totalmente carregado) é movido
+  // pro modal via mudança de CSS, e o playVideo() executa instantâneo.
   useEffect(() => {
     if (!hasRealVideo) return;
-    loadYouTubeAPI();
+    // 200ms delay pra não competir com o LCP do Hero
+    const id = setTimeout(() => setPrimed(true), 200);
+    return () => clearTimeout(id);
   }, [hasRealVideo]);
 
-  // Ao abrir o modal: instancia o player, autoplay confiável via API,
-  // trava scroll, escuta ESC.
+  // Quando o modal abre/fecha: trava scroll, escuta ESC, manda
+  // play/pause pro iframe via postMessage.
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      // Pausa quando fecha (iframe continua montado pra reusar na próxima
+      // abertura sem novo network roundtrip)
+      postCommand(iframeRef.current, "pauseVideo");
+      return;
+    }
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
+    // Play imediato — o iframe já tá carregado em background
+    postCommand(iframeRef.current, "playVideo");
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") setOpen(false);
     };
     window.addEventListener("keydown", onKey);
 
-    let cancelled = false;
-
-    loadYouTubeAPI().then((YT) => {
-      if (cancelled || !YT || !playerHostRef.current) return;
-      // O YT.Player substitui o host element por um <iframe>, então
-      // funciona perfeitamente com o div ref'd que renderizamos abaixo.
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      playerRef.current = new YT.Player(playerHostRef.current, {
-        videoId: YOUTUBE_ID,
-        host: "https://www.youtube-nocookie.com",
-        playerVars: {
-          autoplay: 1,
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-        },
-        events: {
-          // Fallback: alguns browsers ignoram autoplay=1 no playerVars,
-          // mas respeitam playVideo() dentro de onReady porque o gesture
-          // do clique ainda é considerado válido nesse ponto.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          onReady: (e: any) => {
-            try {
-              e.target.playVideo();
-            } catch {
-              /* noop */
-            }
-          },
-        },
-      } as Record<string, unknown>);
-    });
-
     return () => {
-      cancelled = true;
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
-      try {
-        playerRef.current?.destroy?.();
-      } catch {
-        /* noop */
-      }
-      playerRef.current = null;
     };
   }, [open]);
 
@@ -166,11 +120,10 @@ export function HeroVslPlayer() {
                 </span>
               </button>
 
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between p-6 text-[var(--offwhite)]">
-                <div>
-                  <p className="mono-label opacity-70">Fundadora</p>
-                  <p className="mt-1.5 font-display text-2xl">Mariana Marques</p>
-                </div>
+              {/* Chip "Aula ao vivo" sozinho à direita (removido "Fundadora /
+                  Mariana Marques" porque conflitava com o card flutuante de
+                  Satisfação) */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-end p-6 text-[var(--offwhite)]">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[var(--offwhite)]/25 bg-[var(--cocoa)]/40 px-3.5 py-1.5 text-xs font-medium text-[var(--offwhite)] backdrop-blur-md">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--brand)]" />
                   Aula ao vivo · seg, 19h30
@@ -205,32 +158,33 @@ export function HeroVslPlayer() {
         </div>
       </motion.div>
 
-      {/* Modal/lightbox da VSL — abre no aspect natural 16:9 com backdrop escurecido */}
+      {/* Backdrop do modal — só renderiza quando open. Animado via framer. */}
       <AnimatePresence>
         {open && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-6 md:p-10"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[99] flex items-center justify-center px-4 py-6 md:p-10"
             role="dialog"
             aria-modal="true"
             aria-label="Mensagem da Mari"
             onClick={() => setOpen(false)}
           >
-            {/* Backdrop opaco com blur */}
+            {/* Camada de escurecimento da LP */}
             <div
               aria-hidden
               className="absolute inset-0 bg-[var(--cocoa)]/85 backdrop-blur-md"
             />
 
+            {/* Botão Fechar — posicionado relativo ao container do vídeo abaixo */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 12 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 8 }}
-              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-              className="relative z-10 w-full max-w-[min(1100px,calc(100vh*16/9-80px))]"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, delay: 0.05 }}
+              className="relative z-[101] w-full max-w-[min(1100px,calc(100vh*16/9-80px))]"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -242,15 +196,43 @@ export function HeroVslPlayer() {
                 <X className="h-4 w-4" />
                 Fechar
               </button>
-
-              <div className="relative aspect-video overflow-hidden rounded-2xl bg-black shadow-[0_40px_100px_-30px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
-                {/* O YT.Player substitui esse div por um <iframe> ao instanciar */}
-                <div ref={playerHostRef} className="absolute inset-0 h-full w-full" />
-              </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Iframe persistente — montado uma vez após hydrate. Fica offscreen
+          quando o modal está fechado e ocupa o slot do modal quando abre.
+          Como o iframe NUNCA é desmontado/remontado, o vídeo está sempre
+          pronto pra tocar: o playVideo() executa instantâneo. */}
+      {primed && hasRealVideo && (
+        <div
+          aria-hidden={!open}
+          className={
+            open
+              ? "pointer-events-none fixed inset-0 z-[100] flex items-center justify-center px-4 py-6 md:p-10"
+              : "pointer-events-none fixed left-[-99999px] top-0 z-[-1] h-[360px] w-[640px] opacity-0"
+          }
+        >
+          <div
+            className={
+              open
+                ? "pointer-events-auto relative aspect-video w-full max-w-[min(1100px,calc(100vh*16/9-80px))] overflow-hidden rounded-2xl bg-black shadow-[0_40px_100px_-30px_rgba(0,0,0,0.7)] ring-1 ring-white/10"
+                : "h-full w-full"
+            }
+          >
+            <iframe
+              ref={iframeRef}
+              src={buildEmbedSrc()}
+              title="VSL · Mariana Marques"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; fullscreen"
+              allowFullScreen
+              loading="eager"
+              className="absolute inset-0 h-full w-full border-0"
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 }
