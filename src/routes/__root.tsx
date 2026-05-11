@@ -1,6 +1,7 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { ClarityScript } from "@/components/analytics/ClarityScript";
 
 function NotFoundComponent() {
   return (
@@ -45,6 +46,9 @@ export const Route = createRootRoute({
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      // Pré-aquece DNS/TLS pro Microsoft Clarity — quando o script
+      // dispara o request do tag, a conexão já está pronta
+      { rel: "preconnect", href: "https://www.clarity.ms" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap",
@@ -75,5 +79,10 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
-  return <Outlet />;
+  return (
+    <>
+      <ClarityScript />
+      <Outlet />
+    </>
+  );
 }
