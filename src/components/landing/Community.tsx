@@ -148,13 +148,14 @@ export function Community() {
             <span className="eyebrow">05 — Comunidade gratuita</span>
 
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
-              Conhece por dentro,{" "}
-              <span className="serif-italic text-[var(--brand-dark)]">sem cartão.</span>
+              Aplique IA com a Mari,{" "}
+              <span className="serif-italic text-[var(--brand-dark)]">ao vivo.</span>
             </h2>
 
             <p className="mt-7 max-w-[44ch] text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">
-              Aula ao vivo de toda segunda, comunidade e newsletter — sem cartão.
-              É o gostinho do método APLICA na prática.
+              Aula ao vivo de toda segunda, comunidade aberta e newsletter.
+              É o método APLICA em ação — você sente como funciona antes
+              de qualquer assinatura.
             </p>
 
             <ul className="mt-8 space-y-3.5">
