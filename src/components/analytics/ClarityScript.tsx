@@ -6,7 +6,7 @@ import { useEffect } from "react";
  * Project ID da Mari fixado no código. Pra trocar (ex: separar
  * dev/prod), setar VITE_CLARITY_PROJECT_ID no Lovable → sobrepõe.
  *
- * Dashboard: https://clarity.microsoft.com/projects/view/wpgxq27fhi
+ * Dashboard: https://clarity.microsoft.com/projects/view/wpgz0sjipi
  *
  * Por que NÃO usamos a IIFE oficial da Microsoft via script.text:
  *   A IIFE injetada como inline script (script.text=…) é bloqueada
@@ -21,7 +21,7 @@ import { useEffect } from "react";
  * Dedup: script.id="clarity-tag" — re-render ou navegação client-side
  * não re-injeta.
  */
-const DEFAULT_CLARITY_PROJECT_ID = "wpgxq27fhi";
+const DEFAULT_CLARITY_PROJECT_ID = "wpgz0sjipi";
 
 type ClarityQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
 
