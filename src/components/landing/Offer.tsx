@@ -120,6 +120,9 @@ export function Offer() {
               <p className="mt-2 text-sm text-[var(--offwhite)]/70">
                 Ou <strong className="text-[var(--offwhite)]">12× R$ 108</strong> · economia de R$ 467
               </p>
+              <p className="mt-3 text-[12px] leading-[1.5] text-[var(--offwhite)]/55">
+                Compromisso de 12 meses · cobrança via recorrência mensal ou à vista
+              </p>
             </div>
 
             <div className="my-8 h-px bg-[var(--offwhite)]/15" />
