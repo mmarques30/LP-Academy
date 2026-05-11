@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Check, ChevronDown, Loader2, Lock } from "lucide-react";
 
 // Configuração do backend — descoberta inspecionando o bundle do
@@ -60,6 +61,7 @@ const labelClass =
   "block text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--cocoa-soft)]";
 
 export function Community() {
+  const navigate = useNavigate();
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -118,6 +120,8 @@ export function Community() {
       }
 
       setState("success");
+      // Redireciona pra página de obrigado com próximos passos
+      navigate({ to: "/thank-you" });
     } catch (err) {
       console.error("[Community form]", err);
       setErrorMsg(
@@ -141,8 +145,8 @@ export function Community() {
             <span className="eyebrow">05 — Comunidade gratuita</span>
 
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
-              Antes de comprar,{" "}
-              <span className="serif-italic text-[var(--brand-dark)]">você participa.</span>
+              Conhece por dentro,{" "}
+              <span className="serif-italic text-[var(--brand-dark)]">sem cartão.</span>
             </h2>
 
             <p className="mt-7 max-w-[44ch] text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">
