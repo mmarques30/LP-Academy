@@ -31,7 +31,7 @@ export function Offer() {
             <h2 className="mt-7 h-section text-[var(--cocoa)]">
               Menos de <span className="serif-italic text-[var(--brand-dark)]">R$ 5 por dia.</span>
               <br />
-              Sem fidelidade.
+              Com 7 dias de garantia.
             </h2>
           </div>
           <p className="text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]">

@@ -23,8 +23,8 @@ export function StickyMobileCta() {
         <div className="min-w-0">
           <p className="mono-label text-[var(--cocoa-soft)]">Academy</p>
           <p className="mt-0.5 truncate font-display text-lg text-[var(--cocoa)]">
-            R$ 146<span className="text-sm text-[var(--cocoa-soft)]">/mês</span>
-            <span className="ml-2 text-[11px] text-[var(--cocoa-soft)]">· sem fidelidade</span>
+            A partir de R$ 146<span className="text-sm text-[var(--cocoa-soft)]">/mês</span>
+            <span className="ml-2 text-[11px] text-[var(--cocoa-soft)]">· 7 dias de garantia</span>
           </p>
         </div>
         <a
