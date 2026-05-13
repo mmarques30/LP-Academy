@@ -1,15 +1,24 @@
-import { useState, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, X } from "lucide-react";
+import { Play, Volume2, X } from "lucide-react";
 
 // VSL oficial: https://youtu.be/iVC_szCBrnU
 const YOUTUBE_ID = "iVC_szCBrnU";
 
 const POSTER = "/mariana.jpg";
 
-// enablejsapi=1 permite controlar o iframe via postMessage (play/pause)
-// sem precisar carregar o YouTube IFrame Player API (que adicionava ~30KB
-// + delay de inicialização). origin=window.location.origin fortalece
+// Após quantos ms na LP o modal abre sozinho com o vídeo tocando MUDO.
+// Política padrão de VSL — playVideo() com som sem gesture do usuário é
+// bloqueado por Chrome/Safari/Firefox. Então abre mudo + botão "Ativar som".
+const AUTO_OPEN_DELAY_MS = 5000;
+
+// Storage key pra só auto-abrir UMA vez por sessão do browser
+const AUTO_OPEN_SESSION_KEY = "vsl-auto-opened-v1";
+
+type ClarityCommand = "playVideo" | "pauseVideo" | "mute" | "unMute";
+
+// enablejsapi=1 permite controlar o iframe via postMessage (play/pause/mute)
+// sem precisar carregar o YouTube IFrame Player API. origin=... fortalece
 // segurança das mensagens.
 function buildEmbedSrc() {
   const origin =
@@ -17,7 +26,7 @@ function buildEmbedSrc() {
   return `https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?enablejsapi=1&rel=0&modestbranding=1&playsinline=1${origin}`;
 }
 
-function postCommand(iframe: HTMLIFrameElement | null, func: "playVideo" | "pauseVideo") {
+function postCommand(iframe: HTMLIFrameElement | null, func: ClarityCommand) {
   try {
     iframe?.contentWindow?.postMessage(
       JSON.stringify({ event: "command", func, args: [] }),
@@ -28,30 +37,63 @@ function postCommand(iframe: HTMLIFrameElement | null, func: "playVideo" | "paus
   }
 }
 
+function hasAutoOpenedThisSession(): boolean {
+  try {
+    return typeof window !== "undefined" && sessionStorage.getItem(AUTO_OPEN_SESSION_KEY) === "1";
+  } catch {
+    return false;
+  }
+}
+
+function markAutoOpened(): void {
+  try {
+    sessionStorage.setItem(AUTO_OPEN_SESSION_KEY, "1");
+  } catch {
+    /* SSR ou storage desabilitado — sem problema, na pior cai pra default */
+  }
+}
+
 export function HeroVslPlayer() {
   const [open, setOpen] = useState(false);
   const [primed, setPrimed] = useState(false);
+  // Flag: o modal foi aberto automaticamente (após 5s)?
+  // Se sim, o vídeo precisa tocar MUDO e mostrar overlay "Ativar som".
+  // Se não (clique manual no play), toca com som direto (gesture válido).
+  const [autoOpenedMuted, setAutoOpenedMuted] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  // Se o usuário já interagiu (clicou no play OU fechou modal), não
+  // aciona auto-open mesmo se o setTimeout ainda estiver pendente.
+  const userInteractedRef = useRef(false);
   const hasRealVideo = (YOUTUBE_ID as string) !== "YOUR_VSL_ID_HERE";
 
-  // Pre-monta o iframe LOGO após hydrate. O iframe fica em uma região
-  // offscreen mas com dimensões reais — o YouTube vê como "visível",
-  // baixa o player + metadata + thumbnail do vídeo. Quando a pessoa
-  // clica em play, esse mesmo iframe (já totalmente carregado) é movido
-  // pro modal via mudança de CSS, e o playVideo() executa instantâneo.
+  // Pre-monta o iframe LOGO após hydrate (offscreen, dimensões reais).
+  // YouTube vê como "visível" e baixa player + metadata.
   useEffect(() => {
     if (!hasRealVideo) return;
-    // 200ms delay pra não competir com o LCP do Hero
     const id = setTimeout(() => setPrimed(true), 200);
     return () => clearTimeout(id);
   }, [hasRealVideo]);
 
+  // Auto-abre o modal após AUTO_OPEN_DELAY_MS, no máximo 1x por sessão,
+  // e nunca se o usuário já tiver interagido manualmente.
+  useEffect(() => {
+    if (!hasRealVideo) return;
+    if (hasAutoOpenedThisSession()) return;
+
+    const id = setTimeout(() => {
+      if (userInteractedRef.current) return;
+      markAutoOpened();
+      setAutoOpenedMuted(true);
+      setOpen(true);
+    }, AUTO_OPEN_DELAY_MS);
+
+    return () => clearTimeout(id);
+  }, [hasRealVideo]);
+
   // Quando o modal abre/fecha: trava scroll, escuta ESC, manda
-  // play/pause pro iframe via postMessage.
+  // mute/unMute + play/pause pro iframe via postMessage.
   useEffect(() => {
     if (!open) {
-      // Pausa quando fecha (iframe continua montado pra reusar na próxima
-      // abertura sem novo network roundtrip)
       postCommand(iframeRef.current, "pauseVideo");
       return;
     }
@@ -59,11 +101,17 @@ export function HeroVslPlayer() {
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
-    // Play imediato — o iframe já tá carregado em background
+    // Se foi auto-aberto: mute ANTES de play (browser exige pra autoplay).
+    // Se foi clicado manualmente: garante que o som esteja ON.
+    if (autoOpenedMuted) {
+      postCommand(iframeRef.current, "mute");
+    } else {
+      postCommand(iframeRef.current, "unMute");
+    }
     postCommand(iframeRef.current, "playVideo");
 
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") handleClose();
     };
     window.addEventListener("keydown", onKey);
 
@@ -71,7 +119,27 @@ export function HeroVslPlayer() {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, autoOpenedMuted]);
+
+  const handleClose = useCallback(() => {
+    userInteractedRef.current = true;
+    setOpen(false);
+    // Reset: se ela reabrir manualmente, começa com som
+    setAutoOpenedMuted(false);
+  }, []);
+
+  const handleManualOpen = useCallback(() => {
+    if (!hasRealVideo) return;
+    userInteractedRef.current = true;
+    setAutoOpenedMuted(false);
+    setOpen(true);
+  }, [hasRealVideo]);
+
+  const handleUnmute = useCallback(() => {
+    postCommand(iframeRef.current, "unMute");
+    setAutoOpenedMuted(false);
+  }, []);
 
   return (
     <>
@@ -104,7 +172,7 @@ export function HeroVslPlayer() {
 
               <button
                 type="button"
-                onClick={() => hasRealVideo && setOpen(true)}
+                onClick={handleManualOpen}
                 aria-label="Assistir o vídeo da Mari"
                 className="group absolute inset-0 flex flex-col items-center justify-center gap-4 focus:outline-none"
               >
@@ -120,9 +188,6 @@ export function HeroVslPlayer() {
                 </span>
               </button>
 
-              {/* Chip "Aula ao vivo" sozinho à direita (removido "Fundadora /
-                  Mariana Marques" porque conflitava com o card flutuante de
-                  Satisfação) */}
               <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-end p-6 text-[var(--offwhite)]">
                 <span className="inline-flex items-center gap-2 rounded-full border border-[var(--offwhite)]/25 bg-[var(--cocoa)]/40 px-3.5 py-1.5 text-xs font-medium text-[var(--offwhite)] backdrop-blur-md">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--brand)]" />
@@ -170,15 +235,13 @@ export function HeroVslPlayer() {
             role="dialog"
             aria-modal="true"
             aria-label="Mensagem da Mari"
-            onClick={() => setOpen(false)}
+            onClick={handleClose}
           >
-            {/* Camada de escurecimento da LP */}
             <div
               aria-hidden
               className="absolute inset-0 bg-[var(--cocoa)]/85 backdrop-blur-md"
             />
 
-            {/* Botão Fechar — posicionado relativo ao container do vídeo abaixo */}
             <motion.div
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
@@ -189,7 +252,7 @@ export function HeroVslPlayer() {
             >
               <button
                 type="button"
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
                 aria-label="Fechar vídeo"
                 className="absolute -top-12 right-0 inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-md transition-colors hover:bg-white/20 md:-top-14"
               >
@@ -201,10 +264,9 @@ export function HeroVslPlayer() {
         )}
       </AnimatePresence>
 
-      {/* Iframe persistente — montado uma vez após hydrate. Fica offscreen
-          quando o modal está fechado e ocupa o slot do modal quando abre.
-          Como o iframe NUNCA é desmontado/remontado, o vídeo está sempre
-          pronto pra tocar: o playVideo() executa instantâneo. */}
+      {/* Iframe persistente — montado uma vez após hydrate. Quando fechado
+          fica offscreen; quando aberto ocupa o slot do modal. Como o iframe
+          NUNCA é desmontado, playVideo() executa instantâneo. */}
       {primed && hasRealVideo && (
         <div
           aria-hidden={!open}
@@ -230,6 +292,31 @@ export function HeroVslPlayer() {
               loading="eager"
               className="absolute inset-0 h-full w-full border-0"
             />
+
+            {/* Overlay "Ativar som" — só aparece quando o modal foi
+                auto-aberto (vídeo está mudo). Single tap → unmute. */}
+            {open && autoOpenedMuted && (
+              <motion.button
+                type="button"
+                onClick={handleUnmute}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3, delay: 0.15 }}
+                className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-[var(--cocoa)]/35 text-[var(--offwhite)] backdrop-blur-[2px]"
+                aria-label="Ativar som do vídeo"
+              >
+                <span className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)] shadow-[0_20px_50px_-10px_rgba(175,192,64,0.6)] transition-transform duration-200 group-hover:scale-110 md:h-24 md:w-24">
+                  <Volume2 className="h-10 w-10 md:h-12 md:w-12" strokeWidth={2.2} />
+                </span>
+                <span className="font-display text-lg md:text-2xl">
+                  Toque para ativar o som
+                </span>
+                <span className="text-[12px] uppercase tracking-[0.22em] text-[var(--offwhite)]/65 md:text-[13px]">
+                  A Mari já está falando
+                </span>
+              </motion.button>
+            )}
           </div>
         </div>
       )}
