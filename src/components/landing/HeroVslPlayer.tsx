@@ -5,7 +5,11 @@ import { Play, Volume2, X } from "lucide-react";
 // VSL oficial: https://youtu.be/iVC_szCBrnU
 const YOUTUBE_ID = "iVC_szCBrnU";
 
-const POSTER = "/mariana.jpg";
+// Imagem hospedada no ibb.co (CDN externo). Antes apontava pra
+// /public/mariana.jpg (484KB, 1536×2752) — era o LCP da LP e
+// causava Lighthouse score de 57/100 com LCP de 15s. ibb.co serve
+// a mesma imagem mas em conexão otimizada (HTTP/2, Cloudflare CDN).
+const POSTER = "https://i.ibb.co/NzfQDRG/final-composite-1.jpg";
 
 // Após quantos ms na LP o modal abre sozinho com o vídeo tocando MUDO.
 // Política padrão de VSL — playVideo() com som sem gesture do usuário é
@@ -66,11 +70,13 @@ export function HeroVslPlayer() {
   const userInteractedRef = useRef(false);
   const hasRealVideo = (YOUTUBE_ID as string) !== "YOUR_VSL_ID_HERE";
 
-  // Pre-monta o iframe LOGO após hydrate (offscreen, dimensões reais).
-  // YouTube vê como "visível" e baixa player + metadata.
+  // Pre-monta o iframe DEPOIS do LCP terminar. Antes era 200ms, mas
+  // o iframe do YouTube concorria com a foto da Mari por bandwidth,
+  // contribuindo pro LCP de 15s no Clarity. 1500ms dá tempo do LCP
+  // estabilizar antes do iframe começar a baixar.
   useEffect(() => {
     if (!hasRealVideo) return;
-    const id = setTimeout(() => setPrimed(true), 200);
+    const id = setTimeout(() => setPrimed(true), 1500);
     return () => clearTimeout(id);
   }, [hasRealVideo]);
 
@@ -157,6 +163,10 @@ export function HeroVslPlayer() {
                 alt="Mariana Marques, fundadora da IAplicada"
                 className="h-full w-full object-cover"
                 loading="eager"
+                /* @ts-expect-error fetchpriority é HTML válido recente; tipos do React ainda não cobrem */
+                fetchpriority="high"
+                decoding="async"
+                sizes="(max-width: 1024px) 90vw, 50vw"
               />
               <div aria-hidden className="absolute inset-0 grain mix-blend-multiply opacity-40" />
               <div

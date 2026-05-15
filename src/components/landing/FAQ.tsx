@@ -31,7 +31,9 @@ export function FAQ() {
               responde gente humana, não bot.
             </p>
             <a
-              href="#"
+              href="https://wa.me/message/OSRP3CMHUX2CJ1"
+              target="_blank"
+              rel="noopener noreferrer"
               className="mt-8 inline-flex items-center gap-2 border-b border-[var(--cocoa)] pb-1 text-[15px] font-medium text-[var(--cocoa)] transition-colors hover:border-[var(--brand-dark)] hover:text-[var(--brand-dark)]"
             >
               Falar com o time →
