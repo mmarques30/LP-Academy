@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Check, ArrowRight, Shield, Lock } from "lucide-react";
+import { trackEvent, EVENTS } from "@/lib/analytics";
 
 const CHECKOUT_MONTHLY = "https://pague.lia.com.br/iaplicada/oferta?offer_id=58de246e-e1c2-4257-a04e-2b3e1bf34d40";
 const CHECKOUT_ANNUAL = "https://pague.lia.com.br/iaplicada/oferta?offer_id=222bad0f-6117-4e58-83f5-e6fd65403375";
@@ -77,6 +78,7 @@ export function Offer() {
 
             <a
               href={CHECKOUT_MONTHLY}
+              onClick={() => trackEvent(EVENTS.CTA_OFFER_MONTHLY)}
               className="mt-auto inline-flex items-center justify-center gap-2 rounded-full border border-[var(--cocoa)] bg-transparent px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--cocoa)] hover:text-[var(--offwhite)] md:mt-12"
             >
               Assinar mensal
@@ -139,6 +141,7 @@ export function Offer() {
 
             <a
               href={CHECKOUT_ANNUAL}
+              onClick={() => trackEvent(EVENTS.CTA_OFFER_ANNUAL)}
               className="mt-auto inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--brand-bright)] md:mt-12"
             >
               Garantir plano anual

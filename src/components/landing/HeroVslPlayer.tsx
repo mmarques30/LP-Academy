@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Volume2, X } from "lucide-react";
+import { trackEvent, EVENTS } from "@/lib/analytics";
 
 // VSL oficial: https://youtu.be/iVC_szCBrnU
 const YOUTUBE_ID = "iVC_szCBrnU";
@@ -91,6 +92,7 @@ export function HeroVslPlayer() {
       markAutoOpened();
       setAutoOpenedMuted(true);
       setOpen(true);
+      trackEvent(EVENTS.VSL_AUTO_OPEN);
     }, AUTO_OPEN_DELAY_MS);
 
     return () => clearTimeout(id);
@@ -133,6 +135,7 @@ export function HeroVslPlayer() {
     setOpen(false);
     // Reset: se ela reabrir manualmente, começa com som
     setAutoOpenedMuted(false);
+    trackEvent(EVENTS.VSL_CLOSE);
   }, []);
 
   const handleManualOpen = useCallback(() => {
@@ -140,11 +143,13 @@ export function HeroVslPlayer() {
     userInteractedRef.current = true;
     setAutoOpenedMuted(false);
     setOpen(true);
+    trackEvent(EVENTS.VSL_PLAY_MANUAL);
   }, [hasRealVideo]);
 
   const handleUnmute = useCallback(() => {
     postCommand(iframeRef.current, "unMute");
     setAutoOpenedMuted(false);
+    trackEvent(EVENTS.VSL_UNMUTE);
   }, []);
 
   return (

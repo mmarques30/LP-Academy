@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar, Check, Mail, MessageCircle, ShieldCheck } from "lucide-react";
 import { Footer } from "@/components/landing/Footer";
+import { trackEvent, EVENTS } from "@/lib/analytics";
 
 const WHATSAPP_COMMUNITY = "https://chat.whatsapp.com/FpvVgQEZE1L4CSmw05piNL";
 const CHECKOUT_MONTHLY =
@@ -58,6 +60,11 @@ export const Route = createFileRoute("/thank-you")({
 });
 
 function ThankYou() {
+  // Marca a view da thank-you no Clarity — métrica chave de conversão.
+  useEffect(() => {
+    trackEvent(EVENTS.THANKYOU_VIEW);
+  }, []);
+
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       {/* HERO */}
@@ -154,6 +161,7 @@ function ThankYou() {
                 href={WHATSAPP_COMMUNITY}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackEvent(EVENTS.WHATSAPP_COMMUNITY_CLICK)}
                 className="inline-flex items-center gap-2.5 rounded-full bg-[var(--brand)] px-9 py-4 text-base font-medium text-[var(--cocoa)] shadow-[0_30px_80px_-20px_rgba(175,192,64,0.5)] transition-all hover:scale-[1.02] hover:bg-[var(--brand-bright)]"
               >
                 <MessageCircle className="h-4 w-4" />
@@ -225,6 +233,7 @@ function ThankYou() {
 
                 <a
                   href={CHECKOUT_MONTHLY}
+                  onClick={() => trackEvent(EVENTS.ACADEMY_UPSELL_CLICK)}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D]"
                 >
                   Quero o Academy

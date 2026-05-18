@@ -1,7 +1,8 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Check, ChevronDown, Loader2, Lock } from "lucide-react";
+import { trackEvent, EVENTS } from "@/lib/analytics";
 
 // Configuração do backend — descoberta inspecionando o bundle do
 // form Lovable oficial (saasiaplicada.lovable.app) e a tabela
@@ -71,6 +72,14 @@ export function Community() {
   const [motivo, setMotivo] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  // Dispara form_start UMA vez no primeiro foco em qualquer campo —
+  // marca o início real de engajamento com o form (Clarity).
+  const formStartedRef = useRef(false);
+  const handleFormStart = () => {
+    if (formStartedRef.current) return;
+    formStartedRef.current = true;
+    trackEvent(EVENTS.FORM_START);
+  };
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -78,6 +87,7 @@ export function Community() {
 
     setState("loading");
     setErrorMsg(null);
+    trackEvent(EVENTS.FORM_SUBMIT_ATTEMPT);
 
     try {
       const utm = getUtms();
@@ -121,12 +131,14 @@ export function Community() {
         throw new Error(body || `HTTP ${res.status}`);
       }
 
+      trackEvent(EVENTS.FORM_SUBMIT_SUCCESS);
       // Redireciona direto pra página de obrigado — sem mostrar nada
       // inline. A próxima tela já é a /thank-you com a experiência
       // completa de próximos passos.
       navigate({ to: "/thank-you" });
     } catch (err) {
       console.error("[Community form]", err);
+      trackEvent(EVENTS.FORM_SUBMIT_ERROR);
       setErrorMsg(
         "Não conseguimos enviar agora. Tenta de novo em alguns segundos ou manda um oi pra equipe@iaplicada.com.",
       );
@@ -204,7 +216,12 @@ export function Community() {
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="mt-7 space-y-4" noValidate>
+              <form
+                onSubmit={handleSubmit}
+                onFocus={handleFormStart}
+                className="mt-7 space-y-4"
+                noValidate
+              >
                 <div>
               <label htmlFor="community-firstname" className={labelClass}>
                 Nome Completo
