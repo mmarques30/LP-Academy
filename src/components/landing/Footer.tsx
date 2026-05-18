@@ -23,11 +23,12 @@ export function Footer() {
           </p>
           <ul className="mt-4 space-y-2 text-sm text-[var(--cocoa-soft)]">
             {[
-              { l: "Academy", h: "#", ext: false },
+              { l: "Academy", h: "#investimento", ext: false },
               { l: "Business", h: "https://iaplicada.com", ext: true },
               { l: "Contato", h: "mailto:equipe@iaplicada.com", ext: false },
-              { l: "Termos de uso", h: "#", ext: false },
-              { l: "Política de privacidade", h: "#", ext: false },
+              // "Termos de uso" e "Política de privacidade" removidos
+              // por enquanto — apontavam pra href="#" (dead clicks no
+              // Clarity). Voltam quando as páginas existirem de verdade.
             ].map(({ l, h, ext }) => (
               <li key={l}>
                 <a

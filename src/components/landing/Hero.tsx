@@ -101,6 +101,10 @@ export function Hero() {
                       key={i}
                       src={u}
                       alt=""
+                      loading="lazy"
+                      decoding="async"
+                      width={36}
+                      height={36}
                       className="img-warm h-9 w-9 rounded-full border-2 border-[var(--cream)] object-cover"
                     />
                   ))}

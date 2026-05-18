@@ -32,7 +32,18 @@ export function Header() {
       }`}
     >
       <div className="container-wide flex items-center justify-between px-6 py-5">
-        <a href="#" className="flex items-center gap-2.5 text-[var(--cocoa)]" aria-label="IAplicada">
+        <a
+          href="/"
+          onClick={(e) => {
+            // Logo no Header de uma SPA: prevenimos navegação real e
+            // damos scroll-to-top suave. Antes era href="#" que gerava
+            // dead clicks no Clarity (~21% das sessões).
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="flex items-center gap-2.5 text-[var(--cocoa)]"
+          aria-label="IAplicada — voltar ao topo"
+        >
           <Logo className="h-7 w-auto" />
           <span className="hidden text-[13px] font-medium text-[var(--cocoa-soft)] sm:inline">
             /Academy
