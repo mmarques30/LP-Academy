@@ -6,9 +6,9 @@ const faqs = [
   { q: "Eu preciso saber alguma coisa de IA pra entrar?", a: "Não. O Academy tem trilhas do zero ao avançado. Se você nunca abriu ChatGPT, começa pela Trilha 1. Se já usa, pula direto pras aplicações avançadas." },
   { q: "Quanto tempo por semana eu preciso dedicar?", a: "O mínimo útil é 2h/semana: 1h na aula de segunda + 1h aplicando. Quem dedica 3–4h/semana avança bem rápido. Tudo fica gravado pra quem faz no próprio ritmo." },
   { q: "As aulas são ao vivo ou gravadas?", a: "As duas. Toda segunda tem aula ao vivo às 19h30. Se não puder, fica gravada — disponível enquanto sua assinatura estiver ativa." },
-  { q: "Tem fidelidade ou carência?", a: "Não. Assinatura mensal. Cancele quando quiser direto no painel, sem multa, sem burocracia." },
+  { q: "Tem fidelidade ou carência?", a: "Depende do plano. O Mensal (R$ 147/mês) é cobrança recorrente sem fidelidade — cancele quando quiser, sem multa. O Anual (R$ 1.297) tem compromisso de 12 meses, pago à vista ou via recorrência mensal de 12× R$ 108. Os 7 dias de garantia valem pros dois." },
   { q: "Serve pra empreendedor e pra CLT?", a: "Serve pros dois. Os casos, prompts e aplicações cobrem ambos os contextos. A comunidade tem os dois perfis, o que enriquece a troca." },
-  { q: "Como funciona o Q&A com a Mari?", a: "Quartas, 19h30, 90min. Você manda sua dúvida antes, a Mari prioriza e responde ao vivo. Fica gravado." },
+  { q: "Como funciona o Q&A com a Mari?", a: "Quartas, 19h30, 1 hora ao vivo. Você manda sua dúvida antes, a Mari prioriza e responde no encontro. Fica gravado pra rever depois." },
   { q: "Como funciona a garantia de 7 dias?", a: "Você entra, testa por dentro, e se nos primeiros 7 dias não fizer sentido, devolvemos 100% do valor. É só mandar um e-mail." },
 ];
 
