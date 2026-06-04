@@ -37,7 +37,7 @@ const features: Feature[] = [
 
 export function OQueVoceRecebe() {
   return (
-    <section className="relative overflow-hidden bg-[#141A0B] py-24 text-[var(--offwhite)] md:py-32">
+    <section className="section-pad bg-[var(--cream)]">
       <div className="container-wide px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -46,16 +46,19 @@ export function OQueVoceRecebe() {
           transition={{ duration: 0.8 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
             <Sparkles className="h-3 w-3" />
             Tudo isso, sem pagar nada
           </p>
-          <h2 className="mt-7 font-display text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.1] tracking-tight text-[var(--offwhite)]">
-            A comunidade gratuita não é uma versão{" "}
-            <span className="text-[#BDD64A]">"demo".</span>
-            <br />
-            É um caminho próprio de quem quer começar.
+          <h2 className="mt-7 h-section text-[var(--cocoa)]">
+            A comunidade gratuita{" "}
+            <span className="serif-italic text-[var(--brand-dark)]">
+              não é uma versão "demo".
+            </span>
           </h2>
+          <p className="mx-auto mt-7 max-w-xl text-[17px] leading-[1.55] text-[var(--cocoa-soft)] md:text-[19px]">
+            É um caminho próprio de quem quer começar.
+          </p>
         </motion.div>
 
         <ul className="mt-16 grid gap-5 md:grid-cols-2 md:gap-6">
@@ -66,15 +69,15 @@ export function OQueVoceRecebe() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
-              className="relative rounded-[24px] border border-[var(--offwhite)]/10 bg-[var(--offwhite)]/[0.03] p-7 md:p-8"
+              className="relative rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-7 shadow-[0_20px_60px_-30px_rgba(13,13,13,0.12)] md:p-8"
             >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--brand)]/15 text-[var(--brand)]">
+              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--brand)]/15 text-[var(--brand-dark)]">
                 <f.icon className="h-5 w-5" strokeWidth={2.2} />
               </span>
-              <h3 className="mt-5 font-display text-2xl text-[var(--offwhite)]">
+              <h3 className="mt-5 font-display text-2xl text-[var(--cocoa)]">
                 {f.title}
               </h3>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/70">
+              <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--cocoa-soft)]">
                 {f.detail}
               </p>
             </motion.li>

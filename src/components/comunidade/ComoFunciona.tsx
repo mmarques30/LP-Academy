@@ -23,7 +23,7 @@ const steps = [
 
 export function ComoFunciona() {
   return (
-    <section className="relative overflow-hidden bg-[#1A1F10] py-24 text-[var(--offwhite)] md:py-32">
+    <section className="section-pad bg-[var(--offwhite)]">
       <div className="container-wide px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
@@ -32,12 +32,15 @@ export function ComoFunciona() {
           transition={{ duration: 0.8 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
             <Sparkles className="h-3 w-3" />
             Como funciona
           </p>
-          <h2 className="mt-7 font-display text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.1] tracking-tight text-[var(--offwhite)]">
-            Em <span className="text-[#BDD64A]">3 passos.</span>
+          <h2 className="mt-7 h-section text-[var(--cocoa)]">
+            Em{" "}
+            <span className="serif-italic text-[var(--brand-dark)]">
+              3 passos.
+            </span>
           </h2>
         </motion.div>
 
@@ -49,15 +52,15 @@ export function ComoFunciona() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
-              className="relative flex flex-col rounded-[24px] border border-[var(--offwhite)]/10 bg-[var(--offwhite)]/[0.03] p-7 md:p-8"
+              className="relative flex flex-col rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--cream)] p-7 md:p-8"
             >
-              <span className="font-display text-[3.5rem] leading-[0.9] text-[var(--brand)]/80">
+              <span className="font-display text-[3.5rem] leading-[0.9] text-[var(--brand-dark)]/70">
                 {s.num}
               </span>
-              <h3 className="mt-5 font-display text-xl text-[var(--offwhite)]">
+              <h3 className="mt-5 font-display text-xl text-[var(--cocoa)]">
                 {s.title}
               </h3>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/70">
+              <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--cocoa-soft)]">
                 {s.detail}
               </p>
             </motion.li>

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeaderComunidade } from "@/components/comunidade/HeaderComunidade";
 import { HeroComunidade } from "@/components/comunidade/HeroComunidade";
+import { VideoComunidade } from "@/components/comunidade/VideoComunidade";
 import { SocialProofRapida } from "@/components/comunidade/SocialProofRapida";
 import { OQueVoceRecebe } from "@/components/comunidade/OQueVoceRecebe";
 import { ComoFunciona } from "@/components/comunidade/ComoFunciona";
@@ -63,9 +64,10 @@ export const Route = createFileRoute("/comunidade")({
 
 function Comunidade() {
   return (
-    <main className="bg-[#141A0B] text-[var(--offwhite)]">
+    <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       <HeaderComunidade />
       <HeroComunidade />
+      <VideoComunidade />
       <SocialProofRapida />
       <OQueVoceRecebe />
       <ComoFunciona />
