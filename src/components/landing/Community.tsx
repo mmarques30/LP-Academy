@@ -132,10 +132,16 @@ export function Community() {
       }
 
       trackEvent(EVENTS.FORM_SUBMIT_SUCCESS);
-      // Redireciona direto pra página de obrigado — sem mostrar nada
-      // inline. A próxima tela já é a /thank-you com a experiência
+      // Redireciona pra página de obrigado certa, baseado em qual LP
+      // o form foi submetido:
+      //   / (home)        → /thank-you (cópia "futuro Aplicado")
+      //   /comunidade     → /obrigado  (cópia community-first)
+      // Sem mostrar nada inline — a próxima tela já é a experiência
       // completa de próximos passos.
-      navigate({ to: "/thank-you" });
+      const cameFromComunidade =
+        typeof window !== "undefined" &&
+        window.location.pathname.startsWith("/comunidade");
+      navigate({ to: cameFromComunidade ? "/obrigado" : "/thank-you" });
     } catch (err) {
       console.error("[Community form]", err);
       trackEvent(EVENTS.FORM_SUBMIT_ERROR);

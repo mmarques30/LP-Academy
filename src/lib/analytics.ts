@@ -50,8 +50,10 @@ export const EVENTS = {
   // quando o produto passou a ser pagamento único sem recorrência.
   CTA_OFFER_ACADEMY: "cta_offer_academy_click",
 
-  // Thank-you page
-  THANKYOU_VIEW: "thankyou_view",
+  // Thank-you pages — uma pra cada LP, pra dar visão separada de
+  // conversões no Clarter (Clarity Smart Events)
+  THANKYOU_VIEW: "thankyou_view",      // pageview de /thank-you (LP /)
+  OBRIGADO_VIEW: "obrigado_view",      // pageview de /obrigado (LP /comunidade)
   WHATSAPP_COMMUNITY_CLICK: "whatsapp_community_click",
   ACADEMY_UPSELL_CLICK: "academy_upsell_click",
 } as const;
