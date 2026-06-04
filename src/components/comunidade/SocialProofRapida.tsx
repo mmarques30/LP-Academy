@@ -33,33 +33,32 @@ export function SocialProofRapida() {
   const loop = [...testimonials, ...testimonials];
 
   return (
-    <section className="relative overflow-hidden bg-[#1A1A1A] py-14 md:py-16 text-[var(--offwhite)]">
+    <section className="relative overflow-hidden bg-[var(--cream)] py-14 md:py-16">
       <div className="container-wide px-6">
-        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--offwhite)]/50">
+        <p className="text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--cocoa-soft)]/70">
           Profissionais aplicando IA na rotina, todo dia
         </p>
       </div>
 
-      {/* Marquee horizontal infinito (CSS animation `marquee` já existe no styles.css) */}
       <div className="relative mt-8 flex overflow-hidden">
         <div className="marquee flex shrink-0 items-stretch gap-4 px-6">
           {loop.map((t, i) => (
             <motion.div
               key={`${t.name}-${i}`}
-              className="flex w-[280px] shrink-0 flex-col justify-between gap-4 rounded-2xl border border-[var(--offwhite)]/8 bg-[var(--offwhite)]/[0.03] p-5 md:w-[320px]"
+              className="flex w-[280px] shrink-0 flex-col justify-between gap-4 rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-5 md:w-[320px]"
             >
-              <p className="text-[14px] leading-[1.5] text-[var(--offwhite)]/90">
+              <p className="text-[14px] leading-[1.5] text-[var(--cocoa)]">
                 “{t.quote}”
               </p>
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--brand)]/15 text-[12px] font-semibold uppercase text-[var(--brand)]">
+                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--brand)]/15 text-[12px] font-semibold uppercase text-[var(--brand-dark)]">
                   {t.name.charAt(0)}
                 </span>
                 <div>
-                  <p className="text-[13px] font-semibold text-[var(--offwhite)]">
+                  <p className="text-[13px] font-semibold text-[var(--cocoa)]">
                     {t.name}
                   </p>
-                  <p className="text-[11px] text-[var(--offwhite)]/55">{t.role}</p>
+                  <p className="text-[11px] text-[var(--cocoa-soft)]">{t.role}</p>
                 </div>
               </div>
             </motion.div>

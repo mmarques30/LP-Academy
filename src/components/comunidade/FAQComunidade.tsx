@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Sparkles } from "lucide-react";
+import { Plus } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const faqs = [
@@ -33,61 +33,72 @@ export function FAQComunidade() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="relative overflow-hidden bg-[#141A0B] py-24 text-[var(--offwhite)] md:py-32">
+    <section id="faq" className="section-pad bg-[var(--offwhite)]">
       <div className="container-wide px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.8 }}
-          className="mx-auto max-w-2xl text-center"
-        >
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
-            <Sparkles className="h-3 w-3" />
-            Perguntas rápidas
-          </p>
-          <h2 className="mt-7 font-display text-[clamp(2rem,4.5vw,3rem)] leading-[1.1] tracking-tight text-[var(--offwhite)]">
-            Tudo o que <span className="text-[#BDD64A]">a gente mais recebe.</span>
-          </h2>
-        </motion.div>
+        <div className="grid gap-14 md:grid-cols-[0.9fr_1.1fr] md:gap-16">
+          <div>
+            <h2 className="h-section text-[var(--cocoa)]">
+              Perguntas
+              <br />
+              <span className="serif-italic text-[var(--brand-dark)]">
+                rápidas.
+              </span>
+            </h2>
+            <p className="mt-7 text-[15px] leading-relaxed text-[var(--cocoa-soft)]">
+              Ficou com alguma dúvida que não tá aqui? Chama o suporte pelo
+              WhatsApp — responde gente humana, não bot.
+            </p>
+            <a
+              href="https://wa.me/message/OSRP3CMHUX2CJ1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex items-center gap-2 border-b border-[var(--cocoa)] pb-1 text-[15px] font-medium text-[var(--cocoa)] transition-colors hover:border-[var(--brand-dark)] hover:text-[var(--brand-dark)]"
+            >
+              Falar com o time →
+            </a>
+          </div>
 
-        <div className="mx-auto mt-14 max-w-3xl divide-y divide-[var(--offwhite)]/10 border-y border-[var(--offwhite)]/10">
-          {faqs.map((f, i) => {
-            const isOpen = open === i;
-            return (
-              <div key={f.q}>
-                <button
-                  onClick={() => setOpen(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between gap-6 py-6 text-left"
-                  aria-expanded={isOpen}
-                >
-                  <span className="font-display text-[18px] leading-tight text-[var(--offwhite)] md:text-[20px]">
-                    {f.q}
-                  </span>
-                  <Plus
-                    className={`h-5 w-5 shrink-0 transition-transform duration-500 ${
-                      isOpen ? "rotate-45 text-[var(--brand)]" : "text-[var(--offwhite)]/65"
-                    }`}
-                  />
-                </button>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                      className="overflow-hidden"
-                    >
-                      <p className="pb-7 pr-8 text-[14.5px] leading-[1.65] text-[var(--offwhite)]/75">
-                        {f.a}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+          <div className="divide-y divide-[var(--cocoa)]/10 border-y border-[var(--cocoa)]/10">
+            {faqs.map((f, i) => {
+              const isOpen = open === i;
+              return (
+                <div key={f.q}>
+                  <button
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="flex w-full items-center justify-between gap-6 py-6 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <span className="font-display text-[19px] leading-tight text-[var(--cocoa)] md:text-[21px]">
+                      {f.q}
+                    </span>
+                    <Plus
+                      className={`h-5 w-5 shrink-0 text-[var(--cocoa)] transition-transform duration-500 ${
+                        isOpen ? "rotate-45 text-[var(--brand-dark)]" : ""
+                      }`}
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{
+                          duration: 0.35,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
+                        className="overflow-hidden"
+                      >
+                        <p className="pb-7 pr-8 text-[15px] leading-[1.65] text-[var(--cocoa-soft)]">
+                          {f.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
