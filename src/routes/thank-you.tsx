@@ -6,8 +6,8 @@ import { Footer } from "@/components/landing/Footer";
 import { trackEvent, EVENTS } from "@/lib/analytics";
 
 const WHATSAPP_COMMUNITY = "https://chat.whatsapp.com/FpvVgQEZE1L4CSmw05piNL";
-const CHECKOUT_MONTHLY =
-  "https://pague.lia.com.br/iaplicada/oferta?offer_id=58de246e-e1c2-4257-a04e-2b3e1bf34d40";
+const CHECKOUT_ACADEMY =
+  "https://pague.lia.com.br/iaplicada/oferta?offer_id=931e1848-63ec-42f9-b136-fc3b2d907ef8";
 
 const steps = [
   {
@@ -219,20 +219,21 @@ function ThankYou() {
 
               <div className="flex flex-col justify-between gap-6 rounded-2xl bg-[var(--cream)] p-6 md:p-7">
                 <div>
-                  <p className="mono-label text-[var(--cocoa-soft)]">Plano mensal</p>
+                  <p className="mono-label text-[var(--cocoa-soft)]">Pagamento único</p>
                   <div className="mt-3 flex items-end gap-2">
+                    <span className="text-sm text-[var(--cocoa-soft)]">12×</span>
                     <span className="font-display text-5xl leading-[0.9] text-[var(--cocoa)]">
-                      R$ 147
+                      R$ 83
                     </span>
-                    <span className="mb-1.5 text-[var(--cocoa-soft)]">/mês</span>
+                    <span className="mb-1.5 text-[var(--cocoa-soft)]">sem juros</span>
                   </div>
                   <p className="mt-2 text-[13px] leading-[1.55] text-[var(--cocoa-soft)]">
-                    Sem fidelidade · cancele quando quiser · 7 dias de garantia
+                    Ou R$ 997 à vista · sem mensalidade · 7 dias de garantia
                   </p>
                 </div>
 
                 <a
-                  href={CHECKOUT_MONTHLY}
+                  href={CHECKOUT_ACADEMY}
                   onClick={() => trackEvent(EVENTS.ACADEMY_UPSELL_CLICK)}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D]"
                 >

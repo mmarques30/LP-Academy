@@ -18,17 +18,17 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "IAplicada Academy · Aplique IA no seu trabalho de verdade · R$ 147/mês" },
+      { title: "IAplicada Academy · Aplique IA no seu trabalho de verdade · 12× R$ 83" },
       {
         name: "description",
         content:
-          "Assinatura IAplicada Academy: trilhas práticas, aula ao vivo toda segunda, mentoria semanal e comunidade que implementa. R$ 147/mês, sem fidelidade.",
+          "IAplicada Academy: trilhas práticas, aula ao vivo toda segunda, mentoria semanal e comunidade que implementa. 12× R$ 83 sem juros (ou R$ 997 à vista) · pagamento único · 7 dias de garantia.",
       },
       { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
       {
         property: "og:description",
         content:
-          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que aplica. R$ 147/mês, sem fidelidade.",
+          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que aplica. 12× R$ 83 sem juros · pagamento único · 7 dias de garantia.",
       },
       { property: "og:type", content: "website" },
     ],

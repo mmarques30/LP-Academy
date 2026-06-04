@@ -45,9 +45,10 @@ export const EVENTS = {
   FORM_SUBMIT_SUCCESS: "form_submit_success",
   FORM_SUBMIT_ERROR: "form_submit_error",
 
-  // CTAs de checkout (seção 07 Investimento)
-  CTA_OFFER_MONTHLY: "cta_offer_monthly_click",
-  CTA_OFFER_ANNUAL: "cta_offer_annual_click",
+  // CTA de checkout (seção Investimento) — plano único de R$ 997.
+  // Os antigos CTA_OFFER_MONTHLY / CTA_OFFER_ANNUAL ficaram obsoletos
+  // quando o produto passou a ser pagamento único sem recorrência.
+  CTA_OFFER_ACADEMY: "cta_offer_academy_click",
 
   // Thank-you page
   THANKYOU_VIEW: "thankyou_view",
