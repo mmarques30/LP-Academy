@@ -5,17 +5,18 @@ import { ComunidadeForm } from "./ComunidadeForm";
 const bullets = [
   "1 aula ao vivo por mês",
   "Plataforma gratuita aberta 24/7",
-  "Dicas semanais no WhatsApp",
   "Comunidade de +700 Aplicados",
+  "Newsletter quinzenal",
 ];
 
 /**
- * Hero da LP /comunidade — mesma identidade visual do Hero da LP /
- * (cream background, cocoa text, brand accents). Split layout:
- * copy + bullets à esquerda (60%), form sticky à direita (40%).
+ * Hero da LP /comunidade — light theme cream/cocoa igual ao Hero
+ * da LP /. Split 60/40: copy + bullets à esquerda, form sticky à
+ * direita (Opção B do briefing). O vídeo NÃO mora aqui — vai em
+ * dobra própria depois (VideoComunidade.tsx).
  *
- * O VÍDEO NÃO MORA AQUI — vai numa dobra própria depois do hero
- * (VideoComunidade.tsx). Mari pediu pra desestruturar do hero.
+ * Copy focada em AULAS MENSAIS (não semanais) + acesso à
+ * plataforma.iaplicada.com gratuita.
  */
 export function HeroComunidade() {
   return (
@@ -40,10 +41,9 @@ export function HeroComunidade() {
               transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 h-display text-[var(--cocoa)]"
             >
-              Aprenda a usar IA<br />
-              no seu trabalho.<br />
+              Aprenda IA na prática.<br />
               <span className="serif-italic text-[var(--brand-dark)]">
-                De graça. Todo mês.
+                Uma aula por mês, de graça.
               </span>
             </motion.h1>
 
@@ -53,11 +53,12 @@ export function HeroComunidade() {
               transition={{ duration: 0.7, delay: 0.18 }}
               className="mt-9 max-w-[58ch] text-[17px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[19px]"
             >
-              A IAplicada tem uma comunidade gratuita de profissionais que
-              aplicam IA no trabalho de verdade. Toda semana, dicas práticas.
-              Todo mês, uma aula ao vivo. Acesso permanente à nossa plataforma
-              gratuita com prompts, ferramentas e mini-trilhas. Sem pegadinha,
-              sem upsell agressivo, sem promessa de "fique milionário com IA".
+              Comunidade gratuita da IAplicada com{" "}
+              <strong className="text-[var(--cocoa)]">aula ao vivo todo mês</strong>,
+              acesso à nossa <strong className="text-[var(--cocoa)]">plataforma
+              gratuita</strong> com prompts e mini-trilhas, e grupo no WhatsApp
+              pra trocar com quem aplica. Sem cartão, sem pegadinha, sem
+              promessa de "fique milionário com IA".
             </motion.p>
 
             {/* Bullets de prova */}
@@ -79,7 +80,7 @@ export function HeroComunidade() {
             </motion.ul>
           </div>
 
-          {/* COLUNA DIREITA — Form sticky */}
+          {/* COLUNA DIREITA — Form sticky (destino do botão CTA do header) */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}

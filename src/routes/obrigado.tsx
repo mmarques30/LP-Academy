@@ -36,10 +36,12 @@ const IAPLICADA_CONTACT = {
   phone: "+55 11 99999-9999", // [VALIDAR]
 };
 
+// Aula ao vivo MENSAL (sempre primeira quarta do mês, 19h30 BRT).
+// Mari atualiza topic + startISO a cada mês.
 const NEXT_CLASS = {
-  topicLabel: "Próxima aula ao vivo",
+  topicLabel: "Próxima aula ao vivo (mensal)",
   topic: "Tema da próxima aula a confirmar", // [VALIDAR]
-  startISO: "2026-06-03T19:30:00-03:00", // [VALIDAR]
+  startISO: "2026-06-03T19:30:00-03:00", // [VALIDAR] — primeira quarta do mês
   durationMinutes: 90,
 };
 

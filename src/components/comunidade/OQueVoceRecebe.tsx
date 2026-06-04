@@ -13,25 +13,25 @@ const features: Feature[] = [
     icon: CalendarDays,
     title: "Aula ao vivo mensal",
     detail:
-      "Uma vez por mês, ao vivo no YouTube + comunidade. Tema prático, com aplicação no trabalho real. Fica gravada na plataforma gratuita pra quem não puder no horário.",
+      "Toda primeira quarta do mês, 19h30, ao vivo no YouTube + comunidade. Tema prático com aplicação direta no trabalho. Fica gravada na plataforma gratuita pra rever depois.",
   },
   {
     icon: Sparkles,
-    title: "Plataforma gratuita aberta",
+    title: "Acesso à plataforma gratuita",
     detail:
-      "Acesso permanente à nossa plataforma com mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo das ferramentas que valem a pena conhecer.",
+      "Login permanente em plataforma.iaplicada.com — mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo das ferramentas que valem a pena conhecer. Tudo organizado, sem custo.",
   },
   {
     icon: MessageCircle,
     title: "Comunidade no WhatsApp",
     detail:
-      "Grupo gigante de Aplicados. Dicas semanais, prompts da semana, ferramenta que vale testar, troca entre membros. Você sai quando quiser.",
+      "Grupo de +700 Aplicados. Dicas, prompt da semana, ferramenta que vale testar, troca entre membros. Você sai quando quiser.",
   },
   {
     icon: Newspaper,
-    title: "Newsletter de domingo",
+    title: "Newsletter quinzenal",
     detail:
-      "Resumo da semana, panorama de IA aplicada, leitura de 4 minutos pra começar a segunda já com IA do seu lado.",
+      "Leitura de 4 minutos pra começar a quinzena já com IA do seu lado. Panorama, casos práticos, nada de hype.",
   },
 ];
 

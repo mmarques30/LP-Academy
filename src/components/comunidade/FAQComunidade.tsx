@@ -5,23 +5,27 @@ import { motion, AnimatePresence } from "framer-motion";
 const faqs = [
   {
     q: "É realmente gratuito?",
-    a: "Sim. A comunidade, a plataforma com mini-trilhas, a aula mensal e a newsletter. Tudo gratuito, sempre.",
+    a: "Sim. A aula mensal, a plataforma com mini-trilhas, a comunidade no WhatsApp e a newsletter. Tudo gratuito, sempre.",
   },
   {
     q: "Vou ter que comprar alguma coisa?",
-    a: "Não. A gente tem o Academy (R$ 997, pagamento único ou em 12× R$ 83), mas você só assina se quiser ir mais fundo. A comunidade gratuita é completa por si só.",
+    a: "Não. A gente tem o Academy (R$ 997, pagamento único), mas você só assina se quiser ir mais fundo. A comunidade gratuita é completa por si só.",
+  },
+  {
+    q: "Quando é a próxima aula?",
+    a: "Sempre na primeira quarta do mês, às 19:30. Avisamos com 3-5 dias de antecedência na comunidade e por email.",
+  },
+  {
+    q: "Como funciona o acesso à plataforma?",
+    a: "Depois do cadastro, você recebe email com seu login pra plataforma.iaplicada.com. Lá tem mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo de ferramentas — tudo na versão gratuita, aberta 24/7.",
   },
   {
     q: "Quantos emails por semana?",
-    a: "Em média 1 a 2. Você pode descadastrar quando quiser direto do rodapé do email.",
+    a: "Em média 1 a 2. Newsletter quinzenal + aviso da aula no mês. Pode descadastrar quando quiser direto do rodapé do email.",
   },
   {
     q: "Como é a comunidade no WhatsApp?",
     a: "Grupo grande, organizado. Mensagens periódicas com dicas, prompts e ferramentas. Não é caos de WhatsApp pessoal. Você pode silenciar e ler quando quiser.",
-  },
-  {
-    q: "A aula mensal é sempre no mesmo dia?",
-    a: "Sempre na primeira quarta do mês, às 19:30. Avisamos com 3-5 dias de antecedência na comunidade.",
   },
   {
     q: "Posso sair quando quiser?",
