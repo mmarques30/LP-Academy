@@ -27,9 +27,7 @@ export function Authority() {
       />
 
       <div className="container-wide relative px-6">
-        <span className="eyebrow-dark">04 — Fundadora</span>
-
-        <div className="mt-10 grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
+        <div className="grid gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-20">
           {/* Foto da Mari — imagem grande editorial */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}

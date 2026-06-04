@@ -29,8 +29,7 @@ export function Problem() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7 }}
           >
-            <span className="eyebrow">01 — O problema</span>
-            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+            <h2 className="h-section text-[var(--cocoa)]">
               Consumir conteúdo sobre IA
               <br />
               <span className="serif-italic text-[var(--brand-dark)]">não é aplicar IA.</span>

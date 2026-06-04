@@ -31,20 +31,11 @@ export function Hero() {
         <div className="grid gap-14 pt-16 pb-24 md:pt-20 md:pb-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-12 lg:pt-28">
           {/* Coluna copy */}
           <div className="flex flex-col">
-            <motion.span
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="eyebrow"
-            >
-              Academy · Temporada 2026
-            </motion.span>
-
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-8 h-display text-[var(--cocoa)]"
+              className="h-display text-[var(--cocoa)]"
             >
               Aplicar IA<br />
               <span className="serif-italic text-[var(--brand-dark)]">de verdade.</span>
@@ -70,7 +61,7 @@ export function Hero() {
               className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center"
             >
               <a href="#investimento" className="btn-primary-xl">
-                Começar agora — R$ 146/mês
+                Começar agora — 12× R$ 83
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a

@@ -46,7 +46,7 @@ export function FinalCTA() {
               <ArrowRight className="h-4 w-4" />
             </a>
             <p className="text-[13px] text-[var(--offwhite)]/55">
-              A partir de R$ 146/mês · 7 dias de garantia · Suporte humano · Pix ou cartão
+              12× R$ 83 ou R$ 997 à vista · pagamento único · 7 dias de garantia · Pix ou cartão
             </p>
           </div>
         </motion.div>

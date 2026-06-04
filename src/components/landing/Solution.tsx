@@ -22,8 +22,7 @@ export function Solution() {
             transition={{ duration: 0.7 }}
             className="lg:sticky lg:top-28"
           >
-            <span className="eyebrow">02 — A solução</span>
-            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+            <h2 className="h-section text-[var(--cocoa)]">
               Método <span className="serif-italic text-[var(--brand-dark)]">APLICA</span>.
               <br />
               6 passos. Toda semana.

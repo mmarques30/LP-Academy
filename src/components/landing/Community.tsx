@@ -157,9 +157,7 @@ export function Community() {
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8 }}
           >
-            <span className="eyebrow">05 — Comunidade gratuita</span>
-
-            <h2 className="mt-7 h-section text-[var(--cocoa)]">
+            <h2 className="h-section text-[var(--cocoa)]">
               Aplique IA com a Mari,{" "}
               <span className="serif-italic text-[var(--brand-dark)]">ao vivo.</span>
             </h2>
