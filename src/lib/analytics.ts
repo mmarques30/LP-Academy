@@ -39,11 +39,23 @@ export const EVENTS = {
   VSL_UNMUTE: "vsl_unmute",
   VSL_CLOSE: "vsl_close",
 
-  // Form de inscrição na comunidade (seção 05)
+  // Form de inscrição (LP /) — seção Community
   FORM_START: "form_start",
   FORM_SUBMIT_ATTEMPT: "form_submit_attempt",
   FORM_SUBMIT_SUCCESS: "form_submit_success",
   FORM_SUBMIT_ERROR: "form_submit_error",
+
+  // Form de inscrição (LP /comunidade) — versão compacta no hero
+  COMUNIDADE_FORM_START: "comunidade_form_start",
+  COMUNIDADE_FORM_SUBMIT_ATTEMPT: "comunidade_form_submit_attempt",
+  COMUNIDADE_FORM_SUBMIT_SUCCESS: "comunidade_form_submit_success",
+  COMUNIDADE_FORM_SUBMIT_ERROR: "comunidade_form_submit_error",
+  COMUNIDADE_FINAL_CTA_CLICK: "comunidade_final_cta_click",
+
+  // Thank-you /obrigado — botões específicos da experiência community
+  OBRIGADO_WHATSAPP_CLICK: "obrigado_whatsapp_click",
+  OBRIGADO_PLATFORM_CLICK: "obrigado_platform_click",
+  OBRIGADO_CALENDAR_CLICK: "obrigado_calendar_click",
 
   // CTA de checkout (seção Investimento) — plano único de R$ 997.
   // Os antigos CTA_OFFER_MONTHLY / CTA_OFFER_ANNUAL ficaram obsoletos
