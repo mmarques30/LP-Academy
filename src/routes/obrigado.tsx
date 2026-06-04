@@ -1,11 +1,12 @@
 import { useEffect } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  Calendar,
+  CalendarPlus,
   Check,
-  Mail,
+  Copy,
+  ExternalLink,
   MessageCircle,
   Sparkles,
 } from "lucide-react";
@@ -13,67 +14,79 @@ import { Footer } from "@/components/landing/Footer";
 import { trackEvent, EVENTS } from "@/lib/analytics";
 
 /**
- * Thank-you da rota /comunidade. Mesma estrutura visual da /thank-you
- * (hero cream + próximos passos dark + upsell Academy + Footer), mas
- * com:
- *   - copy mais quente e community-first (em vez do tom "futuro
- *     Aplicado" mais corporativo)
- *   - ordem dos passos invertida: WhatsApp PRIMEIRO (instant
- *     gratification — o link da comunidade é o que a pessoa mais
- *     quer na hora)
- *   - upsell Academy idêntico (mesmo CTA, mesmo offer_id)
+ * Thank-you da LP /comunidade.
  *
- * O Community.tsx detecta a LP de origem via window.location.pathname
- * e redireciona pra cá quando o submit vem de /comunidade.
+ * Estrutura conforme spec da Mari:
+ *   H1: "Você está dentro."
+ *   Sub: até 5min email com link da comunidade + login plataforma
+ *   Card com 3 passos (WhatsApp / Plataforma / Salvar contato)
+ *   Card próxima aula com data, hora, tema + "Adicionar ao Google Calendar"
+ *   PS final assinado pela Mari
+ *
+ * Sem upsell do Academy (regra spec: "menção sutil só na FAQ da LP").
  */
 
 const WHATSAPP_COMMUNITY = "https://chat.whatsapp.com/FpvVgQEZE1L4CSmw05piNL";
-const CHECKOUT_ACADEMY =
-  "https://pague.lia.com.br/iaplicada/oferta?offer_id=931e1848-63ec-42f9-b136-fc3b2d907ef8";
+const PLATAFORMA_URL = "https://plataforma.iaplicada.com";
 
-const steps = [
-  {
-    icon: MessageCircle,
-    title: "Entra agora no WhatsApp da comunidade",
-    detail:
-      "É o coração da IAplicada. Pessoas aplicando IA na prática, trocando prompts, tirando dúvidas. Cola no link abaixo.",
-  },
-  {
-    icon: Calendar,
-    title: "Aula ao vivo · segunda 19h30",
-    detail:
-      "Toda segunda a Mari sobe ao vivo. O link chega no seu email algumas horas antes — bota na agenda.",
-  },
-  {
-    icon: Mail,
-    title: "Email de boas-vindas chega em instantes",
-    detail:
-      "Confere a caixa de entrada (e o spam, por garantia). Marca como confiável pra não perder nada da Mari.",
-  },
-  {
-    icon: Sparkles,
-    title: "Bota equipe@iaplicada.com nos contatos",
-    detail:
-      "Pra newsletter quinzenal, gravações de aulas e tudo mais chegar sem cair no spam.",
-  },
-];
+// Contato da IAplicada que a pessoa deve salvar pra não cair em spam.
+// Mari pode trocar quando tiver um número dedicado.
+const IAPLICADA_CONTACT = {
+  name: "IAplicada · Aulas e Comunidade",
+  phone: "+55 11 99999-9999", // [VALIDAR]
+};
 
-const academyHighlights = [
-  "18 trilhas + novos conteúdos quinzenais",
-  "Q&A com a Mari toda quarta · 1h ao vivo",
-  "Gravação de todas as aulas",
-  "Materiais e prompts do método APLICA",
-];
+// Dados da próxima aula — atualizar mensalmente (primeira quarta do mês).
+// Mari mantém isto editando 1 constante.
+const NEXT_CLASS = {
+  topicLabel: "Próxima aula ao vivo",
+  topic: "Tema da próxima aula a confirmar", // [VALIDAR]
+  // ISO local time pra Brasília. UTC-3 = "T19:30:00-03:00".
+  startISO: "2026-06-03T19:30:00-03:00", // [VALIDAR]
+  durationMinutes: 90,
+};
+
+function formatPtBrDateTime(iso: string): string {
+  try {
+    const d = new Date(iso);
+    return d.toLocaleString("pt-BR", {
+      day: "2-digit",
+      month: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "America/Sao_Paulo",
+    });
+  } catch {
+    return iso;
+  }
+}
+
+function buildGoogleCalendarUrl() {
+  const start = new Date(NEXT_CLASS.startISO);
+  const end = new Date(start.getTime() + NEXT_CLASS.durationMinutes * 60_000);
+  // Format YYYYMMDDTHHmmssZ
+  const fmt = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: `IAplicada · ${NEXT_CLASS.topic}`,
+    dates: `${fmt(start)}/${fmt(end)}`,
+    details:
+      "Aula ao vivo da IAplicada. Link enviado por email + comunidade no WhatsApp algumas horas antes.",
+    location: "YouTube · IAplicada",
+  });
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
+}
 
 export const Route = createFileRoute("/obrigado")({
   component: Obrigado,
   head: () => ({
     meta: [
-      { title: "Bem-vinda à comunidade · IAplicada" },
+      { title: "Você está dentro · IAplicada" },
       {
         name: "description",
         content:
-          "Você tá dentro da comunidade IAplicada. Próximos passos pra começar — entra no WhatsApp e prepara pra primeira aula de segunda.",
+          "Bem-vinda à comunidade IAplicada. Próximos passos pra começar — WhatsApp, plataforma gratuita e próxima aula.",
       },
       { name: "robots", content: "noindex, nofollow" },
     ],
@@ -81,17 +94,24 @@ export const Route = createFileRoute("/obrigado")({
 });
 
 function Obrigado() {
-  // Dispara o evento de pageview pro Clarity assim que a /obrigado
-  // monta — separado do thankyou_view da /thank-you pra dar visão
-  // limpa de quantas conversões vieram de cada LP.
   useEffect(() => {
     trackEvent(EVENTS.OBRIGADO_VIEW);
   }, []);
 
+  function copyContact() {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(IAPLICADA_CONTACT.phone).catch(() => {
+        /* fallback silencioso */
+      });
+    }
+  }
+
+  const calendarUrl = buildGoogleCalendarUrl();
+
   return (
-    <main className="bg-[var(--cream)] text-[var(--cocoa)]">
+    <main className="bg-[#141A0B] text-[var(--offwhite)]">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-[var(--cream)] pt-28 pb-16 md:pt-36 md:pb-24">
+      <section className="relative overflow-hidden pt-28 pb-12 md:pt-36 md:pb-16">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0"
@@ -105,175 +125,216 @@ function Obrigado() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mx-auto max-w-3xl text-center"
+            className="mx-auto max-w-2xl text-center"
           >
-            <span className="mono-label inline-flex items-center justify-center gap-2 text-[var(--brand-dark)]">
+            <span className="inline-flex items-center justify-center gap-2 rounded-full border border-[var(--brand)]/40 bg-[var(--brand)]/10 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
               <Check className="h-3.5 w-3.5" />
-              Você acabou de entrar
+              Cadastro confirmado
             </span>
 
-            <h1 className="mt-8 h-display text-[var(--cocoa)]">
-              Bem-vinda{" "}
-              <span className="serif-italic text-[var(--brand-dark)]">à comunidade!</span>
+            <h1 className="mt-8 font-display text-[clamp(2.5rem,6vw,4rem)] leading-[1.05] tracking-tight text-[var(--offwhite)]">
+              Você está <span className="text-[#BDD64A]">dentro.</span>
             </h1>
 
-            <p className="mx-auto mt-7 max-w-2xl text-[17px] leading-[1.55] text-[var(--cocoa-soft)] md:text-[19px]">
-              Tá dentro do grupo que aplica IA de verdade. Aqui em baixo
-              tem os 3 minutos que você precisa pra começar a aplicar
-              ainda essa semana.
+            <p className="mx-auto mt-7 max-w-xl text-[16px] leading-[1.6] text-[#D4DEB3] md:text-[18px]">
+              Em até 5 minutos você recebe um email com o link da comunidade
+              no WhatsApp e seu login da plataforma gratuita.
             </p>
           </motion.div>
         </div>
       </section>
 
-      {/* PRÓXIMOS PASSOS — WhatsApp primeiro */}
-      <section className="bg-section-dark relative overflow-hidden py-20 md:py-28 text-[var(--offwhite)]">
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-40 right-0 h-[500px] w-[500px] rounded-full blur-[120px]"
-          style={{ background: "color-mix(in oklab, var(--brand) 12%, transparent)" }}
-        />
-
-        <div className="container-wide relative px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.8 }}
-            className="mx-auto max-w-4xl"
-          >
-            <div className="text-center">
-              <h2 className="h-section !text-[var(--offwhite)]">
-                Seus{" "}
-                <span className="serif-italic text-[var(--brand)]">3 próximos minutos.</span>
-              </h2>
-            </div>
-
-            <ol className="mt-14 grid gap-5 md:grid-cols-2 md:gap-6">
-              {steps.map(({ icon: Icon, title, detail }, idx) => (
-                <motion.li
-                  key={title}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.6, delay: idx * 0.08 }}
-                  className="relative rounded-[20px] border border-[var(--offwhite)]/12 bg-[var(--offwhite)]/[0.04] p-6 backdrop-blur-sm"
-                >
-                  <div className="flex items-start gap-4">
-                    <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--cocoa)]">
-                      <Icon className="h-5 w-5" strokeWidth={2.2} />
-                    </span>
-                    <div>
-                      <p className="mono-label text-[var(--brand)]">
-                        Passo {String(idx + 1).padStart(2, "0")}
-                      </p>
-                      <h3 className="mt-1.5 font-display text-xl text-[var(--offwhite)]">
-                        {title}
-                      </h3>
-                      <p className="mt-2.5 text-[14px] leading-[1.55] text-[var(--offwhite)]/70">
-                        {detail}
-                      </p>
-                    </div>
-                  </div>
-                </motion.li>
-              ))}
-            </ol>
-
-            <div className="mt-14 flex flex-col items-center gap-4 text-center">
-              <a
-                href={WHATSAPP_COMMUNITY}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent(EVENTS.WHATSAPP_COMMUNITY_CLICK)}
-                className="inline-flex items-center gap-2.5 rounded-full bg-[var(--brand)] px-9 py-4 text-base font-medium text-[var(--cocoa)] shadow-[0_30px_80px_-20px_rgba(175,192,64,0.5)] transition-all hover:scale-[1.02] hover:bg-[var(--brand-bright)]"
-              >
-                <MessageCircle className="h-4 w-4" />
-                Cola no WhatsApp agora
-              </a>
-              <p className="text-[13px] text-[var(--offwhite)]/55">
-                Grupo da comunidade IAplicada · sem ruído, sem spam
-              </p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* UPSELL ACADEMY */}
-      <section className="section-pad bg-[var(--cream)]">
+      {/* 3 PASSOS — card grande */}
+      <section className="relative overflow-hidden pb-20 md:pb-24">
         <div className="container-wide px-6">
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8 }}
-            className="mx-auto max-w-4xl"
+            className="mx-auto max-w-3xl"
           >
-            <div className="grid gap-10 rounded-[28px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:grid-cols-[1fr_0.9fr] md:p-12">
-              <div>
-                <span className="mono-label text-[var(--brand-dark)]">
-                  Já viu o método na prática?
-                </span>
-                <h2 className="mt-4 font-display text-3xl text-[var(--cocoa)] md:text-4xl">
-                  No{" "}
-                  <span className="serif-italic text-[var(--brand-dark)]">Academy</span>{" "}
-                  você não só assiste — você aplica com a Mari.
-                </h2>
-                <p className="mt-5 text-[15px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[17px]">
-                  A comunidade aberta é o gostinho. As gravações, materiais,
-                  mentoria semanal e o método APLICA passo-a-passo ficam dentro
-                  do Academy — onde IA vira resultado.
-                </p>
+            <div className="rounded-[28px] border border-[var(--offwhite)]/10 bg-[#1A1F10] p-8 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.6)] md:p-10">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+                Seus próximos passos
+              </p>
 
-                <ul className="mt-6 space-y-3">
-                  {academyHighlights.map((h) => (
-                    <li
-                      key={h}
-                      className="flex items-start gap-2.5 text-[14px] leading-[1.55] text-[var(--cocoa)]"
+              {/* Passo 1 — WhatsApp (CTA principal) */}
+              <div className="mt-7 border-t border-[var(--offwhite)]/10 pt-7">
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--brand)] text-[var(--ink)]">
+                    <Sparkles className="h-5 w-5" strokeWidth={2.4} />
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]/85">
+                      Passo 01
+                    </p>
+                    <h3 className="mt-1 font-display text-xl text-[var(--offwhite)] md:text-2xl">
+                      Entre no WhatsApp agora
+                    </h3>
+                    <p className="mt-2 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/65">
+                      É o coração da IAplicada. Trocas, prompts, dicas semanais.
+                      Cola já — quanto antes melhor.
+                    </p>
+                    <a
+                      href={WHATSAPP_COMMUNITY}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        trackEvent(EVENTS.OBRIGADO_WHATSAPP_CLICK)
+                      }
+                      className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-6 py-3 text-[14px] font-semibold text-[var(--ink)] shadow-[0_20px_50px_-15px_rgba(175,192,64,0.55)] transition-all hover:scale-[1.02] hover:bg-[var(--brand-bright)]"
                     >
-                      <Check
-                        className="mt-1 h-4 w-4 shrink-0 text-[var(--brand-dark)]"
-                        strokeWidth={2.5}
-                      />
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
+                      <MessageCircle className="h-4 w-4" />
+                      Entrar na comunidade Aplicados
+                    </a>
+                  </div>
+                </div>
               </div>
 
-              <div className="flex flex-col justify-between gap-6 rounded-2xl bg-[var(--cream)] p-6 md:p-7">
-                <div>
-                  <p className="mono-label text-[var(--cocoa-soft)]">Pagamento único</p>
-                  <div className="mt-3 flex items-end gap-2">
-                    <span className="text-sm text-[var(--cocoa-soft)]">12×</span>
-                    <span className="font-display text-5xl leading-[0.9] text-[var(--cocoa)]">
-                      R$ 83
-                    </span>
-                    <span className="mb-1.5 text-[var(--cocoa-soft)]">sem juros</span>
+              {/* Passo 2 — Plataforma */}
+              <div className="mt-7 border-t border-[var(--offwhite)]/10 pt-7">
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--brand)]/40 bg-[var(--brand)]/10 text-[var(--brand)]">
+                    <ExternalLink className="h-5 w-5" strokeWidth={2.2} />
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]/85">
+                      Passo 02
+                    </p>
+                    <h3 className="mt-1 font-display text-xl text-[var(--offwhite)] md:text-2xl">
+                      Acesse a plataforma gratuita
+                    </h3>
+                    <p className="mt-2 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/65">
+                      Mini-trilhas, prompts testados e catálogo de ferramentas.
+                      Login chega no seu email em alguns minutos.
+                    </p>
+                    <a
+                      href={PLATAFORMA_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() =>
+                        trackEvent(EVENTS.OBRIGADO_PLATFORM_CLICK)
+                      }
+                      className="mt-5 inline-flex items-center gap-2 rounded-full border border-[var(--offwhite)]/25 bg-transparent px-6 py-3 text-[14px] font-semibold text-[var(--offwhite)] transition-colors hover:bg-[var(--offwhite)]/8"
+                    >
+                      Ir pra plataforma.iaplicada.com
+                      <ArrowRight className="h-4 w-4" />
+                    </a>
                   </div>
-                  <p className="mt-2 text-[13px] leading-[1.55] text-[var(--cocoa-soft)]">
-                    Ou R$ 997 à vista · sem mensalidade · 7 dias de garantia
+                </div>
+              </div>
+
+              {/* Passo 3 — Salvar contato */}
+              <div className="mt-7 border-t border-[var(--offwhite)]/10 pt-7">
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--brand)]/40 bg-[var(--brand)]/10 text-[var(--brand)]">
+                    <Copy className="h-5 w-5" strokeWidth={2.2} />
+                  </span>
+                  <div className="flex-1">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--brand)]/85">
+                      Passo 03
+                    </p>
+                    <h3 className="mt-1 font-display text-xl text-[var(--offwhite)] md:text-2xl">
+                      Salve o contato da IAplicada
+                    </h3>
+                    <p className="mt-2 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/65">
+                      Adiciona na agenda pra os emails da Mari não caírem no
+                      spam.
+                    </p>
+                    <div className="mt-5 inline-flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--offwhite)]/12 bg-[var(--offwhite)]/[0.04] px-4 py-3 text-[14px] text-[var(--offwhite)]">
+                      <span className="font-mono">
+                        {IAPLICADA_CONTACT.phone}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={copyContact}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[var(--offwhite)]/10 px-3 py-1.5 text-[12px] font-semibold text-[var(--offwhite)]/80 transition-colors hover:bg-[var(--offwhite)]/15"
+                      >
+                        <Copy className="h-3 w-3" />
+                        Copiar
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Card Próxima Aula */}
+      <section className="relative overflow-hidden pb-20 md:pb-24">
+        <div className="container-wide px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.8 }}
+            className="mx-auto max-w-3xl"
+          >
+            <div
+              className="relative overflow-hidden rounded-[28px] p-8 text-[var(--offwhite)] md:p-10"
+              style={{
+                background: "linear-gradient(135deg, #1A1F10 0%, #232B17 100%)",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute -top-20 -right-20 h-64 w-64 rounded-full blur-[80px]"
+                style={{
+                  background: "color-mix(in oklab, var(--brand) 25%, transparent)",
+                }}
+              />
+
+              <div className="relative grid items-center gap-6 md:grid-cols-[1fr_auto] md:gap-10">
+                <div>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+                    {NEXT_CLASS.topicLabel}
+                  </p>
+                  <h3 className="mt-3 font-display text-2xl text-[var(--offwhite)] md:text-3xl">
+                    {NEXT_CLASS.topic}
+                  </h3>
+                  <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/70">
+                    {formatPtBrDateTime(NEXT_CLASS.startISO)} (horário de Brasília) ·
+                    ao vivo no YouTube + comunidade
                   </p>
                 </div>
 
                 <a
-                  href={CHECKOUT_ACADEMY}
-                  onClick={() => trackEvent(EVENTS.ACADEMY_UPSELL_CLICK)}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D]"
+                  href={calendarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent(EVENTS.OBRIGADO_CALENDAR_CLICK)}
+                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-6 py-3.5 text-[14px] font-semibold text-[var(--ink)] shadow-[0_20px_50px_-15px_rgba(175,192,64,0.55)] transition-all hover:bg-[var(--brand-bright)]"
                 >
-                  Quero o Academy
-                  <ArrowRight className="h-4 w-4" />
+                  <CalendarPlus className="h-4 w-4" />
+                  Adicionar ao Google Calendar
                 </a>
               </div>
             </div>
+          </motion.div>
+        </div>
+      </section>
 
-            <p className="mt-10 text-center text-[14px] text-[var(--cocoa-soft)]">
-              Vem na aula de segunda primeiro.{" "}
-              <Link
-                to="/comunidade"
-                className="font-medium text-[var(--brand-dark)] underline-offset-2 hover:underline"
-              >
-                Voltar pra LP
-              </Link>
+      {/* PS final assinado pela Mari */}
+      <section className="relative overflow-hidden pb-24 md:pb-32">
+        <div className="container-wide px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.8 }}
+            className="mx-auto max-w-2xl rounded-2xl border border-[var(--offwhite)]/8 bg-[var(--offwhite)]/[0.03] p-7 md:p-9"
+          >
+            <p className="font-display text-[18px] leading-[1.6] text-[var(--offwhite)]/85 md:text-[19px]">
+              PS — Se em 5 minutos você não tiver recebido o email, dá uma
+              olhada no spam. E me responde por lá pra eu saber que você
+              está aí.
+            </p>
+            <p className="mt-4 text-[13px] font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+              — Mari
             </p>
           </motion.div>
         </div>
