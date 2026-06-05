@@ -5,36 +5,47 @@ import type { LucideIcon } from "lucide-react";
 interface Feature {
   icon: LucideIcon;
   title: string;
-  detail: string;
+  desc: string;
+  tag: string;
 }
 
 const features: Feature[] = [
   {
     icon: CalendarDays,
     title: "Aula ao vivo mensal",
-    detail:
-      "Toda primeira quarta do mês, 19h30, ao vivo no YouTube + comunidade. Tema prático com aplicação direta no trabalho. Fica gravada na plataforma gratuita pra rever depois.",
+    desc: "Toda primeira quarta do mês, 19h30, ao vivo no YouTube + comunidade. Tema prático com aplicação direta no trabalho. Fica gravada na plataforma gratuita pra rever depois.",
+    tag: "1ª quarta · 19h30",
   },
   {
     icon: LayoutDashboard,
     title: "Acesso à plataforma gratuita",
-    detail:
-      "Login permanente em plataforma.iaplicada.com — mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo das ferramentas que valem a pena conhecer. Tudo organizado, sem custo.",
+    desc: "Login permanente em plataforma.iaplicada.com — mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo das ferramentas que valem a pena conhecer.",
+    tag: "dentro da plataforma",
   },
   {
     icon: MessageCircle,
     title: "Comunidade no WhatsApp",
-    detail:
-      "Grupo de +700 Aplicados. Dicas, prompt da semana, ferramenta que vale testar, troca entre membros. Você sai quando quiser.",
+    desc: "Grupo de +700 Aplicados. Dicas, prompt da semana, ferramenta que vale testar, troca entre membros. Você sai quando quiser.",
+    tag: "grupo · ao vivo",
   },
   {
     icon: Newspaper,
     title: "Newsletter quinzenal",
-    detail:
-      "Leitura de 4 minutos pra começar a quinzena já com IA do seu lado. Panorama, casos práticos, nada de hype.",
+    desc: "Leitura de 4 minutos pra começar a quinzena já com IA do seu lado. Panorama, casos práticos, nada de hype.",
+    tag: "quinzenal · email",
   },
 ];
 
+/**
+ * Cards do que tem na comunidade — replicam o mesmo padrão visual dos
+ * pilares do Includes.tsx (LP /):
+ *  - Grid com gap-px + bg cocoa/10 = divisores finos entre cards
+ *  - Cada card é só bg-offwhite sem rounded individual (o rounded é
+ *    do container externo)
+ *  - Ícone em círculo cocoa escuro com brand color
+ *  - Tag em mono-label no canto direito superior
+ *  - Title em font-display, desc em texto cocoa-soft
+ */
 export function OQueVoceRecebe() {
   return (
     <section id="comunidade" className="section-pad bg-[var(--cream)]">
@@ -60,28 +71,37 @@ export function OQueVoceRecebe() {
           </p>
         </motion.div>
 
-        <ul className="mt-16 grid gap-5 md:grid-cols-2 md:gap-6">
-          {features.map((f, idx) => (
-            <motion.li
+        {/* Grid de cards no padrão dos pilares do Includes — divisores
+            finos entre cards, ícone em círculo escuro, tag à direita */}
+        <div className="mt-16 grid gap-px rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--cocoa)]/10 md:grid-cols-2">
+          {features.map((f, i) => (
+            <motion.div
               key={f.title}
-              initial={{ opacity: 0, y: 14 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
-              transition={{ duration: 0.6, delay: idx * 0.08 }}
-              className="relative rounded-[24px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-7 shadow-[0_20px_60px_-30px_rgba(13,13,13,0.12)] md:p-8"
+              transition={{ duration: 0.55, delay: (i % 2) * 0.08 }}
+              className="group relative flex flex-col gap-5 bg-[var(--offwhite)] p-8 md:p-10"
             >
-              <span className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--brand)]/15 text-[var(--brand-dark)]">
-                <f.icon className="h-5 w-5" strokeWidth={2.2} />
-              </span>
-              <h3 className="mt-5 font-display text-2xl text-[var(--cocoa)]">
-                {f.title}
-              </h3>
-              <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--cocoa-soft)]">
-                {f.detail}
-              </p>
-            </motion.li>
+              <div className="flex items-start justify-between">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--cocoa)] text-[var(--brand)]">
+                  <f.icon className="h-5 w-5" />
+                </div>
+                <span className="mono-label text-[var(--cocoa-soft)]">
+                  {f.tag}
+                </span>
+              </div>
+              <div>
+                <p className="font-display text-2xl text-[var(--cocoa)] md:text-[26px]">
+                  {f.title}
+                </p>
+                <p className="mt-3 text-[15px] leading-relaxed text-[var(--cocoa-soft)]">
+                  {f.desc}
+                </p>
+              </div>
+            </motion.div>
           ))}
-        </ul>
+        </div>
       </div>
     </section>
   );
