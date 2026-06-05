@@ -6,11 +6,11 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
 // VSL oficial: https://youtu.be/iVC_szCBrnU
 const YOUTUBE_ID = "iVC_szCBrnU";
 
-// Imagem hospedada no ibb.co (CDN externo). Antes apontava pra
-// /public/mariana.jpg (484KB, 1536×2752) — era o LCP da LP e
-// causava Lighthouse score de 57/100 com LCP de 15s. ibb.co serve
-// a mesma imagem mas em conexão otimizada (HTTP/2, Cloudflare CDN).
-const POSTER = "https://i.ibb.co/NzfQDRG/final-composite-1.jpg";
+// Foto nova da Mari (189KB, 1086×1448) servida do /public local.
+// Antes era ibb.co/NzfQDRG/final-composite-1.jpg (1536×2752, 484KB)
+// hospedada externa pra evitar LCP de 15s. Imagem nova já vem
+// otimizada e tem dimensões adequadas, então voltou pro asset local.
+const POSTER = "/ec3f45ad-7b47-4007-b028-c9340649f3e6.jpeg";
 
 // Após quantos ms na LP o modal abre sozinho com o vídeo tocando MUDO.
 // Política padrão de VSL — playVideo() com som sem gesture do usuário é

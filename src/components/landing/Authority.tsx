@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Instagram, Youtube, Linkedin } from "lucide-react";
 
-const MARI_PHOTO = "/mariana.jpg";
+const MARI_PHOTO = "/ec3f45ad-7b47-4007-b028-c9340649f3e6.jpeg";
 
 const credentials = [
   "+3 anos construindo a IAplicada",

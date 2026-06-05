@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Instagram, Youtube } from "lucide-react";
 
-const MARI_PHOTO = "https://i.ibb.co/NzfQDRG/final-composite-1.jpg";
+const MARI_PHOTO = "/ec3f45ad-7b47-4007-b028-c9340649f3e6.jpeg";
 
 const stats = [
   ["+700", "Aplicados ativos"],
