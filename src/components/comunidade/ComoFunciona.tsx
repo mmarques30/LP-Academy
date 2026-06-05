@@ -5,19 +5,19 @@ const steps = [
   {
     num: "01",
     title: "Você se cadastra",
-    detail: "Email, nome e WhatsApp. 40 segundos. Sem cartão, sem assinatura.",
+    detail: "Nome, email e WhatsApp. 40 segundos. Sem cartão, sem assinatura.",
   },
   {
     num: "02",
     title: "Recebe acesso imediato",
     detail:
-      "Já no próximo email, o link da comunidade no WhatsApp + login da plataforma gratuita.",
+      "No próximo email: link da comunidade no WhatsApp + login da plataforma.iaplicada.com gratuita.",
   },
   {
     num: "03",
     title: "Aplica no seu trabalho",
     detail:
-      "Toda semana tem dica. Todo mês tem aula. Você usa o quanto fizer sentido pra você.",
+      "Todo mês tem aula ao vivo. Toda quinzena tem newsletter. Você usa o quanto fizer sentido pra você.",
   },
 ];
 

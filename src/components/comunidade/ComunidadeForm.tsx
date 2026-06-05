@@ -146,7 +146,7 @@ export function ComunidadeForm() {
       </div>
 
       <h3 className="mt-4 font-display text-2xl text-[var(--cocoa)] md:text-[28px]">
-        Entre agora pra próxima aula
+        Garanta sua vaga na próxima aula
       </h3>
       <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
         Em menos de 1 minuto. Sem cartão. Sem letrinha pequena.

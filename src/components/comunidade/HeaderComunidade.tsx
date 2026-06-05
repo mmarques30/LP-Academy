@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
+import { ArrowRight } from "lucide-react";
 import { Logo } from "@/components/landing/Logo";
 
 /**
- * Header minimal da LP /comunidade — só o logo, sem menu nem CTA.
- * Mesma identidade visual do Header da LP / (cream/cocoa light theme),
- * só que sem nav e sem botão "Entrar pro Academy" — o form já tá no
- * próprio hero, não precisa apontar pra ele.
+ * Header da LP /comunidade — light theme igual ao Header da LP /,
+ * com botão CTA "Quero entrar grátis" à direita que faz scroll
+ * suave pro form do hero (#cadastro).
+ *
+ * Opção B do briefing: form fica no hero (não inline no header),
+ * mas o botão do header serve como atalho permanente — sempre
+ * visível em qualquer scroll, garante que a pessoa nunca fica
+ * sem CTA visível.
  */
 export function HeaderComunidade() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,6 +21,19 @@ export function HeaderComunidade() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  function scrollToCadastro(e: React.MouseEvent<HTMLAnchorElement>) {
+    e.preventDefault();
+    const form = document.getElementById("cadastro");
+    if (form) {
+      form.scrollIntoView({ behavior: "smooth", block: "center" });
+      setTimeout(() => {
+        document.getElementById("comunidade-firstname")?.focus();
+      }, 700);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
 
   return (
     <header
@@ -39,6 +57,15 @@ export function HeaderComunidade() {
           <span className="hidden text-[13px] font-medium text-[var(--cocoa-soft)] sm:inline">
             /Comunidade
           </span>
+        </a>
+
+        <a
+          href="#cadastro"
+          onClick={scrollToCadastro}
+          className="inline-flex items-center gap-2 rounded-full bg-[var(--brand-dark)] px-4 py-2 text-[12px] font-semibold text-white shadow-[0_10px_30px_-10px_rgba(115,137,37,0.5)] transition-all hover:bg-[#5C6F1D] sm:px-5 sm:py-2.5 sm:text-[13px]"
+        >
+          Quero entrar grátis
+          <ArrowRight className="h-3.5 w-3.5" />
         </a>
       </div>
     </header>
