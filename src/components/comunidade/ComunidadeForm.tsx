@@ -1,25 +1,15 @@
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Loader2, Lock, Sparkles } from "lucide-react";
+import { ArrowRight, ChevronDown, Loader2, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/analytics";
 
 /**
- * Form da LP /comunidade — versão compacta no hero (3 campos visíveis:
- * Nome, Email, WhatsApp). Mesma identidade visual do form da LP /
- * (cream/cocoa light theme), posta no MESMO backend Supabase
- * (Edge Function "form-submit"), mas com 2 campos que ela exige
- * (objetivo_com_a_comunidade + motivo_para_aprender_ia) preenchidos
- * com defaults seguros — porque na LP /comunidade a intenção é
- * baixa fricção.
+ * Form da LP /comunidade — agora idêntico ao form da LP / Community.tsx:
+ * todos os 5 campos visíveis (Nome, Email, WhatsApp, Objetivo e Motivo).
  *
- * Defaults usados:
- *   objetivo_com_a_comunidade = "Outro"
- *   motivo_para_aprender_ia   = "Curiosidade/interesse pessoal"
- *
- * Quando a Mari quiser segmentar leads de /comunidade vs leads de /
- * com mais granularidade, dá pra (1) criar um form_slug separado na
- * Lovable + Supabase, OU (2) adicionar selects visíveis no form
- * (perdendo fricção).
+ * Mari pediu que tivesse "todos os campos como na LP original" — antes
+ * tínhamos só 3 visíveis com 2 defaults hidden. Agora os 5 vão pro
+ * Supabase com o que a pessoa preencher (sem default forçado).
  */
 
 const SUPABASE_URL = "https://ciwdlceyjsnlnunktqzx.supabase.co";
@@ -28,10 +18,23 @@ const SUPABASE_ANON_KEY =
 const FORM_SLUG = "academy";
 const FORM_ENDPOINT = `${SUPABASE_URL}/functions/v1/form-submit`;
 
-const HIDDEN_DEFAULTS = {
-  objetivo_com_a_comunidade: "Outro",
-  motivo_para_aprender_ia: "Curiosidade/interesse pessoal",
-} as const;
+// Mesmas opções do Community.tsx (LP /). Mantém alinhamento com a
+// tabela form_fields no Supabase (form_id a1000000-…001).
+const OBJETIVO_OPTIONS = [
+  "Acessar um mentor para acelerar carreira",
+  "Acessar treinamento com conteúdos organizados",
+  "Fazer networking com outros profissionais",
+  "Acompanhar tendências de IA",
+  "Outro",
+];
+
+const MOTIVO_OPTIONS = [
+  "Transição de carreira",
+  "Tornar minha equipe mais produtiva",
+  "Promoção/referência profissional",
+  "Criar/escalar negócio",
+  "Curiosidade/interesse pessoal",
+];
 
 type SubmitState = "idle" | "loading" | "error";
 
@@ -48,8 +51,6 @@ function getUtms() {
   };
 }
 
-// Mesmo styling de inputs/labels usado em Community.tsx — identidade
-// visual coerente entre as 2 LPs.
 const inputClass =
   "mt-2 block w-full rounded-xl border border-[var(--cocoa)]/15 bg-[var(--cream)] px-4 py-3.5 text-[15px] text-[var(--cocoa)] placeholder:text-[var(--cocoa-soft)]/60 transition-all focus:border-[var(--brand-dark)] focus:bg-[var(--offwhite)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/30 disabled:opacity-60";
 
@@ -61,6 +62,9 @@ export function ComunidadeForm() {
   const [firstname, setFirstname] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [objetivo, setObjetivo] = useState("");
+  const [motivo, setMotivo] = useState("");
+  // Honeypot anti-bot — invisível pra humanos
   const [honeypot, setHoneypot] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -93,7 +97,8 @@ export function ComunidadeForm() {
           firstname: firstname.trim(),
           email: email.trim(),
           phone: phone.trim(),
-          ...HIDDEN_DEFAULTS,
+          objetivo_com_a_comunidade: objetivo,
+          motivo_para_aprender_ia: motivo,
           ...utm,
         },
         utm: {
@@ -140,19 +145,18 @@ export function ComunidadeForm() {
       id="cadastro"
       className="rounded-[28px] bg-[var(--offwhite)] p-7 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-9"
     >
-      <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
-        <Sparkles className="h-3.5 w-3.5" />
+      <span className="mono-label text-[var(--brand-dark)]">
         Cadastro gratuito
-      </div>
+      </span>
 
-      <h3 className="mt-4 font-display text-2xl text-[var(--cocoa)] md:text-[28px]">
+      <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-[28px]">
         Garanta sua vaga na próxima aula
       </h3>
       <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
         Em menos de 1 minuto. Sem cartão. Sem letrinha pequena.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-6 space-y-4" noValidate>
+      <form onSubmit={handleSubmit} className="mt-7 space-y-4" noValidate>
         {/* Honeypot anti-bot */}
         <div
           aria-hidden="true"
@@ -172,7 +176,7 @@ export function ComunidadeForm() {
 
         <div>
           <label htmlFor="comunidade-firstname" className={labelClass}>
-            Nome
+            Nome Completo
           </label>
           <input
             id="comunidade-firstname"
@@ -184,14 +188,14 @@ export function ComunidadeForm() {
             onChange={(e) => setFirstname(e.target.value)}
             onFocus={handleFirstFocus}
             disabled={state === "loading"}
-            placeholder="Como podemos te chamar"
+            placeholder="Seu nome completo"
             className={inputClass}
           />
         </div>
 
         <div>
           <label htmlFor="comunidade-email" className={labelClass}>
-            Email
+            E-mail
           </label>
           <input
             id="comunidade-email"
@@ -203,14 +207,14 @@ export function ComunidadeForm() {
             onChange={(e) => setEmail(e.target.value)}
             onFocus={handleFirstFocus}
             disabled={state === "loading"}
-            placeholder="voce@email.com"
+            placeholder="seu@email.com"
             className={inputClass}
           />
         </div>
 
         <div>
           <label htmlFor="comunidade-phone" className={labelClass}>
-            WhatsApp (com DDD)
+            Telefone com DDD
           </label>
           <input
             id="comunidade-phone"
@@ -227,6 +231,62 @@ export function ComunidadeForm() {
           />
         </div>
 
+        <div>
+          <label htmlFor="comunidade-objetivo" className={labelClass}>
+            Qual o seu objetivo ao participar da comunidade?
+          </label>
+          <div className="relative">
+            <select
+              id="comunidade-objetivo"
+              name="objetivo_com_a_comunidade"
+              required
+              value={objetivo}
+              onChange={(e) => setObjetivo(e.target.value)}
+              onFocus={handleFirstFocus}
+              disabled={state === "loading"}
+              className={`${inputClass} appearance-none pr-10`}
+            >
+              <option value="" disabled>
+                Selecione...
+              </option>
+              {OBJETIVO_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
+          </div>
+        </div>
+
+        <div>
+          <label htmlFor="comunidade-motivo" className={labelClass}>
+            Por qual motivo você quer aprender IA?
+          </label>
+          <div className="relative">
+            <select
+              id="comunidade-motivo"
+              name="motivo_para_aprender_ia"
+              required
+              value={motivo}
+              onChange={(e) => setMotivo(e.target.value)}
+              onFocus={handleFirstFocus}
+              disabled={state === "loading"}
+              className={`${inputClass} appearance-none pr-10`}
+            >
+              <option value="" disabled>
+                Selecione...
+              </option>
+              {MOTIVO_OPTIONS.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
+          </div>
+        </div>
+
         {state === "error" && errorMsg && (
           <p className="rounded-lg bg-red-50 px-4 py-3 text-[13px] leading-[1.5] text-red-700">
             {errorMsg}
@@ -236,7 +296,7 @@ export function ComunidadeForm() {
         <button
           type="submit"
           disabled={state === "loading"}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-semibold text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
+          className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-semibold text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
         >
           {state === "loading" ? (
             <>
@@ -256,13 +316,9 @@ export function ComunidadeForm() {
           e ganha acesso à plataforma gratuita. Pode sair quando quiser.
         </p>
 
-        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 pt-2 text-[11px] text-[var(--cocoa-soft)]/70">
-          <span className="inline-flex items-center gap-1.5">
-            <Lock className="h-3 w-3" /> Seus dados protegidos
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <Sparkles className="h-3 w-3" /> Zero spam
-          </span>
+        <div className="flex items-center justify-center gap-1.5 pt-1 text-[11px] text-[var(--cocoa-soft)]/70">
+          <Lock className="h-3 w-3" />
+          <span>Seus dados protegidos · sem spam</span>
         </div>
       </form>
     </div>

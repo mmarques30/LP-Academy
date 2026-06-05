@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import { HeroVslPlayer } from "@/components/landing/HeroVslPlayer";
 
 /**
@@ -23,11 +22,10 @@ export function VideoComunidade() {
           transition={{ duration: 0.8 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
-            <Sparkles className="h-3 w-3" />
+          <span className="mono-label text-[var(--brand-dark)]">
             Conheça a IAplicada
           </span>
-          <h2 className="mt-7 h-section text-[var(--cocoa)]">
+          <h2 className="mt-5 h-section text-[var(--cocoa)]">
             Veja em 3 minutos{" "}
             <span className="serif-italic text-[var(--brand-dark)]">
               como é por dentro.
