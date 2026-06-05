@@ -37,7 +37,7 @@ const features: Feature[] = [
 
 export function OQueVoceRecebe() {
   return (
-    <section className="section-pad bg-[var(--cream)]">
+    <section id="comunidade" className="section-pad bg-[var(--cream)]">
       <div className="container-wide px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
