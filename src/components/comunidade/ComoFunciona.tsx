@@ -22,7 +22,7 @@ const steps = [
 
 export function ComoFunciona() {
   return (
-    <section className="section-pad bg-[var(--offwhite)]">
+    <section id="como-funciona" className="section-pad bg-[var(--offwhite)]">
       <div className="container-wide px-6">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
