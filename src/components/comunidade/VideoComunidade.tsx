@@ -1,21 +1,22 @@
 import { motion } from "framer-motion";
 import { Sparkles } from "lucide-react";
-import { HeroVslPlayer } from "@/components/landing/HeroVslPlayer";
+import { VideoPreviewWidescreen } from "./VideoPreviewWidescreen";
 
 /**
- * Seção dedicada do vídeo — dobra própria depois do hero, em vez de
- * embutida na coluna esquerda do hero. Mari pediu pra desestruturar do
- * hero pra dar respiro visual + foco no vídeo.
+ * Seção dedicada de vídeo — dobra própria depois do hero da LP /comunidade.
  *
- * Reusa o HeroVslPlayer da LP / (mesmo VSL, mesmo modal auto-open
- * 5s, mesmo controle mute/unmute). Os cards flutuantes laterais
- * (Satisfação 4,9 + Método APLICA) ficam, pra reforçar autoridade.
+ * Usa o VideoPreviewWidescreen (formato 16:9) em vez do HeroVslPlayer
+ * (formato 4:5 portrait com foto da Mari) — Mari pediu pra trocar
+ * pro formato vídeo de verdade, sem a foto estática. O preview toca
+ * muted em loop começando no segundo 0:03 (parte interessante do
+ * vídeo), e o auto-open do modal após 5s na página continua igual
+ * à LP / (mesma session key, mesma UX de mute + botão "Ativar som").
  */
 export function VideoComunidade() {
   return (
     <section className="section-pad bg-[var(--offwhite)]">
       <div className="container-wide px-6">
-        {/* Copy intro centralizado */}
+        {/* Copy intro centralizada */}
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -39,16 +40,9 @@ export function VideoComunidade() {
           </p>
         </motion.div>
 
-        {/* Player centralizado, max-width pra não estourar */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto mt-14 max-w-[640px]"
-        >
-          <HeroVslPlayer />
-        </motion.div>
+        <div className="mt-14">
+          <VideoPreviewWidescreen />
+        </div>
       </div>
     </section>
   );
