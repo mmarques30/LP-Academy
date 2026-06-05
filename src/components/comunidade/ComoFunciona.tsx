@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 
 const steps = [
   {
@@ -32,11 +31,10 @@ export function ComoFunciona() {
           transition={{ duration: 0.8 }}
           className="mx-auto max-w-2xl text-center"
         >
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
-            <Sparkles className="h-3 w-3" />
+          <span className="mono-label text-[var(--brand-dark)]">
             Como funciona
-          </p>
-          <h2 className="mt-7 h-section text-[var(--cocoa)]">
+          </span>
+          <h2 className="mt-5 h-section text-[var(--cocoa)]">
             Em{" "}
             <span className="serif-italic text-[var(--brand-dark)]">
               3 passos.

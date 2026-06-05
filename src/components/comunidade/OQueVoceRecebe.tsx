@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CalendarDays, MessageCircle, Newspaper, Sparkles } from "lucide-react";
+import { CalendarDays, LayoutDashboard, MessageCircle, Newspaper } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 interface Feature {
@@ -16,7 +16,7 @@ const features: Feature[] = [
       "Toda primeira quarta do mês, 19h30, ao vivo no YouTube + comunidade. Tema prático com aplicação direta no trabalho. Fica gravada na plataforma gratuita pra rever depois.",
   },
   {
-    icon: Sparkles,
+    icon: LayoutDashboard,
     title: "Acesso à plataforma gratuita",
     detail:
       "Login permanente em plataforma.iaplicada.com — mini-trilhas introdutórias, prompts testados por categoria e nosso catálogo das ferramentas que valem a pena conhecer. Tudo organizado, sem custo.",
@@ -46,11 +46,10 @@ export function OQueVoceRecebe() {
           transition={{ duration: 0.8 }}
           className="mx-auto max-w-3xl text-center"
         >
-          <p className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[var(--brand-dark)]">
-            <Sparkles className="h-3 w-3" />
+          <span className="mono-label text-[var(--brand-dark)]">
             Tudo isso, sem pagar nada
-          </p>
-          <h2 className="mt-7 h-section text-[var(--cocoa)]">
+          </span>
+          <h2 className="mt-5 h-section text-[var(--cocoa)]">
             A comunidade gratuita{" "}
             <span className="serif-italic text-[var(--brand-dark)]">
               não é uma versão "demo".
