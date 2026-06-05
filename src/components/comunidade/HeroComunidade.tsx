@@ -3,20 +3,20 @@ import { Star } from "lucide-react";
 import { ComunidadeForm } from "./ComunidadeForm";
 
 /**
- * Hero da LP /comunidade — espelha EXATAMENTE as proporções do Hero
- * da LP / (anexo 2 que a Mari mandou):
- *   - grid lg:grid-cols-[1.1fr_0.9fr] lg:items-end → mesma proporção
- *     copy/conteúdo-da-direita do home
- *   - Título em h-display (clamp 3rem → 7.5rem) com 3 linhas via <br>
- *     pra manter o mesmo peso visual do home
- *   - Parágrafo: mt-9, max-w-[46ch], text 17/19px (idêntico ao home)
- *   - Social proof no fundo da coluna copy (avatares + stars + rating)
- *     pra dar o mesmo balanço visual do home — com items-end ele alinha
- *     o bottom com o bottom do form
- *   - Coluna direita: form no lugar do vídeo, ocupando proporção igual
+ * Hero da LP /comunidade — espelha as proporções do Hero da LP /.
  *
- * Diferença vs home /: a coluna direita tem o form (não vídeo); o
- * conteúdo da copy é focado em gratuidade (não venda do Academy).
+ * Estrutura (igual home):
+ *   1. Marquee de credibilidade logo abaixo do header (borda y +
+ *      texto rolando) — adicionado nessa última passada porque
+ *      a Mari pediu "aquele carrossel com informações como na LP /"
+ *   2. Grid 1.1fr_0.9fr com items-start (sem items-end pra não
+ *      empurrar tudo pro fundo do grid)
+ *   3. Coluna esquerda: h-display + parágrafo + social proof
+ *   4. Coluna direita: form (mesma proporção do video do home)
+ *
+ * Padding top do grid reduzido de lg:pt-28 → lg:pt-20 pra subir
+ * o conteúdo "só um pouquinho" como Mari pediu (mantendo tudo
+ * proporcional, sem mexer em tamanhos de letra ou form).
  */
 
 const SOCIAL_PROOF_AVATARS = [
@@ -26,11 +26,40 @@ const SOCIAL_PROOF_AVATARS = [
   "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80",
 ];
 
+// Itens do marquee — info da COMUNIDADE GRATUITA (não da Academy paga).
+// Mesmas categorias do marquee do home (números/cadência/canais),
+// mas adaptadas pro contexto da LP gratuita.
+const MARQUEE_ITEMS = [
+  "+700 Aplicados na comunidade",
+  "Aula ao vivo · 1ª quarta do mês · 19h30",
+  "Plataforma gratuita aberta 24/7",
+  "Comunidade no WhatsApp",
+  "Newsletter quinzenal",
+];
+
 export function HeroComunidade() {
   return (
     <section className="relative overflow-hidden bg-hero-canvas pt-32 md:pt-36">
+      {/* MARQUEE DE CREDIBILIDADE — igual ao do home Hero */}
+      <div className="border-y border-[var(--cocoa)]/10 py-2.5">
+        <div className="flex overflow-hidden">
+          <div className="marquee flex shrink-0 items-center gap-10 whitespace-nowrap px-5 text-[12px] font-medium uppercase tracking-[0.22em] text-[var(--cocoa-soft)]">
+            {Array.from({ length: 2 }).map((_, idx) => (
+              <div key={idx} className="flex items-center gap-10">
+                {MARQUEE_ITEMS.map((item, i) => (
+                  <div key={i} className="flex items-center gap-10">
+                    <span>{item}</span>
+                    <span className="text-[var(--brand-dark)]">◆</span>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div className="container-wide relative px-6">
-        <div className="grid gap-14 pb-24 pt-16 md:pb-28 md:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-12 lg:pt-28">
+        <div className="grid gap-14 pb-24 pt-16 md:pb-28 md:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-12 lg:pt-20">
           {/* COLUNA ESQUERDA — copy */}
           <div className="flex flex-col">
             <motion.h1
@@ -59,9 +88,7 @@ export function HeroComunidade() {
               pra trocar com quem aplica.
             </motion.p>
 
-            {/* Social proof — mesmo padrão visual do home Hero (avatares
-                + rating). Com items-end no grid, alinha com o fim do
-                form na coluna direita. */}
+            {/* Social proof — mesmo padrão visual do home Hero */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
