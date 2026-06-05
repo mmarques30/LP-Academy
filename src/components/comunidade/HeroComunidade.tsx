@@ -30,7 +30,7 @@ export function HeroComunidade() {
   return (
     <section className="relative overflow-hidden bg-hero-canvas pt-32 md:pt-36">
       <div className="container-wide relative px-6">
-        <div className="grid gap-14 pb-24 pt-16 md:pb-28 md:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-end lg:gap-12 lg:pt-28">
+        <div className="grid gap-14 pb-24 pt-16 md:pb-28 md:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-12 lg:pt-28">
           {/* COLUNA ESQUERDA — copy */}
           <div className="flex flex-col">
             <motion.h1
