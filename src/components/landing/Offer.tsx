@@ -14,10 +14,9 @@ const includes = [
   "Aula ao vivo, toda segunda · 19h30",
   "Q&A com a Mari, toda quarta · 19h30 · 1 hora",
   "MarIAna · agente IA 24/7 com a expertise da Mari",
-  "Comunidade fechada com +700 Aplicados ativos",
+  "Comunidade fechada com conteúdo diário",
   "Prompts, templates e workflows em Claude, Zapier e Manus",
   "Gravação de todas as aulas ao vivo",
-  "Encontro presencial anual com a Mari",
 ];
 
 export function Offer() {
