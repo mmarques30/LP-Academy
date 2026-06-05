@@ -49,13 +49,12 @@ export const Route = createRootRoute({
       // Pré-aquece DNS/TLS pro Microsoft Clarity — quando o snippet
       // dispara o request do tag real, a conexão já está pronta
       { rel: "preconnect", href: "https://www.clarity.ms" },
-      // Foto da Mari (LCP do Hero) — hospedada no ibb.co. Preconnect
-      // + preload cortam latência de TLS/handshake. Antes da otimização
-      // o LCP era 15s; alvo agora < 2.5s.
-      { rel: "preconnect", href: "https://i.ibb.co", crossOrigin: "anonymous" },
+      // Foto da Mari (LCP do Hero) — agora servida do /public local.
+      // Preload com fetchpriority="high" garante que o browser baixa
+      // antes de outros assets, mantendo LCP curto.
       {
         rel: "preload",
-        href: "https://i.ibb.co/NzfQDRG/final-composite-1.jpg",
+        href: "/ec3f45ad-7b47-4007-b028-c9340649f3e6.jpeg",
         as: "image",
         type: "image/jpeg",
         fetchpriority: "high",
