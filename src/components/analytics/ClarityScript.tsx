@@ -3,10 +3,31 @@ import { useEffect } from "react";
 /**
  * Microsoft Clarity (https://clarity.microsoft.com/)
  *
- * Project ID da Mari fixado no código. Pra trocar (ex: separar
- * dev/prod), setar VITE_CLARITY_PROJECT_ID no Lovable → sobrepõe.
+ * Dois projetos Clarity, um por LP — pra separar funil/analytics
+ * entre o tráfego do Academy pago (LP /) e o tráfego de captura da
+ * comunidade gratuita (LP /comunidade):
  *
- * Dashboard: https://clarity.microsoft.com/projects/view/wpgz0sjipi
+ *   - Project HOME (wpgz0sjipi):
+ *     Dashboard: https://clarity.microsoft.com/projects/view/wpgz0sjipi
+ *     Rotas: /, /thank-you
+ *
+ *   - Project COMUNIDADE (x2925vhhto):
+ *     Dashboard: https://clarity.microsoft.com/projects/view/x2925vhhto
+ *     Rotas: /comunidade, /obrigado
+ *
+ * Como funciona em SPA:
+ *   useEffect com deps [] roda 1 vez no primeiro mount.
+ *   window.location.pathname nesse momento = página de ENTRADA
+ *   (landing page). O projeto escolhido aí acompanha a sessão
+ *   inteira do usuário, mesmo se ele navegar entre rotas
+ *   client-side.
+ *
+ *   Caveat: se a pessoa entrar pela / e depois navegar pra
+ *   /comunidade, os eventos de /comunidade vão pro projeto HOME
+ *   (não COMUNIDADE). Esse é o comportamento padrão de Clarity em
+ *   SPA — Mari trata cada projeto como "funil por landing", não
+ *   "funil por rota visitada". Funciona bem pra campanhas que
+ *   apontam direto pra cada LP.
  *
  * Por que NÃO usamos a IIFE oficial da Microsoft via script.text:
  *   A IIFE injetada como inline script (script.text=…) é bloqueada
@@ -21,7 +42,27 @@ import { useEffect } from "react";
  * Dedup: script.id="clarity-tag" — re-render ou navegação client-side
  * não re-injeta.
  */
-const DEFAULT_CLARITY_PROJECT_ID = "wpgz0sjipi";
+
+const HOME_PROJECT_ID = "wpgz0sjipi";
+const COMUNIDADE_PROJECT_ID = "x2925vhhto";
+
+// Mapeamento de rota → project ID. Editar aqui quando adicionar
+// rotas novas. Ordem importa (primeiro match vence — coloque o mais
+// específico primeiro). Qualquer rota que não bater nada cai no
+// HOME_PROJECT_ID por default.
+const ROUTE_TO_PROJECT: Array<{ pathStartsWith: string; id: string }> = [
+  { pathStartsWith: "/comunidade", id: COMUNIDADE_PROJECT_ID },
+  { pathStartsWith: "/obrigado", id: COMUNIDADE_PROJECT_ID },
+];
+
+function pickProjectIdForPath(pathname: string): string {
+  for (const route of ROUTE_TO_PROJECT) {
+    if (pathname.startsWith(route.pathStartsWith)) {
+      return route.id;
+    }
+  }
+  return HOME_PROJECT_ID;
+}
 
 type ClarityQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
 
@@ -35,9 +76,14 @@ export function ClarityScript() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    // VITE_CLARITY_PROJECT_ID continua funcionando como override
+    // global (útil pra dev/staging usar um projeto separado sem
+    // mexer no código). Se setada, sobrepõe o roteamento por path.
+    const overrideId = import.meta.env.VITE_CLARITY_PROJECT_ID as
+      | string
+      | undefined;
     const projectId =
-      (import.meta.env.VITE_CLARITY_PROJECT_ID as string | undefined) ||
-      DEFAULT_CLARITY_PROJECT_ID;
+      overrideId || pickProjectIdForPath(window.location.pathname);
     if (!projectId) return;
 
     if (document.getElementById("clarity-tag")) return;
