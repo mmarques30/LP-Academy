@@ -195,16 +195,26 @@ export function Community() {
         throw new Error(body || `HTTP ${res.status}`);
       }
 
+      // Evento UNIVERSAL "form_submissions" (com S) — disparado em
+      // QUALQUER form bem-sucedido, em qualquer LP. Garante que
+      // dashboards que filtram por esse nome literal vejam a
+      // conversão. Metadata `source` diferencia LP de origem.
+      const cameFromComunidade =
+        typeof window !== "undefined" &&
+        window.location.pathname.startsWith("/comunidade");
+      trackEvent(EVENTS.FORM_SUBMISSIONS, {
+        source: cameFromComunidade ? "lp_comunidade" : "lp_home",
+        form_slug: FORM_SLUG,
+      });
+      // Evento granular por LP (mantido pra filtros existentes)
       trackEvent(EVENTS.FORM_SUBMIT_SUCCESS);
+
       // Redireciona pra página de obrigado certa, baseado em qual LP
       // o form foi submetido:
       //   / (home)        → /thank-you (cópia "futuro Aplicado")
       //   /comunidade     → /obrigado  (cópia community-first)
       // Sem mostrar nada inline — a próxima tela já é a experiência
       // completa de próximos passos.
-      const cameFromComunidade =
-        typeof window !== "undefined" &&
-        window.location.pathname.startsWith("/comunidade");
       navigate({ to: cameFromComunidade ? "/obrigado" : "/thank-you" });
     } catch (err) {
       console.error("[Community form]", err);
