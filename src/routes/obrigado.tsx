@@ -7,6 +7,7 @@ import {
   Check,
   Copy,
   ExternalLink,
+  Mail,
   MessageCircle,
   Sparkles,
 } from "lucide-react";
@@ -31,9 +32,12 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
 const WHATSAPP_COMMUNITY = "https://chat.whatsapp.com/FpvVgQEZE1L4CSmw05piNL";
 const PLATAFORMA_URL = "https://plataforma.iaplicada.com";
 
+// Contato pra salvar nos contatos pra os emails da Mari não caírem
+// no spam. Email é mais útil do que telefone — a pessoa adiciona no
+// Gmail/Outlook como contato confiável e a entrega de email melhora.
 const IAPLICADA_CONTACT = {
   name: "IAplicada · Aulas e Comunidade",
-  phone: "+55 11 99999-9999", // [VALIDAR]
+  email: "equipe@iaplicada.com",
 };
 
 // Aula ao vivo MENSAL (sempre primeira quarta do mês, 19h30 BRT).
@@ -98,7 +102,7 @@ function Obrigado() {
 
   function copyContact() {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(IAPLICADA_CONTACT.phone).catch(() => {
+      navigator.clipboard.writeText(IAPLICADA_CONTACT.email).catch(() => {
         /* noop */
       });
     }
@@ -258,20 +262,21 @@ function Obrigado() {
               >
                 <div className="flex items-start gap-4">
                   <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[var(--brand)]/40 bg-[var(--brand)]/10 text-[var(--brand)]">
-                    <Copy className="h-5 w-5" strokeWidth={2.2} />
+                    <Mail className="h-5 w-5" strokeWidth={2.2} />
                   </span>
                   <div className="flex-1">
                     <p className="mono-label text-[var(--brand)]">Passo 03</p>
                     <h3 className="mt-1.5 font-display text-xl text-[var(--offwhite)] md:text-2xl">
-                      Salve o contato da IAplicada
+                      Salve nosso email nos contatos
                     </h3>
                     <p className="mt-2.5 text-[14.5px] leading-[1.55] text-[var(--offwhite)]/70">
-                      Adiciona na agenda pra os emails da Mari não caírem no
-                      spam.
+                      Adiciona <strong className="text-[var(--offwhite)]">
+                      equipe@iaplicada.com</strong> nos seus contatos do Gmail/Outlook
+                      pra os emails da Mari não caírem no spam.
                     </p>
                     <div className="mt-5 inline-flex flex-wrap items-center gap-3 rounded-2xl border border-[var(--offwhite)]/12 bg-[var(--offwhite)]/[0.04] px-4 py-3 text-[14px] text-[var(--offwhite)]">
                       <span className="font-mono">
-                        {IAPLICADA_CONTACT.phone}
+                        {IAPLICADA_CONTACT.email}
                       </span>
                       <button
                         type="button"
