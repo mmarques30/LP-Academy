@@ -1,8 +1,14 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useMemo, useRef, useState, type FormEvent } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Check, ChevronDown, Loader2, Lock } from "lucide-react";
+import { AlertCircle, ArrowRight, Check, ChevronDown, Loader2, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import {
+  isFormValid,
+  validateFields,
+  type FieldErrors,
+  type FieldName,
+} from "@/lib/form-validation";
 
 // Configuração do backend — descoberta inspecionando o bundle do
 // form Lovable oficial (saasiaplicada.lovable.app) e a tabela
@@ -72,6 +78,54 @@ export function Community() {
   const [motivo, setMotivo] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // touched controla quais campos JÁ tiveram interação do usuário.
+  // Mensagem de erro só aparece em campos touched (não polui o form
+  // ao abrir). Quando a pessoa tenta submeter, marcamos todos como
+  // touched pra mostrar erro em qualquer campo vazio.
+  const [touched, setTouched] = useState<Record<FieldName, boolean>>({
+    firstname: false,
+    email: false,
+    phone: false,
+    objetivo: false,
+    motivo: false,
+  });
+  const markTouched = (name: FieldName) =>
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  const markAllTouched = () =>
+    setTouched({
+      firstname: true,
+      email: true,
+      phone: true,
+      objetivo: true,
+      motivo: true,
+    });
+
+  const fieldsForValidation = { firstname, email, phone, objetivo, motivo };
+  const errors: FieldErrors = useMemo(
+    () => validateFields(fieldsForValidation),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [firstname, email, phone, objetivo, motivo],
+  );
+  const formIsValid = isFormValid(fieldsForValidation);
+
+  // Helper pra renderizar mensagem de erro inline abaixo de um input
+  function fieldError(name: FieldName) {
+    if (!touched[name]) return null;
+    const msg = errors[name];
+    if (!msg) return null;
+    return (
+      <p
+        id={`community-${name}-error`}
+        className="mt-1.5 flex items-center gap-1.5 text-[12px] text-red-700"
+        role="alert"
+      >
+        <AlertCircle className="h-3 w-3 shrink-0" />
+        {msg}
+      </p>
+    );
+  }
+
   // Dispara form_start UMA vez no primeiro foco em qualquer campo —
   // marca o início real de engajamento com o form (Clarity).
   const formStartedRef = useRef(false);
@@ -84,6 +138,16 @@ export function Community() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (state === "loading") return;
+
+    // Marca todos como touched pra mostrar erros nos campos vazios.
+    // Se o form ainda não tá válido, aborta antes de mandar pro
+    // backend (defesa em profundidade — o botão já estaria
+    // disabled, mas garante que keyboard submit / enter no campo
+    // também respeite a validação).
+    if (!formIsValid) {
+      markAllTouched();
+      return;
+    }
 
     setState("loading");
     setErrorMsg(null);
@@ -238,10 +302,18 @@ export function Community() {
                 autoComplete="name"
                 value={firstname}
                 onChange={(e) => setFirstname(e.target.value)}
+                onBlur={() => markTouched("firstname")}
+                aria-invalid={touched.firstname && !!errors.firstname}
+                aria-describedby={
+                  touched.firstname && errors.firstname
+                    ? "community-firstname-error"
+                    : undefined
+                }
                 disabled={state === "loading"}
                 placeholder="Seu nome completo"
                 className={inputClass}
               />
+              {fieldError("firstname")}
                 </div>
 
                 <div>
@@ -256,10 +328,18 @@ export function Community() {
                 autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => markTouched("email")}
+                aria-invalid={touched.email && !!errors.email}
+                aria-describedby={
+                  touched.email && errors.email
+                    ? "community-email-error"
+                    : undefined
+                }
                 disabled={state === "loading"}
                 placeholder="seu@email.com"
                 className={inputClass}
               />
+              {fieldError("email")}
                 </div>
 
                 <div>
@@ -274,10 +354,18 @@ export function Community() {
                 autoComplete="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
+                onBlur={() => markTouched("phone")}
+                aria-invalid={touched.phone && !!errors.phone}
+                aria-describedby={
+                  touched.phone && errors.phone
+                    ? "community-phone-error"
+                    : undefined
+                }
                 disabled={state === "loading"}
                 placeholder="(11) 99999-9999"
                 className={inputClass}
               />
+              {fieldError("phone")}
                 </div>
 
                 <div>
@@ -291,6 +379,13 @@ export function Community() {
                   required
                   value={objetivo}
                   onChange={(e) => setObjetivo(e.target.value)}
+                  onBlur={() => markTouched("objetivo")}
+                  aria-invalid={touched.objetivo && !!errors.objetivo}
+                  aria-describedby={
+                    touched.objetivo && errors.objetivo
+                      ? "community-objetivo-error"
+                      : undefined
+                  }
                   disabled={state === "loading"}
                   className={`${inputClass} appearance-none pr-10`}
                 >
@@ -305,6 +400,7 @@ export function Community() {
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
               </div>
+              {fieldError("objetivo")}
                 </div>
 
                 <div>
@@ -318,6 +414,13 @@ export function Community() {
                   required
                   value={motivo}
                   onChange={(e) => setMotivo(e.target.value)}
+                  onBlur={() => markTouched("motivo")}
+                  aria-invalid={touched.motivo && !!errors.motivo}
+                  aria-describedby={
+                    touched.motivo && errors.motivo
+                      ? "community-motivo-error"
+                      : undefined
+                  }
                   disabled={state === "loading"}
                   className={`${inputClass} appearance-none pr-10`}
                 >
@@ -332,6 +435,7 @@ export function Community() {
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
               </div>
+              {fieldError("motivo")}
                 </div>
 
                 {state === "error" && errorMsg && (
@@ -342,7 +446,8 @@ export function Community() {
 
                 <button
               type="submit"
-              disabled={state === "loading"}
+              disabled={state === "loading" || !formIsValid}
+              aria-disabled={state === "loading" || !formIsValid}
               className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-medium text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
                 >
               {state === "loading" ? (

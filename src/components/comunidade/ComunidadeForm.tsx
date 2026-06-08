@@ -1,7 +1,13 @@
-import { useState, type FormEvent } from "react";
+import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
-import { ArrowRight, ChevronDown, Loader2, Lock } from "lucide-react";
+import { AlertCircle, ArrowRight, ChevronDown, Loader2, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import {
+  isFormValid,
+  validateFields,
+  type FieldErrors,
+  type FieldName,
+} from "@/lib/form-validation";
 
 /**
  * Form da LP /comunidade — agora idêntico ao form da LP / Community.tsx:
@@ -70,6 +76,50 @@ export function ComunidadeForm() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [hasFocused, setHasFocused] = useState(false);
 
+  // touched: mostra erro inline só depois que a pessoa interagiu
+  // com o campo (não polui o form ao abrir). Em submit, marca tudo.
+  const [touched, setTouched] = useState<Record<FieldName, boolean>>({
+    firstname: false,
+    email: false,
+    phone: false,
+    objetivo: false,
+    motivo: false,
+  });
+  const markTouched = (name: FieldName) =>
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  const markAllTouched = () =>
+    setTouched({
+      firstname: true,
+      email: true,
+      phone: true,
+      objetivo: true,
+      motivo: true,
+    });
+
+  const fieldsForValidation = { firstname, email, phone, objetivo, motivo };
+  const errors: FieldErrors = useMemo(
+    () => validateFields(fieldsForValidation),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [firstname, email, phone, objetivo, motivo],
+  );
+  const formIsValid = isFormValid(fieldsForValidation);
+
+  function fieldError(name: FieldName) {
+    if (!touched[name]) return null;
+    const msg = errors[name];
+    if (!msg) return null;
+    return (
+      <p
+        id={`comunidade-${name}-error`}
+        className="mt-1.5 flex items-center gap-1.5 text-[12px] text-red-700"
+        role="alert"
+      >
+        <AlertCircle className="h-3 w-3 shrink-0" />
+        {msg}
+      </p>
+    );
+  }
+
   function handleFirstFocus() {
     if (hasFocused) return;
     setHasFocused(true);
@@ -82,6 +132,14 @@ export function ComunidadeForm() {
 
     if (honeypot.trim().length > 0) {
       navigate({ to: "/obrigado" });
+      return;
+    }
+
+    // Defesa em profundidade: aborta submit se algum required tá vazio,
+    // mesmo se o botão tiver sido habilitado por engano (Enter no campo
+    // pressionado, etc).
+    if (!formIsValid) {
+      markAllTouched();
       return;
     }
 
@@ -187,10 +245,18 @@ export function ComunidadeForm() {
             value={firstname}
             onChange={(e) => setFirstname(e.target.value)}
             onFocus={handleFirstFocus}
+            onBlur={() => markTouched("firstname")}
+            aria-invalid={touched.firstname && !!errors.firstname}
+            aria-describedby={
+              touched.firstname && errors.firstname
+                ? "comunidade-firstname-error"
+                : undefined
+            }
             disabled={state === "loading"}
             placeholder="Seu nome completo"
             className={inputClass}
           />
+          {fieldError("firstname")}
         </div>
 
         <div>
@@ -206,10 +272,18 @@ export function ComunidadeForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={handleFirstFocus}
+            onBlur={() => markTouched("email")}
+            aria-invalid={touched.email && !!errors.email}
+            aria-describedby={
+              touched.email && errors.email
+                ? "comunidade-email-error"
+                : undefined
+            }
             disabled={state === "loading"}
             placeholder="seu@email.com"
             className={inputClass}
           />
+          {fieldError("email")}
         </div>
 
         <div>
@@ -225,10 +299,18 @@ export function ComunidadeForm() {
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             onFocus={handleFirstFocus}
+            onBlur={() => markTouched("phone")}
+            aria-invalid={touched.phone && !!errors.phone}
+            aria-describedby={
+              touched.phone && errors.phone
+                ? "comunidade-phone-error"
+                : undefined
+            }
             disabled={state === "loading"}
             placeholder="(11) 99999-9999"
             className={inputClass}
           />
+          {fieldError("phone")}
         </div>
 
         <div>
@@ -243,6 +325,13 @@ export function ComunidadeForm() {
               value={objetivo}
               onChange={(e) => setObjetivo(e.target.value)}
               onFocus={handleFirstFocus}
+              onBlur={() => markTouched("objetivo")}
+              aria-invalid={touched.objetivo && !!errors.objetivo}
+              aria-describedby={
+                touched.objetivo && errors.objetivo
+                  ? "comunidade-objetivo-error"
+                  : undefined
+              }
               disabled={state === "loading"}
               className={`${inputClass} appearance-none pr-10`}
             >
@@ -257,6 +346,7 @@ export function ComunidadeForm() {
             </select>
             <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
           </div>
+          {fieldError("objetivo")}
         </div>
 
         <div>
@@ -271,6 +361,13 @@ export function ComunidadeForm() {
               value={motivo}
               onChange={(e) => setMotivo(e.target.value)}
               onFocus={handleFirstFocus}
+              onBlur={() => markTouched("motivo")}
+              aria-invalid={touched.motivo && !!errors.motivo}
+              aria-describedby={
+                touched.motivo && errors.motivo
+                  ? "comunidade-motivo-error"
+                  : undefined
+              }
               disabled={state === "loading"}
               className={`${inputClass} appearance-none pr-10`}
             >
@@ -285,6 +382,7 @@ export function ComunidadeForm() {
             </select>
             <ChevronDown className="pointer-events-none absolute right-4 top-1/2 mt-1 h-4 w-4 -translate-y-1/2 text-[var(--cocoa-soft)]" />
           </div>
+          {fieldError("motivo")}
         </div>
 
         {state === "error" && errorMsg && (
@@ -295,7 +393,8 @@ export function ComunidadeForm() {
 
         <button
           type="submit"
-          disabled={state === "loading"}
+          disabled={state === "loading" || !formIsValid}
+          aria-disabled={state === "loading" || !formIsValid}
           className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-7 py-4 text-[15px] font-semibold text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D] disabled:cursor-not-allowed disabled:opacity-70"
         >
           {state === "loading" ? (
