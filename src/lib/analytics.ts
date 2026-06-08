@@ -39,6 +39,18 @@ export const EVENTS = {
   VSL_UNMUTE: "vsl_unmute",
   VSL_CLOSE: "vsl_close",
 
+  /**
+   * Evento UNIVERSAL de conversão — disparado em qualquer form
+   * submission bem-sucedido, em qualquer LP. Usado pelos
+   * dashboards/filtros que esperam o nome literal "form_submissions"
+   * (Mari sinalizou que algum tracking não via os events com nomes
+   * por LP — esse aqui resolve com 1 nome agnóstico).
+   *
+   * Vai com metadata `source` indicando qual LP originou
+   * (set via clarity("set", "source", "lp_home")).
+   */
+  FORM_SUBMISSIONS: "form_submissions",
+
   // Form de inscrição (LP /) — seção Community
   FORM_START: "form_start",
   FORM_SUBMIT_ATTEMPT: "form_submit_attempt",

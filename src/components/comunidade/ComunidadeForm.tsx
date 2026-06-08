@@ -186,6 +186,15 @@ export function ComunidadeForm() {
         throw new Error(body || `HTTP ${res.status}`);
       }
 
+      // Evento UNIVERSAL "form_submissions" — disparado em qualquer
+      // form bem-sucedido em qualquer LP. Dashboards que filtram por
+      // esse nome literal veem a conversão. Metadata `source` separa
+      // tráfego /comunidade de /home.
+      trackEvent(EVENTS.FORM_SUBMISSIONS, {
+        source: "lp_comunidade",
+        form_slug: FORM_SLUG,
+      });
+      // Evento granular (mantido pra filtros existentes)
       trackEvent(EVENTS.COMUNIDADE_FORM_SUBMIT_SUCCESS);
       navigate({ to: "/obrigado" });
     } catch (err) {
