@@ -64,10 +64,11 @@ export const EVENTS = {
   COMUNIDADE_FORM_SUBMIT_ERROR: "comunidade_form_submit_error",
   COMUNIDADE_FINAL_CTA_CLICK: "comunidade_final_cta_click",
 
-  // Thank-you /obrigado — botões específicos da experiência community
+  // Thank-you /obrigado — botões específicos da experiência community.
+  // OBRIGADO_CALENDAR_CLICK foi removido junto com a seção "Próxima aula"
+  // (data hardcoded ficava desatualizada).
   OBRIGADO_WHATSAPP_CLICK: "obrigado_whatsapp_click",
   OBRIGADO_PLATFORM_CLICK: "obrigado_platform_click",
-  OBRIGADO_CALENDAR_CLICK: "obrigado_calendar_click",
 
   // CTA de checkout (seção Investimento) — plano único de R$ 997.
   // Os antigos CTA_OFFER_MONTHLY / CTA_OFFER_ANNUAL ficaram obsoletos
