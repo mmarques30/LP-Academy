@@ -3,7 +3,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
-  CalendarPlus,
   Check,
   Copy,
   ExternalLink,
@@ -18,13 +17,16 @@ import { trackEvent, EVENTS } from "@/lib/analytics";
  * Thank-you da LP /comunidade — mesma identidade visual do /thank-you
  * (cream/cocoa + seção dark intermediária pros próximos passos).
  *
- * Estrutura conforme spec da Mari:
+ * Estrutura:
  *   - HERO cream: H1 "Você está dentro." + sub
  *   - PRÓXIMOS PASSOS bg-section-dark: 3 passos (WhatsApp / Plataforma /
- *     Salvar contato), WhatsApp como CTA principal
- *   - PRÓXIMA AULA cream: card com data + "Adicionar ao Google Calendar"
+ *     Salvar email), WhatsApp como CTA principal
  *   - PS final assinado pela Mari, cream
  *   - Footer compartilhado
+ *
+ * NOTA: a antiga seção "PRÓXIMA AULA" com data hardcoded foi removida —
+ * data ficava desatualizada e tema da aula mensal muda. Mari comunica
+ * isso direto pelo email + WhatsApp da comunidade quando se aproxima.
  *
  * SEM upsell do Academy (regra spec: "menção sutil só na FAQ da LP").
  */
@@ -39,46 +41,6 @@ const IAPLICADA_CONTACT = {
   name: "IAplicada · Aulas e Comunidade",
   email: "equipe@iaplicada.com",
 };
-
-// Aula ao vivo MENSAL (sempre primeira quarta do mês, 19h30 BRT).
-// Mari atualiza topic + startISO a cada mês.
-const NEXT_CLASS = {
-  topicLabel: "Próxima aula ao vivo (mensal)",
-  topic: "Tema da próxima aula a confirmar", // [VALIDAR]
-  startISO: "2026-06-03T19:30:00-03:00", // [VALIDAR] — primeira quarta do mês
-  durationMinutes: 90,
-};
-
-function formatPtBrDateTime(iso: string): string {
-  try {
-    const d = new Date(iso);
-    return d.toLocaleString("pt-BR", {
-      day: "2-digit",
-      month: "long",
-      hour: "2-digit",
-      minute: "2-digit",
-      timeZone: "America/Sao_Paulo",
-    });
-  } catch {
-    return iso;
-  }
-}
-
-function buildGoogleCalendarUrl() {
-  const start = new Date(NEXT_CLASS.startISO);
-  const end = new Date(start.getTime() + NEXT_CLASS.durationMinutes * 60_000);
-  const fmt = (d: Date) =>
-    d.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-  const params = new URLSearchParams({
-    action: "TEMPLATE",
-    text: `IAplicada · ${NEXT_CLASS.topic}`,
-    dates: `${fmt(start)}/${fmt(end)}`,
-    details:
-      "Aula ao vivo da IAplicada. Link enviado por email + comunidade no WhatsApp algumas horas antes.",
-    location: "YouTube · IAplicada",
-  });
-  return `https://calendar.google.com/calendar/render?${params.toString()}`;
-}
 
 export const Route = createFileRoute("/obrigado")({
   component: Obrigado,
@@ -107,8 +69,6 @@ function Obrigado() {
       });
     }
   }
-
-  const calendarUrl = buildGoogleCalendarUrl();
 
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
@@ -295,59 +255,26 @@ function Obrigado() {
         </div>
       </section>
 
-      {/* PRÓXIMA AULA — cream */}
+      {/* PS final assinado pela Mari — cream
+          (a antiga seção "PRÓXIMA AULA" foi removida: hardcoded
+          data ficava desatualizada e tema da aula mensal muda; Mari
+          comunica isso direto pelo email + WhatsApp, sem precisar
+          de card aqui) */}
       <section className="section-pad bg-[var(--cream)]">
         <div className="container-wide px-6">
           <motion.div
-            initial={{ opacity: 0, y: 18 }}
+            initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.8 }}
-            className="mx-auto max-w-3xl"
+            className="mx-auto max-w-2xl rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--offwhite)]/60 p-7 md:p-8"
           >
-            <div className="rounded-[28px] border border-[var(--cocoa)]/10 bg-[var(--offwhite)] p-8 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-10">
-              <div className="grid items-center gap-6 md:grid-cols-[1fr_auto] md:gap-10">
-                <div>
-                  <span className="mono-label text-[var(--brand-dark)]">
-                    {NEXT_CLASS.topicLabel}
-                  </span>
-                  <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-3xl">
-                    {NEXT_CLASS.topic}
-                  </h3>
-                  <p className="mt-3 text-[14.5px] leading-[1.55] text-[var(--cocoa-soft)]">
-                    {formatPtBrDateTime(NEXT_CLASS.startISO)} (horário de
-                    Brasília) · ao vivo no YouTube + comunidade
-                  </p>
-                </div>
-
-                <a
-                  href={calendarUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent(EVENTS.OBRIGADO_CALENDAR_CLICK)}
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-[var(--brand-dark)] px-6 py-3.5 text-[14px] font-semibold text-white shadow-[0_20px_50px_-20px_rgba(115,137,37,0.65)] transition-all hover:bg-[#5C6F1D]"
-                >
-                  <CalendarPlus className="h-4 w-4" />
-                  Adicionar ao Google Calendar
-                </a>
-              </div>
-            </div>
-
-            {/* PS final assinado pela Mari */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="mx-auto mt-10 max-w-2xl rounded-2xl border border-[var(--cocoa)]/10 bg-[var(--offwhite)]/60 p-7 md:p-8"
-            >
-              <p className="font-display text-[18px] leading-[1.6] text-[var(--cocoa)] md:text-[19px]">
-                PS — Se em 5 minutos você não tiver recebido o email, dá uma
-                olhada no spam. E me responde por lá pra eu saber que você está
-                aí.
-              </p>
-              <p className="mt-4 mono-label text-[var(--brand-dark)]">— Mari</p>
-            </motion.div>
+            <p className="font-display text-[18px] leading-[1.6] text-[var(--cocoa)] md:text-[19px]">
+              PS — Se em 5 minutos você não tiver recebido o email, dá uma
+              olhada no spam. E me responde por lá pra eu saber que você está
+              aí.
+            </p>
+            <p className="mt-4 mono-label text-[var(--brand-dark)]">— Mari</p>
           </motion.div>
         </div>
       </section>
