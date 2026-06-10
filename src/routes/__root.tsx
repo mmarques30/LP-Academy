@@ -2,6 +2,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 
 import appCss from "../styles.css?url";
 import { ClarityScript } from "@/components/analytics/ClarityScript";
+import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
 
 function NotFoundComponent() {
   return (
@@ -49,6 +50,10 @@ export const Route = createRootRoute({
       // Pré-aquece DNS/TLS pro Microsoft Clarity — quando o snippet
       // dispara o request do tag real, a conexão já está pronta
       { rel: "preconnect", href: "https://www.clarity.ms" },
+      // Mesmo motivo pro Meta Pixel — o tag mora em connect.facebook.net
+      // e dispara conversões pra www.facebook.com/tr
+      { rel: "preconnect", href: "https://connect.facebook.net" },
+      { rel: "preconnect", href: "https://www.facebook.com" },
       // Foto da Mari (LCP do Hero) — agora servida do /public local.
       // Preload com fetchpriority="high" garante que o browser baixa
       // antes de outros assets, mantendo LCP curto.
@@ -92,6 +97,7 @@ function RootComponent() {
   return (
     <>
       <ClarityScript />
+      <MetaPixelScript />
       <Outlet />
     </>
   );

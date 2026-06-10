@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useNavigate } from "@tanstack/react-router";
 import { AlertCircle, ArrowRight, Check, ChevronDown, Loader2, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 import {
   isFormValid,
   validateFields,
@@ -208,6 +209,14 @@ export function Community() {
       });
       // Evento granular por LP (mantido pra filtros existentes)
       trackEvent(EVENTS.FORM_SUBMIT_SUCCESS);
+
+      // Meta Pixel — evento Lead. content_name diferencia LP de origem
+      // pra Mari criar Conversões Personalizadas separadas no
+      // Gerenciador de Eventos da Meta (otimização de campanha por LP).
+      trackMetaEvent("Lead", {
+        content_name: cameFromComunidade ? "lp_comunidade" : "lp_home_academy",
+        content_category: "form_submit",
+      });
 
       // Redireciona pra página de obrigado certa, baseado em qual LP
       // o form foi submetido:
