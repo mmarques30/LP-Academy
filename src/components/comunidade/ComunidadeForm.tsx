@@ -59,7 +59,7 @@ function getUtms() {
 }
 
 const inputClass =
-  "mt-2 block w-full rounded-xl border border-[var(--cocoa)]/15 bg-[var(--cream)] px-4 py-3.5 text-[15px] text-[var(--cocoa)] placeholder:text-[var(--cocoa-soft)]/60 transition-all focus:border-[var(--brand-dark)] focus:bg-[var(--offwhite)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/30 disabled:opacity-60";
+  "mt-1.5 block w-full rounded-xl border border-[var(--cocoa)]/15 bg-[var(--cream)] px-4 py-3 text-[15px] text-[var(--cocoa)] placeholder:text-[var(--cocoa-soft)]/60 transition-all focus:border-[var(--brand-dark)] focus:bg-[var(--offwhite)] focus:outline-none focus:ring-2 focus:ring-[var(--brand)]/30 disabled:opacity-60";
 
 const labelClass =
   "block text-[12px] font-semibold uppercase tracking-[0.18em] text-[var(--cocoa-soft)]";
@@ -219,20 +219,20 @@ export function ComunidadeForm() {
   return (
     <div
       id="cadastro"
-      className="rounded-[28px] bg-[var(--offwhite)] p-7 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-9"
+      className="rounded-[28px] bg-[var(--offwhite)] p-6 ring-1 ring-[var(--cocoa)]/10 shadow-[0_30px_70px_-30px_rgba(13,13,13,0.15)] md:p-7"
     >
       <span className="mono-label text-[var(--brand-dark)]">
         Cadastro gratuito
       </span>
 
-      <h3 className="mt-3 font-display text-2xl text-[var(--cocoa)] md:text-[28px]">
+      <h3 className="mt-2.5 font-display text-2xl text-[var(--cocoa)] md:text-[26px]">
         Garanta sua vaga na próxima aula
       </h3>
-      <p className="mt-3 text-[14px] leading-[1.55] text-[var(--cocoa-soft)]">
+      <p className="mt-2 text-[14px] leading-[1.5] text-[var(--cocoa-soft)]">
         Em menos de 1 minuto. Sem cartão. Sem letrinha pequena.
       </p>
 
-      <form onSubmit={handleSubmit} className="mt-7 space-y-4" noValidate>
+      <form onSubmit={handleSubmit} className="mt-5 space-y-3" noValidate>
         {/* Honeypot anti-bot */}
         <div
           aria-hidden="true"
