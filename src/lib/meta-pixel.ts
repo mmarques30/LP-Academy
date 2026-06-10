@@ -21,7 +21,13 @@
  *   3) Permite trocar de pixel ou desligar tracking num lugar só
  */
 
-export const META_PIXEL_ID = "1499951731095849";
+// Pixel principal do business "IA Aplicada" — mesmo pixel usado nas
+// campanhas de paid media da Mari. Antes da unificação, o
+// academy.iaplicada.com tinha pixel separado, o que fragmentava o
+// dataset de aprendizado do algoritmo da Meta entre 2 pixels.
+// Unificamos pra que LP orgânica + campanhas pagas alimentem o mesmo
+// dataset, melhorando a otimização das campanhas.
+export const META_PIXEL_ID = "619312151238896";
 
 /**
  * Identificadores de "produto/origem" que vão no parâmetro
