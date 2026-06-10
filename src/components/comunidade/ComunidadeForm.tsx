@@ -2,6 +2,7 @@ import { useMemo, useState, type FormEvent } from "react";
 import { useNavigate } from "@tanstack/react-router";
 import { AlertCircle, ArrowRight, ChevronDown, Loader2, Lock } from "lucide-react";
 import { trackEvent, EVENTS } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 import {
   isFormValid,
   validateFields,
@@ -196,6 +197,14 @@ export function ComunidadeForm() {
       });
       // Evento granular (mantido pra filtros existentes)
       trackEvent(EVENTS.COMUNIDADE_FORM_SUBMIT_SUCCESS);
+
+      // Meta Pixel — evento Lead, identificado como lp_comunidade pra
+      // Mari otimizar campanhas pagas que mandam tráfego pra essa LP.
+      trackMetaEvent("Lead", {
+        content_name: "lp_comunidade",
+        content_category: "form_submit",
+      });
+
       navigate({ to: "/obrigado" });
     } catch (err) {
       console.error("[ComunidadeForm]", err);

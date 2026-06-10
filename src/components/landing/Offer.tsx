@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Check, Lock, Shield } from "lucide-react";
 import { EVENTS, trackEvent } from "@/lib/analytics";
+import { trackMetaEvent } from "@/lib/meta-pixel";
 
 // Pagamento ÚNICO do Academy — sem recorrência mensal. R$ 997 à vista
 // ou em até 12× R$ 83,08 sem juros no cartão. O framing comercial é
@@ -99,7 +100,18 @@ export function Offer() {
 
             <a
               href={CHECKOUT_ACADEMY}
-              onClick={() => trackEvent(EVENTS.CTA_OFFER_ACADEMY)}
+              onClick={() => {
+                trackEvent(EVENTS.CTA_OFFER_ACADEMY);
+                // Meta Pixel — sinaliza intenção de compra. Valor e
+                // moeda permitem otimizar campanhas pelo Gerenciador
+                // de Eventos da Meta (Conversões → Purchase value).
+                trackMetaEvent("InitiateCheckout", {
+                  content_name: "lp_home_academy",
+                  content_category: "academy_checkout",
+                  value: 997,
+                  currency: "BRL",
+                });
+              }}
               className="mt-12 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[var(--brand)] px-6 py-4 text-[15px] font-medium text-[var(--cocoa)] transition-all hover:bg-[var(--brand-bright)]"
             >
               Quero entrar pro Academy
