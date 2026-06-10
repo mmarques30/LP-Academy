@@ -54,6 +54,11 @@ export const Route = createRootRoute({
       // e dispara conversões pra www.facebook.com/tr
       { rel: "preconnect", href: "https://connect.facebook.net" },
       { rel: "preconnect", href: "https://www.facebook.com" },
+      // Pré-aquece DNS/TLS pro endpoint do form-submit (Supabase Edge
+      // Function). Quando a pessoa clica "Cadastrar", o browser já
+      // tem a conexão TCP/TLS pronta — economiza ~100-300ms no
+      // primeiro submit (subsequentes já estavam quentes).
+      { rel: "preconnect", href: "https://ciwdlceyjsnlnunktqzx.supabase.co" },
       // Foto da Mari (LCP do Hero) — agora servida do /public local.
       // Preload com fetchpriority="high" garante que o browser baixa
       // antes de outros assets, mantendo LCP curto.
