@@ -1,34 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { HeaderComunidade } from "@/components/indicacaoacademy/HeaderComunidade";
-import { HeroComunidade } from "@/components/indicacaoacademy/HeroComunidade";
-import { VideoComunidade } from "@/components/indicacaoacademy/VideoComunidade";
-import { OQueVoceRecebe } from "@/components/indicacaoacademy/OQueVoceRecebe";
-import { ComoFunciona } from "@/components/indicacaoacademy/ComoFunciona";
-import { QuemEMariana } from "@/components/indicacaoacademy/QuemEMariana";
-import { FAQComunidade } from "@/components/indicacaoacademy/FAQComunidade";
-import { FinalCTAComunidade } from "@/components/indicacaoacademy/FinalCTAComunidade";
-import { Testimonials } from "@/components/landing/Testimonials";
+import { IndicacaoHeader } from "@/components/indicacaoacademy/IndicacaoHeader";
+import { IndicacaoHero } from "@/components/indicacaoacademy/IndicacaoHero";
+import { ReferralForm } from "@/components/indicacaoacademy/ReferralForm";
 import { Footer } from "@/components/landing/Footer";
 
 /**
- * LP /indicacaoacademy — clone 1:1 da LP /comunidade pra rodar a
- * campanha de indicação do Academy. Mari ajusta o copy via Lovable
- * depois do merge inicial — o objetivo deste PR é só ter uma rota
- * separada com tracking diferenciado.
+ * LP /indicacaoacademy — programa de indicação do Academy.
  *
- * Diferenças de tracking vs. /comunidade:
- *  - Microsoft Clarity: mesmo projeto COMUNIDADE (x2925vhhto) — Mari
- *    pode separar via filtro de URL no painel quando quiser
- *  - Meta Pixel: `content_name: "lp_indicacao_academy"` no Lead event
- *    (Custom Conversion separada no Events Manager)
- *  - Analytics universal (`form_submissions`): `source:
- *    "lp_indicacao_academy"`
+ * Versão objetiva: Header minimal + Hero (pitch + recompensa) à
+ * esquerda + Form de indicação à direita. Sem distrações (sem video,
+ * sem FAQ, sem testimonials) — single-screen, foco total em coletar
+ * indicações.
  *
- * Backend (Supabase form-submit): mesmo `form_slug = "academy"` —
- * leads chegam na mesma tabela, diferenciam pelo `source`.
+ * Backend: endpoint dedicado /functions/v1/referral-submit (separado
+ * do form-submit padrão porque o schema é diferente — payload tem
+ * referrer + array de referrals).
  *
- * Pós-cadastro: redirect pra /obrigado (mesmo thank-you da
- * /comunidade — sem motivo pra duplicar agora).
+ * Tracking:
+ *   - Microsoft Clarity: projeto COMUNIDADE (x2925vhhto) — Mari pode
+ *     filtrar por URL no painel pra ver só /indicacaoacademy
+ *   - Meta Pixel: Lead com content_name="lp_indicacao_academy"
+ *   - Analytics universal form_submissions: source="lp_indicacao_academy"
+ *
+ * Pós-cadastro: NÃO redireciona pra /obrigado — usuário continua na
+ * página e vê um toast verde de confirmação. UX faz sentido porque a
+ * pessoa pode querer indicar amigos em outro momento e o form é
+ * resetado pra novo envio.
  */
 export const Route = createFileRoute("/indicacaoacademy")({
   component: IndicacaoAcademy,
@@ -36,21 +33,18 @@ export const Route = createFileRoute("/indicacaoacademy")({
     meta: [
       {
         title:
-          "IAplicada · Indicação Academy · Aula ao vivo mensal + plataforma gratuita",
+          "Indique um amigo · Academy IAplicada · Ganhe mentoria com a Mari",
       },
       {
         name: "description",
         content:
-          "Aula ao vivo mensal, plataforma gratuita com prompts e mini-trilhas, comunidade de +700 Aplicados no WhatsApp. Sem cartão, sem catch.",
+          "Indica um amigo pro Academy IAplicada e ganha 1h30 de mentoria com a Mari + brinde surpresa. Vocês evoluem juntos.",
       },
-      {
-        property: "og:title",
-        content: "IAplicada · Indicação Academy",
-      },
+      { property: "og:title", content: "Indique um amigo · Academy IAplicada" },
       {
         property: "og:description",
         content:
-          "Aula ao vivo mensal, plataforma gratuita, comunidade de +700 Aplicados. Sem cartão, sem catch.",
+          "Ganhe mentoria com a Mari pra cada amigo que assinar o Academy. Vocês evoluem juntos.",
       },
       { property: "og:type", content: "website" },
     ],
@@ -66,15 +60,19 @@ export const Route = createFileRoute("/indicacaoacademy")({
 function IndicacaoAcademy() {
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
-      <HeaderComunidade />
-      <HeroComunidade />
-      <VideoComunidade />
-      <OQueVoceRecebe />
-      <ComoFunciona />
-      <QuemEMariana />
-      <Testimonials />
-      <FAQComunidade />
-      <FinalCTAComunidade />
+      <IndicacaoHeader />
+
+      <section className="section-pad">
+        <div className="container-wide px-6">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
+            <IndicacaoHero />
+            <div className="lg:sticky lg:top-10">
+              <ReferralForm />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
