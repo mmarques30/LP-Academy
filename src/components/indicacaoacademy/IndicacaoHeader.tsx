@@ -1,23 +1,25 @@
+import { Logo } from "@/components/landing/Logo";
+
 /**
  * Header minimalista da LP /indicacaoacademy — só logo IAplicada
  * + assinatura "Academy". Sem nav, sem CTA — a LP toda é focada no
  * único objetivo (envio de indicações).
+ *
+ * Usa o componente <Logo variant="light"> (wordmark escuro pra fundo
+ * cream). A versão errada (`/iaplicada-logo.png` direto) é pra fundo
+ * escuro — ficava quase invisível no cream.
  */
 export function IndicacaoHeader() {
   return (
     <header className="border-b border-[var(--cocoa)]/10 bg-[var(--cream)]">
-      <div className="container-wide flex items-center justify-between px-6 py-5">
+      <div className="container-wide flex items-center justify-between px-6 py-4">
         <a
           href="https://iaplicada.com"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2.5"
         >
-          <img
-            src="/iaplicada-logo.png"
-            alt="IAplicada"
-            className="h-7 w-auto"
-          />
+          <Logo variant="light" className="h-8 w-auto" />
           <span className="mono-label text-[var(--cocoa-soft)]">Academy</span>
         </a>
 
