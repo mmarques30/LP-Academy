@@ -3,6 +3,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import appCss from "../styles.css?url";
 import { ClarityScript } from "@/components/analytics/ClarityScript";
 import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
+import { Toaster } from "@/components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -104,6 +105,7 @@ function RootComponent() {
       <ClarityScript />
       <MetaPixelScript />
       <Outlet />
+      <Toaster position="top-center" richColors />
     </>
   );
 }
