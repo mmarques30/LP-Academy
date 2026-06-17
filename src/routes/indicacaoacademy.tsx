@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { IndicacaoHeader } from "@/components/indicacaoacademy/IndicacaoHeader";
 import { IndicacaoHero } from "@/components/indicacaoacademy/IndicacaoHero";
 import { ReferralForm } from "@/components/indicacaoacademy/ReferralForm";
-import { Footer } from "@/components/landing/Footer";
+import { IndicacaoFooter } from "@/components/indicacaoacademy/IndicacaoFooter";
 
 /**
  * LP /indicacaoacademy — programa de indicação do Academy.
@@ -73,7 +73,7 @@ function IndicacaoAcademy() {
         </div>
       </section>
 
-      <Footer />
+      <IndicacaoFooter />
     </main>
   );
 }
