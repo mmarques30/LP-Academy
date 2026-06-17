@@ -6,14 +6,17 @@ import { Gift } from "lucide-react";
  *   - Chip "+ INDIQUE E GANHE MENTORIA"
  *   - H1 com palavra em itálico-brand
  *   - Sub explicando o programa em 3 linhas
- *   - Quote com borda lateral (testemunho/manifesto)
  *   - Card "O que você ganha" com a recompensa (mentoria + brinde)
+ *
+ * A quote ("A gente vai mais longe quando vai acompanhado") foi
+ * movida pra abaixo do form (no route) — vira momento de respiro
+ * pós-CTA em vez de competir com o conteúdo do hero. Pediu Mari.
  *
  * Tudo configurado pra leitura rápida — Mari pediu versão objetiva.
  */
 export function IndicacaoHero() {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8">
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -32,18 +35,9 @@ export function IndicacaoHero() {
         <p className="mt-6 max-w-xl text-[16px] leading-[1.6] text-[var(--cocoa-soft)] md:text-[17px]">
           Sabe aquela pessoa que vive falando que quer entrar de cabeça em
           IA, mas não sabe por onde começar? Indica ela pra comunidade do
-          Academy. Vocês evoluem juntos — e você ainda ganha mentoria com
-          a Mari por isso.
+          Academy. Vocês evoluem juntos e você ainda ganha mentoria com a
+          Mari por isso.
         </p>
-
-        <div className="mt-8 border-l-2 border-[var(--brand)] pl-5">
-          <p className="font-display text-[17px] italic leading-[1.5] text-[var(--cocoa)] md:text-[18px]">
-            A gente vai mais longe quando vai acompanhado.
-          </p>
-          <p className="mt-2 mono-label text-[var(--cocoa-soft)]">
-            — Comunidade IAplicada Academy
-          </p>
-        </div>
       </motion.div>
 
       <motion.div
