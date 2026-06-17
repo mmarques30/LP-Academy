@@ -66,29 +66,13 @@ function IndicacaoAcademy() {
           o padding gigante das LPs principais empurrava o conteúdo
           pra fora do fold. Mari pediu pra reduzir o espaço entre o
           topo e o hero. */}
-      <section className="pt-10 pb-12 md:pt-14 md:pb-14">
+      <section className="pt-10 pb-16 md:pt-14 md:pb-20">
         <div className="container-wide px-6">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
             <IndicacaoHero />
             <div className="lg:sticky lg:top-8">
               <ReferralForm />
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quote pós-form — momento de respiro entre o CTA e o footer.
-          Mari pediu pra mover daqui pra de cima (era dentro do hero).
-          Faz mais sentido como manifesto de fechamento da página. */}
-      <section className="pb-16 md:pb-20">
-        <div className="container-wide px-6">
-          <div className="mx-auto max-w-2xl border-l-2 border-[var(--brand)] pl-5">
-            <p className="font-display text-[17px] italic leading-[1.5] text-[var(--cocoa)] md:text-[18px]">
-              A gente vai mais longe quando vai acompanhado.
-            </p>
-            <p className="mt-2 mono-label text-[var(--cocoa-soft)]">
-              — Comunidade IAplicada Academy
-            </p>
           </div>
         </div>
       </section>
