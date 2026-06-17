@@ -62,11 +62,15 @@ function IndicacaoAcademy() {
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       <IndicacaoHeader />
 
-      <section className="section-pad">
+      {/* Sem section-pad (py-24 → py-40) — pra essa LP single-screen
+          o padding gigante das LPs principais empurrava o conteúdo
+          pra fora do fold. Mari pediu pra reduzir o espaço entre o
+          topo e o hero. */}
+      <section className="pt-10 pb-16 md:pt-14 md:pb-20">
         <div className="container-wide px-6">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start lg:gap-16">
             <IndicacaoHero />
-            <div className="lg:sticky lg:top-10">
+            <div className="lg:sticky lg:top-8">
               <ReferralForm />
             </div>
           </div>
