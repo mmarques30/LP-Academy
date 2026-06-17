@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as ObrigadoRouteImport } from './routes/obrigado'
+import { Route as IndicacaoacademyRouteImport } from './routes/indicacaoacademy'
 import { Route as ComunidadeRouteImport } from './routes/comunidade'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -22,6 +23,11 @@ const ThankYouRoute = ThankYouRouteImport.update({
 const ObrigadoRoute = ObrigadoRouteImport.update({
   id: '/obrigado',
   path: '/obrigado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndicacaoacademyRoute = IndicacaoacademyRouteImport.update({
+  id: '/indicacaoacademy',
+  path: '/indicacaoacademy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComunidadeRoute = ComunidadeRouteImport.update({
@@ -38,12 +44,14 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comunidade': typeof ComunidadeRoute
+  '/indicacaoacademy': typeof IndicacaoacademyRoute
   '/obrigado': typeof ObrigadoRoute
   '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comunidade': typeof ComunidadeRoute
+  '/indicacaoacademy': typeof IndicacaoacademyRoute
   '/obrigado': typeof ObrigadoRoute
   '/thank-you': typeof ThankYouRoute
 }
@@ -51,20 +59,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comunidade': typeof ComunidadeRoute
+  '/indicacaoacademy': typeof IndicacaoacademyRoute
   '/obrigado': typeof ObrigadoRoute
   '/thank-you': typeof ThankYouRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comunidade' | '/obrigado' | '/thank-you'
+  fullPaths:
+    | '/'
+    | '/comunidade'
+    | '/indicacaoacademy'
+    | '/obrigado'
+    | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comunidade' | '/obrigado' | '/thank-you'
-  id: '__root__' | '/' | '/comunidade' | '/obrigado' | '/thank-you'
+  to: '/' | '/comunidade' | '/indicacaoacademy' | '/obrigado' | '/thank-you'
+  id:
+    | '__root__'
+    | '/'
+    | '/comunidade'
+    | '/indicacaoacademy'
+    | '/obrigado'
+    | '/thank-you'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComunidadeRoute: typeof ComunidadeRoute
+  IndicacaoacademyRoute: typeof IndicacaoacademyRoute
   ObrigadoRoute: typeof ObrigadoRoute
   ThankYouRoute: typeof ThankYouRoute
 }
@@ -83,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/obrigado'
       fullPath: '/obrigado'
       preLoaderRoute: typeof ObrigadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/indicacaoacademy': {
+      id: '/indicacaoacademy'
+      path: '/indicacaoacademy'
+      fullPath: '/indicacaoacademy'
+      preLoaderRoute: typeof IndicacaoacademyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comunidade': {
@@ -105,6 +133,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComunidadeRoute: ComunidadeRoute,
+  IndicacaoacademyRoute: IndicacaoacademyRoute,
   ObrigadoRoute: ObrigadoRoute,
   ThankYouRoute: ThankYouRoute,
 }
