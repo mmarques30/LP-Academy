@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { usePageViewBeacon } from "@/hooks/usePageViewBeacon";
 import { Header } from "@/components/landing/Header";
 import { Hero } from "@/components/landing/Hero";
 import { Problem } from "@/components/landing/Problem";
@@ -36,6 +37,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  usePageViewBeacon();
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       <Header />

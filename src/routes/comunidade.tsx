@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { usePageViewBeacon } from "@/hooks/usePageViewBeacon";
 import { HeaderComunidade } from "@/components/comunidade/HeaderComunidade";
 import { HeroComunidade } from "@/components/comunidade/HeroComunidade";
 import { VideoComunidade } from "@/components/comunidade/VideoComunidade";
@@ -64,6 +65,7 @@ export const Route = createFileRoute("/comunidade")({
 });
 
 function Comunidade() {
+  usePageViewBeacon();
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       <HeaderComunidade />
