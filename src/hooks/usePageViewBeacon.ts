@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useRouterState } from "@tanstack/react-router";
 
 /**
  * Tracker server-side de pageviews — beacon pro endpoint próprio
@@ -6,28 +7,42 @@ import { useEffect } from "react";
  * Microsoft Clarity, que perde 50-95% dos pageviews em in-app
  * browsers do Instagram/Facebook (script bloqueado).
  *
+ * Histórico de fixes:
+ *   - v1 usava Blob type="application/json" → CORS preflight implícito
+ *     fazia browsers/CDNs dropparem o sendBeacon silenciosamente.
+ *     Trocado pra "text/plain" (Edge Function faz await req.json()
+ *     independente do Content-Type)
+ *   - v1 chamava o hook em cada rota individualmente. Movido pro
+ *     __root.tsx + useRouterState pra disparar em CADA navegação
+ *     (TanStack Router NÃO re-monta o root em navegação SPA —
+ *     useEffect com [] só dispararia uma vez)
+ *
  * Como funciona:
  *   1. Gera/recupera session_id por aba (sessionStorage)
- *   2. Coleta URL, referrer, UTMs, fbclid/gclid, viewport
+ *   2. Em cada mudança de pathname, monta payload com URL,
+ *      referrer, UTMs, fbclid/gclid, viewport
  *   3. Envia via navigator.sendBeacon (preferido — não bloqueia
- *      unload) ou fetch keepalive (fallback)
+ *      unload) com type=text/plain. Se sendBeacon retornar false
+ *      (queue cheia, payload muito grande), cai pro fetch keepalive
  *   4. Endpoint responde 204 No Content e hashea IP server-side
  *      (LGPD-safe — nenhum dado pessoal no payload do client)
  *
- * Importante:
- *   - Chamar APENAS em rotas de LP pública (não em thank-you /
- *     admin / qualquer rota interna ou pós-conversão)
- *   - useEffect com deps [] garante 1 disparo por mount — se a
- *     rota não re-mount em navegação SPA, esse hook NÃO captura
- *     navegações subsequentes (use no componente de página, não
- *     no root)
- *   - Fire-and-forget: falhas são silenciosas (tracker NUNCA pode
- *     quebrar UX da LP)
+ * Fire-and-forget: falhas são silenciosas (tracker NUNCA pode
+ * quebrar UX da LP).
  */
 
 const ENDPOINT =
   "https://ciwdlceyjsnlnunktqzx.supabase.co/functions/v1/mads-lp-pageview";
 const SESSION_KEY = "mads_session_id";
+
+// Rotas pós-conversão / internas que NÃO devem ser trackadas no
+// dataset de LP. Match por prefixo — qualquer subrota também é
+// excluída (ex: /obrigado/qualquer-coisa).
+const DENY_PATH_PREFIXES = ["/thank-you", "/obrigado", "/admin"];
+
+function isDeniedPath(pathname: string): boolean {
+  return DENY_PATH_PREFIXES.some((p) => pathname.startsWith(p));
+}
 
 function getOrCreateSessionId(): string {
   if (typeof window === "undefined") return "";
@@ -54,8 +69,20 @@ function pickUTMs() {
 }
 
 export function usePageViewBeacon() {
+  // useRouterState re-renderiza o consumer a cada navegação SPA
+  // (mudança de pathname). Sem isso, o root component em
+  // TanStack Router não re-monta — useEffect com [] só dispararia
+  // 1 vez no carregamento inicial, perdendo todas as navegações
+  // client-side.
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
+
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // Skip pós-conversão / rotas internas (regra do spec original do
+    // tracker — só LPs públicas entram no dataset)
+    if (isDeniedPath(pathname)) return;
 
     const payload = {
       url: window.location.href,
@@ -70,10 +97,27 @@ export function usePageViewBeacon() {
 
     try {
       if (navigator.sendBeacon) {
+        // text/plain evita CORS preflight implícito que dropava o
+        // request silenciosamente em alguns browsers/CDNs. A Edge
+        // Function faz await req.json() — parseia independente do
+        // Content-Type declarado no Blob.
         const blob = new Blob([JSON.stringify(payload)], {
-          type: "application/json",
+          type: "text/plain",
         });
-        navigator.sendBeacon(ENDPOINT, blob);
+        const ok = navigator.sendBeacon(ENDPOINT, blob);
+        // sendBeacon retorna false se a queue do browser está cheia
+        // ou o payload é grande demais. Nesses casos, fallback fetch
+        // com keepalive (também não bloqueia unload).
+        if (!ok) {
+          fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+            keepalive: true,
+          }).catch(() => {
+            /* silent fail */
+          });
+        }
       } else {
         fetch(ENDPOINT, {
           method: "POST",
@@ -87,5 +131,5 @@ export function usePageViewBeacon() {
     } catch {
       /* silent fail — tracker NUNCA pode quebrar UX */
     }
-  }, []);
+  }, [pathname]);
 }

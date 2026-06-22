@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { usePageViewBeacon } from "@/hooks/usePageViewBeacon";
 import { IndicacaoHeader } from "@/components/indicacaoacademy/IndicacaoHeader";
 import { IndicacaoHero } from "@/components/indicacaoacademy/IndicacaoHero";
 import { ReferralForm } from "@/components/indicacaoacademy/ReferralForm";
@@ -59,7 +58,6 @@ export const Route = createFileRoute("/indicacaoacademy")({
 });
 
 function IndicacaoAcademy() {
-  usePageViewBeacon();
   return (
     <main className="bg-[var(--cream)] text-[var(--cocoa)]">
       <IndicacaoHeader />
