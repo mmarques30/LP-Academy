@@ -4,6 +4,7 @@ import appCss from "../styles.css?url";
 import { ClarityScript } from "@/components/analytics/ClarityScript";
 import { MetaPixelScript } from "@/components/analytics/MetaPixelScript";
 import { Toaster } from "@/components/ui/sonner";
+import { usePageViewBeacon } from "@/hooks/usePageViewBeacon";
 
 function NotFoundComponent() {
   return (
@@ -100,6 +101,12 @@ function RootShell({ children }: { children: React.ReactNode }) {
 }
 
 function RootComponent() {
+  // Beacon server-side pra contornar adblock/in-app browsers Meta.
+  // O hook usa useRouterState pra disparar em cada navegação SPA —
+  // chamada única aqui cobre todas as rotas (sem precisar do hook em
+  // cada componente de página).
+  usePageViewBeacon();
+
   return (
     <>
       <ClarityScript />
