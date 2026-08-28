@@ -1,57 +1,30 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/landing/Header";
-import { Hero } from "@/components/landing/Hero";
-import { Problem } from "@/components/landing/Problem";
-import { Solution } from "@/components/landing/Solution";
-import { Includes } from "@/components/landing/Includes";
-import { Authority } from "@/components/landing/Authority";
-import { Community } from "@/components/landing/Community";
-import { Testimonials } from "@/components/landing/Testimonials";
-import { Offer } from "@/components/landing/Offer";
-import { FAQ } from "@/components/landing/FAQ";
-import { FinalCTA } from "@/components/landing/FinalCTA";
-import { Footer } from "@/components/landing/Footer";
-import { CookieBanner } from "@/components/landing/CookieBanner";
-import { StickyMobileCta } from "@/components/landing/StickyMobileCta";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+/**
+ * LP Academy paga foi DESATIVADA — Mari decidiu focar 100% na
+ * captura pra comunidade grátis. A home (/) que servia a LP Academy
+ * (12x R$ 83 / R$ 997 à vista) redireciona pra /comunidade
+ * preservando todos os query params.
+ *
+ * Por que redirect em vez de 404:
+ *   - Zero perda pra links antigos: anúncios Meta, bio Instagram,
+ *     email marketing, WhatsApp — tudo cai suavemente na /comunidade
+ *   - UTMs preservados → atribuição de mídia paga continua funcionando
+ *   - Reversão trivial se Mari mudar de ideia (git revert)
+ *
+ * Status HTTP 307 (default do redirect() do TanStack Router) —
+ * temporário. Depois de rodar assim e Mari confirmar que é
+ * definitivo, um PR seguinte pode subir pra 301 permanent (aí
+ * browsers cacheiam o redirect).
+ */
 export const Route = createFileRoute("/")({
-  component: Index,
-  head: () => ({
-    meta: [
-      { title: "IAplicada Academy · Aplique IA no seu trabalho de verdade · 12× R$ 83" },
-      {
-        name: "description",
-        content:
-          "IAplicada Academy: trilhas práticas, aula ao vivo toda segunda, mentoria semanal e comunidade que implementa. 12× R$ 83 sem juros (ou R$ 997 à vista) · pagamento único · 7 dias de garantia.",
-      },
-      { property: "og:title", content: "IAplicada Academy · IA aplicada ao trabalho real" },
-      {
-        property: "og:description",
-        content:
-          "Aulas ao vivo, mentoria, +100 prompts testados e comunidade que aplica. 12× R$ 83 sem juros · pagamento único · 7 dias de garantia.",
-      },
-      { property: "og:type", content: "website" },
-    ],
-  }),
+  beforeLoad: ({ search }) => {
+    throw redirect({
+      to: "/comunidade",
+      // Preserva utm_source, utm_medium, utm_campaign, utm_content,
+      // utm_term, fbclid, gclid — atribuição de mídia paga precisa
+      // desses params sobreviverem ao redirect.
+      search: search as Record<string, string>,
+    });
+  },
 });
-
-function Index() {
-  return (
-    <main className="bg-[var(--cream)] text-[var(--cocoa)]">
-      <Header />
-      <Hero />
-      <Problem />
-      <Solution />
-      <Includes />
-      <Authority />
-      <Community />
-      <Testimonials />
-      <Offer />
-      <FAQ />
-      <FinalCTA />
-      <Footer />
-      <CookieBanner />
-      <StickyMobileCta />
-    </main>
-  );
-}

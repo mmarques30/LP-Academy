@@ -33,7 +33,7 @@ export function trackEvent(name: string, data?: Record<string, string | number |
  * e pra ter inventário central do que tá sendo trackeado.
  */
 export const EVENTS = {
-  // Hero VSL
+  // VSL do hero da /comunidade — VideoPreviewWidescreen
   VSL_AUTO_OPEN: "vsl_auto_open",
   VSL_PLAY_MANUAL: "vsl_play_manual",
   VSL_UNMUTE: "vsl_unmute",
@@ -41,44 +41,22 @@ export const EVENTS = {
 
   /**
    * Evento UNIVERSAL de conversão — disparado em qualquer form
-   * submission bem-sucedido, em qualquer LP. Usado pelos
-   * dashboards/filtros que esperam o nome literal "form_submissions"
-   * (Mari sinalizou que algum tracking não via os events com nomes
-   * por LP — esse aqui resolve com 1 nome agnóstico).
-   *
-   * Vai com metadata `source` indicando qual LP originou
-   * (set via clarity("set", "source", "lp_home")).
+   * submission bem-sucedido. Nome literal esperado por dashboards
+   * antigos, vai com metadata `source` (lp_comunidade,
+   * lp_indicacao_academy, etc).
    */
   FORM_SUBMISSIONS: "form_submissions",
 
-  // Form de inscrição (LP /) — seção Community
-  FORM_START: "form_start",
-  FORM_SUBMIT_ATTEMPT: "form_submit_attempt",
-  FORM_SUBMIT_SUCCESS: "form_submit_success",
-  FORM_SUBMIT_ERROR: "form_submit_error",
-
-  // Form de inscrição (LP /comunidade) — versão compacta no hero
+  // Form da LP /comunidade + ReferralForm (reusa os mesmos nomes
+  // por convenção, source no payload diferencia a origem)
   COMUNIDADE_FORM_START: "comunidade_form_start",
   COMUNIDADE_FORM_SUBMIT_ATTEMPT: "comunidade_form_submit_attempt",
   COMUNIDADE_FORM_SUBMIT_SUCCESS: "comunidade_form_submit_success",
   COMUNIDADE_FORM_SUBMIT_ERROR: "comunidade_form_submit_error",
   COMUNIDADE_FINAL_CTA_CLICK: "comunidade_final_cta_click",
 
-  // Thank-you /obrigado — botões específicos da experiência community.
-  // OBRIGADO_CALENDAR_CLICK foi removido junto com a seção "Próxima aula"
-  // (data hardcoded ficava desatualizada).
+  // Thank-you /obrigado
   OBRIGADO_WHATSAPP_CLICK: "obrigado_whatsapp_click",
   OBRIGADO_PLATFORM_CLICK: "obrigado_platform_click",
-
-  // CTA de checkout (seção Investimento) — plano único de R$ 997.
-  // Os antigos CTA_OFFER_MONTHLY / CTA_OFFER_ANNUAL ficaram obsoletos
-  // quando o produto passou a ser pagamento único sem recorrência.
-  CTA_OFFER_ACADEMY: "cta_offer_academy_click",
-
-  // Thank-you pages — uma pra cada LP, pra dar visão separada de
-  // conversões no Clarter (Clarity Smart Events)
-  THANKYOU_VIEW: "thankyou_view",      // pageview de /thank-you (LP /)
-  OBRIGADO_VIEW: "obrigado_view",      // pageview de /obrigado (LP /comunidade)
-  WHATSAPP_COMMUNITY_CLICK: "whatsapp_community_click",
-  ACADEMY_UPSELL_CLICK: "academy_upsell_click",
+  OBRIGADO_VIEW: "obrigado_view",
 } as const;

@@ -52,7 +52,6 @@ const COMUNIDADE_PROJECT_ID = "x2925vhhto";
 // HOME_PROJECT_ID por default.
 const ROUTE_TO_PROJECT: Array<{ pathStartsWith: string; id: string }> = [
   { pathStartsWith: "/comunidade", id: COMUNIDADE_PROJECT_ID },
-  { pathStartsWith: "/indicacaoacademy", id: COMUNIDADE_PROJECT_ID },
   { pathStartsWith: "/obrigado", id: COMUNIDADE_PROJECT_ID },
 ];
 
